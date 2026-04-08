@@ -30,7 +30,7 @@ const CalendarView = () => {
 
   if (loading) {
     return (
-      <div style={{ color: 'white', padding: '40px', textAlign: 'center' }}>
+      <div style={{ color: 'var(--text-primary)', padding: '40px', textAlign: 'center' }}>
         <div className="loader" style={{ margin: '0 auto 24px' }}></div>
         <h2 style={{ opacity: 0.5 }}>Loading {user?.name?.split(' ')[0]}'s Vision...</h2>
       </div>
@@ -41,7 +41,7 @@ const CalendarView = () => {
     return (
       <div className="reveal visible" style={{ color: 'var(--slate-400)', padding: '100px 40px', textAlign: 'center' }}>
         <div style={{ fontSize: '4rem', marginBottom: '24px' }}>🗓️</div>
-        <h2 style={{ color: 'white', fontWeight: '800', marginBottom: '16px' }}>Your Roadmap Awaits</h2>
+        <h2 style={{ color: 'var(--text-primary)', fontWeight: '800', marginBottom: '16px' }}>Your Roadmap Awaits</h2>
         <p style={{ maxWidth: '500px', margin: '0 auto 32px', fontSize: '1.1rem' }}>Complete the onboarding process to generate your personalized 90-day DSA journey.</p>
         <Link to="/onboarding" className="btn btn-primary btn-lg">Start Onboarding</Link>
       </div>
@@ -105,14 +105,14 @@ const CalendarView = () => {
           const isScheduled = !!scheduledDay;
 
           // Colour coding
-          let bg = 'rgba(255,255,255,0.01)';
-          let border = '1px solid rgba(255,255,255,0.04)';
+          let bg = 'var(--bg-base)';
+          let border = '1px solid var(--border-color)';
           let dayNumColor = 'var(--slate-600)';
 
           if (isToday) {
             bg = 'rgba(99,102,241,0.15)';
             border = '2px solid var(--indigo-500)';
-            dayNumColor = 'white';
+            dayNumColor = 'var(--text-primary)';
           } else if (isRevision) {
             bg = 'rgba(16,185,129,0.07)';
             border = '1px solid rgba(16,185,129,0.2)';
@@ -150,7 +150,7 @@ const CalendarView = () => {
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'scale(1)';
                 e.currentTarget.style.zIndex = '1';
-                if (!isToday) e.currentTarget.style.borderColor = isRevision ? 'rgba(16,185,129,0.2)' : isLearn ? 'rgba(99,102,241,0.12)' : 'rgba(255,255,255,0.04)';
+                if (!isToday) e.currentTarget.style.borderColor = isRevision ? 'rgba(16,185,129,0.2)' : isLearn ? 'rgba(99,102,241,0.12)' : 'var(--border-color)';
               }}
             >
               {/* Actual calendar date — big & clear */}
@@ -204,7 +204,7 @@ const CalendarView = () => {
     <div className="reveal visible container" style={{ paddingBottom: '80px', paddingTop: 'clamp(20px, 5vw, 40px)' }}>
       <div style={{ marginBottom: '48px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '20px' }}>
         <div>
-          <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', fontWeight: '900', color: 'white', marginBottom: '8px', letterSpacing: '-0.03em', lineHeight: '1.1' }}>
+          <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', fontWeight: '900', color: 'var(--text-primary)', marginBottom: '8px', letterSpacing: '-0.03em', lineHeight: '1.1' }}>
             {user?.name?.split(' ')[0]}'s Master Roadmap
           </h1>
           <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(0.9rem, 1.5vw, 1.125rem)' }}>Visualize your 90-day evolution from patterns to mastery.</p>
@@ -214,7 +214,7 @@ const CalendarView = () => {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 45vw, 360px), 1fr))', gap: '64px 48px' }}>
         {Object.entries(months).map(([key, month]) => (
           <div key={key} className="glass-card" style={{ padding: 'clamp(20px, 4vw, 32px)', marginBottom: '20px' }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '28px', color: 'white', borderLeft: '5px solid var(--indigo-500)', paddingLeft: '20px', letterSpacing: '-0.01em' }}>{month.name}</h3>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '28px', color: 'var(--text-primary)', borderLeft: '5px solid var(--indigo-500)', paddingLeft: '20px', letterSpacing: '-0.01em' }}>{month.name}</h3>
 
             <div style={{ width: '100%', overflowX: 'auto' }} className="custom-scrollbar">
               <div style={{ minWidth: '280px' }}>
@@ -236,7 +236,7 @@ const CalendarView = () => {
             padding: 'clamp(24px, 6vw, 48px)', 
             position: 'relative', 
             overflowY: 'auto', 
-            borderLeft: '1px solid rgba(255,255,255,0.1)', 
+            borderLeft: '1px solid var(--border-color)', 
             animation: 'slideRight 0.4s cubic-bezier(0, 0.55, 0.45, 1)',
             background: 'var(--bg-card)'
           }}>
@@ -244,17 +244,17 @@ const CalendarView = () => {
             
             <div style={{ marginBottom: '32px' }}>
               <div style={{ color: 'var(--indigo-400)', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '0.8125rem', marginBottom: '8px', letterSpacing: '0.1em' }}>Day {selectedDay.dayNumber}</div>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', fontWeight: '900', color: 'white', letterSpacing: '-0.02em', lineHeight: '1.1' }}>{selectedDay.concepts?.[0] || selectedDay.readings?.[0]?.title || 'Learning Session'}</h2>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', fontWeight: '900', color: 'var(--text-primary)', letterSpacing: '-0.02em', lineHeight: '1.1' }}>{selectedDay.concepts?.[0] || selectedDay.readings?.[0]?.title || 'Learning Session'}</h2>
               <p style={{ color: 'var(--slate-400)', marginTop: '12px', fontSize: '0.9375rem' }}>{new Date(selectedDay.date).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
             </div>
 
             <div style={{ display: 'flex', gap: '16px', marginBottom: '40px' }}>
-              <div className="glass-card" style={{ flex: 1, padding: '16px', textAlign: 'center', background: 'rgba(255,255,255,0.02)' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'white' }}>{selectedDay.problems?.length || (selectedDay.problemIds?.length || 0)}</div>
+              <div className="glass-card" style={{ flex: 1, padding: '16px', textAlign: 'center', background: 'var(--bg-surface)' }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>{selectedDay.problems?.length || (selectedDay.problemIds?.length || 0)}</div>
                 <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>Tasks</div>
               </div>
-              <div className="glass-card" style={{ flex: 1, padding: '16px', textAlign: 'center', background: 'rgba(255,255,255,0.02)' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'white' }}>{selectedDay.estimatedTime}</div>
+              <div className="glass-card" style={{ flex: 1, padding: '16px', textAlign: 'center', background: 'var(--bg-surface)' }}>
+                <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>{selectedDay.estimatedTime}</div>
                 <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>Commitment</div>
               </div>
             </div>
@@ -265,9 +265,9 @@ const CalendarView = () => {
                 const p = sp.problemId;
                 if (!p || !p.name) return null;
                 return (
-                 <a key={i} href={p.leetcodeSlug ? `https://leetcode.com/problems/${p.leetcodeSlug}` : '#'} target="_blank" rel="noreferrer" className="glass-card" style={{ padding: '20px', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', textDecoration: 'none', transition: 'all 0.2s ease', border: '1px solid rgba(255,255,255,0.05)' }} onMouseOver={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.borderColor = 'rgba(99,102,241,0.3)'; }} onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; }}>
+                 <a key={i} href={p.leetcodeSlug ? `https://leetcode.com/problems/${p.leetcodeSlug}` : (p.gfgUrl || '#')} target="_blank" rel="noreferrer" className="glass-card" style={{ padding: '20px', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', textDecoration: 'none', transition: 'all 0.2s ease', border: '1px solid var(--border-color)' }} onMouseOver={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.borderColor = 'rgba(99,102,241,0.3)'; }} onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 'bold', color: 'white', marginBottom: '4px', fontSize: '1rem' }}>{p.name}</div>
+                    <div style={{ fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '4px', fontSize: '1rem' }}>{p.name}</div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                       <span className={`badge badge-${(sp.difficulty || p.difficulty || 'easy').toLowerCase()}`}>{sp.difficulty || p.difficulty || 'Easy'}</span>
                       {sp.isRevision && <span className="badge" style={{ background: 'rgba(16,185,129,0.1)', color: 'var(--emerald-400)' }}>Revision</span>}

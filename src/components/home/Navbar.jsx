@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import ThemeToggle from '../ThemeToggle';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -15,18 +16,20 @@ const Navbar = () => {
     <header 
       className="navbar" 
       style={{ 
-        background: scrolled ? 'rgba(6, 8, 12, 0.9)' : 'transparent', 
-        borderBottomColor: scrolled ? 'var(--border-color)' : 'transparent',
+        background: scrolled ? 'var(--bg-surface)' : 'transparent', 
+        borderBottom: scrolled ? '1px solid var(--border-color)' : '1px solid transparent',
         height: mobileMenuOpen ? 'auto' : 'var(--header-height)',
         flexDirection: 'column',
-        padding: mobileMenuOpen ? '0 0 20px 0' : '0'
+        padding: mobileMenuOpen ? '0 0 20px 0' : '0',
+        backdropFilter: scrolled ? 'blur(10px)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(10px)' : 'none'
       }}
     >
       <div className="container" style={{ height: 'var(--header-height)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         {/* Brand */}
-        <Link to="/" className="nav-brand" onClick={() => setMobileMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <img src="/logo.png" alt="Its Time to DSA" style={{ height: '32px', width: 'auto', borderRadius: '8px' }} />
-          <span className="hide-mobile">Its Time to <span className="gradient-text">DSA</span></span>
+        <Link to="/" className="nav-brand" onClick={() => setMobileMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <img src="/logo.png" alt="Its Time to DSA" style={{ height: '48px', width: 'auto', borderRadius: '10px' }} />
+          <span className="hide-mobile" style={{ fontSize: '1.5rem' }}>Its Time to <span className="gradient-text">DSA</span></span>
         </Link>
         
         {/* Desktop Links */}
@@ -37,6 +40,7 @@ const Navbar = () => {
 
         {/* Global Actions */}
         <div className="nav-actions">
+          <ThemeToggle />
           <Link to="/login" className="nav-login hide-mobile">Sign in</Link>
           <Link to="/login" className="btn btn-primary btn-sm">Get Started</Link>
           
@@ -44,7 +48,7 @@ const Navbar = () => {
           <button 
             className="hide-desktop" 
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            style={{ background: 'transparent', border: 'none', color: 'white', cursor: 'pointer', padding: '4px' }}
+            style={{ background: 'transparent', border: 'none', color: 'var(--text-primary)', cursor: 'pointer', padding: '4px' }}
           >
             {mobileMenuOpen ? (
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6L6 18M6 6l12 12"></path></svg>
@@ -57,7 +61,7 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="container hide-desktop" style={{ display: 'flex', flexDirection: 'column', gap: '28px', padding: '32px 20px', background: 'rgba(255,255,255,0.02)', borderRadius: '24px', border: '1px solid var(--border-color)', margin: '12px 1rem' }}>
+        <div className="container hide-desktop" style={{ display: 'flex', flexDirection: 'column', gap: '28px', padding: '32px 20px', background: 'var(--bg-surface)', borderRadius: '24px', border: '1px solid var(--border-color)', margin: '12px 1rem' }}>
           <a href="#features" onClick={() => setMobileMenuOpen(false)} style={{ fontSize: '1rem', fontWeight: '500' }}>Features</a>
           <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} style={{ fontSize: '1rem', fontWeight: '500' }}>How it works</a>
           <Link to="/login" onClick={() => setMobileMenuOpen(false)} style={{ fontSize: '1rem', fontWeight: '500', color: 'var(--indigo-400)' }}>Sign in</Link>

@@ -41,11 +41,13 @@ const OnboardingFlow = () => {
     setError(null);
     try {
       const res = await api.get(`/onboarding/validate-lc/${encodeURIComponent(leetcodeUsername.trim())}`);
-      if (res.data.success && res.data.valid) {
+      if (res.data.success === true && res.data.valid === true) {
         setStep(3);
-      } else if (res.data.success && !res.data.valid) {
+      } else if (res.data.success === false || res.data.valid === false) {
         setError(res.data.message || 'Username not found on LeetCode.');
       } else {
+        // Fallback for network issues (like LeetCode being slow but we don't want to hard-block)
+        // If the user wants to strictly block 404s, they will now be blocked by the previous statement.
         setStep(3);
       }
     } catch (err) {
@@ -130,7 +132,7 @@ const OnboardingFlow = () => {
           {[1, 2, 3, 4].map(i => (
             <div key={i} style={{
               height: '6px', flex: 1, borderRadius: '99px', transition: 'all 0.5s ease',
-              background: step >= i ? 'var(--indigo-500)' : 'rgba(255,255,255,0.1)',
+              background: step >= i ? 'var(--indigo-500)' : 'var(--bg-surface)',
               boxShadow: step >= i ? 'var(--shadow-glow)' : 'none'
             }}></div>
           ))}
@@ -166,7 +168,7 @@ const OnboardingFlow = () => {
                   placeholder="e.g. neetcode"
                   value={leetcodeUsername}
                   onChange={(e) => setLeetcodeUsername(e.target.value)}
-                  style={{ width: '100%', background: 'var(--bg-base)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '14px 16px', color: 'white', outline: 'none', fontSize: '1.125rem' }}
+                  style={{ width: '100%', background: 'var(--bg-base)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '14px 16px', color: 'var(--text-primary)', outline: 'none', fontSize: '1.125rem' }}
                 />
               </div>
               <div style={{ display: 'flex', gap: '16px' }}>
@@ -194,7 +196,7 @@ const OnboardingFlow = () => {
                       style={{
                         padding: '16px 8px', borderRadius: '12px', border: dailyGoal === g.id ? '2px solid var(--indigo-500)' : '1px solid var(--border-color)',
                         background: dailyGoal === g.id ? 'rgba(99,102,241,0.1)' : 'transparent',
-                        color: dailyGoal === g.id ? 'white' : 'var(--slate-400)', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'center'
+                        color: dailyGoal === g.id ? 'var(--text-primary)' : 'var(--slate-400)', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'center'
                       }}
                     >
                       <div style={{ fontSize: '1.25rem', marginBottom: '4px' }}>{g.icon}</div>
@@ -215,7 +217,7 @@ const OnboardingFlow = () => {
                       style={{
                         padding: '16px 8px', borderRadius: '12px', border: totalDays === d.value ? '2px solid var(--emerald-500)' : '1px solid var(--border-color)',
                         background: totalDays === d.value ? 'rgba(16,185,129,0.1)' : 'transparent',
-                        color: totalDays === d.value ? 'white' : 'var(--slate-400)', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'center'
+                        color: totalDays === d.value ? 'var(--text-primary)' : 'var(--slate-400)', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'center'
                       }}
                     >
                       <div style={{ fontSize: '1.25rem', marginBottom: '4px' }}>{d.icon}</div>
@@ -232,7 +234,7 @@ const OnboardingFlow = () => {
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  style={{ width: '100%', background: 'var(--bg-base)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '14px 16px', color: 'white', colorScheme: 'dark' }}
+                  style={{ width: '100%', background: 'var(--bg-base)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '14px 16px', color: 'var(--text-primary)' }}
                 />
               </div>
 
@@ -254,7 +256,7 @@ const OnboardingFlow = () => {
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '24px' }}>
                   {COMPANIES.map(c => (
                     <button key={c} onClick={() => togglePreference('targetCompanies', c)}
-                      style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '0.8125rem', border: preferences.targetCompanies.includes(c) ? '1px solid var(--indigo-500)' : '1px solid var(--border-color)', background: preferences.targetCompanies.includes(c) ? 'var(--indigo-500)' : 'transparent', color: 'white', cursor: 'pointer' }}>{c}</button>
+                      style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '0.8125rem', border: preferences.targetCompanies.includes(c) ? '1px solid var(--indigo-500)' : '1px solid var(--border-color)', background: preferences.targetCompanies.includes(c) ? 'var(--indigo-500)' : 'transparent', color: preferences.targetCompanies.includes(c) ? 'var(--bg-base)' : 'var(--text-primary)', cursor: 'pointer' }}>{c}</button>
                   ))}
                 </div>
 
@@ -262,7 +264,7 @@ const OnboardingFlow = () => {
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   {TOPICS.map(t => (
                     <button key={t} onClick={() => togglePreference('weakTopics', t)}
-                      style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '0.8125rem', border: preferences.weakTopics.includes(t) ? '1px solid var(--emerald-500)' : '1px solid var(--border-color)', background: preferences.weakTopics.includes(t) ? 'var(--emerald-500)' : 'transparent', color: 'white', cursor: 'pointer' }}>{t}</button>
+                      style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '0.8125rem', border: preferences.weakTopics.includes(t) ? '1px solid var(--emerald-500)' : '1px solid var(--border-color)', background: preferences.weakTopics.includes(t) ? 'var(--emerald-500)' : 'transparent', color: preferences.weakTopics.includes(t) ? 'var(--bg-base)' : 'var(--text-primary)', cursor: 'pointer' }}>{t}</button>
                   ))}
                 </div>
               </div>

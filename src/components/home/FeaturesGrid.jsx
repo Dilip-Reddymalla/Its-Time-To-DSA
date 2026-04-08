@@ -49,25 +49,49 @@ const FeaturesGrid = () => {
 
         <div className="bento-grid" style={{ 
           display: 'grid', 
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-          gap: '24px' 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', 
+          gap: '32px' 
         }}>
           {features.map((f, i) => (
-            <div key={i} className={`glass-card reveal ${f.large ? 'bento-large' : ''}`} style={{ 
-              padding: 'clamp(24px, 5vw, 40px)', display: 'flex', flexDirection: 'column', animationDelay: `${i * 0.15}s`,
-              border: `1px solid rgba(255,255,255,0.05)`,
-              transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+            <div key={i} className={`reveal ${f.large ? 'bento-large' : ''}`} style={{ 
+              padding: '40px', 
+              display: 'flex', 
+              flexDirection: 'column', 
+              animationDelay: `${i * 0.15}s`,
+              background: 'var(--bg-surface)',
+              border: `2px solid var(--border-color-strong)`,
+              borderRadius: '8px', // Industrial sharp
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              position: 'relative',
+              overflow: 'hidden',
               gridColumn: window.innerWidth < 768 ? 'span 1' : (f.large ? 'span 2' : 'span 1')
-            }} onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)'; e.currentTarget.style.borderColor = f.color; }} onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0) scale(1)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)'; }}>
+            }} onMouseOver={e => { 
+                e.currentTarget.style.transform = 'translateY(-4px)'; 
+                e.currentTarget.style.borderColor = 'var(--text-primary)';
+                e.currentTarget.style.boxShadow = '8px 8px 0px var(--border-color)';
+            }} onMouseOut={e => { 
+                e.currentTarget.style.transform = 'translateY(0)'; 
+                e.currentTarget.style.borderColor = 'var(--border-color-strong)';
+                e.currentTarget.style.boxShadow = 'none';
+            }}>
+              {/* Corner Accent */}
+              <div style={{ position: 'absolute', top: 0, right: 0, width: '40px', height: '40px', background: `linear-gradient(135deg, transparent 50%, ${f.color}20 50%)`, borderLeft: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}></div>
+              
               <div style={{ 
-                width: '56px', height: '56px', borderRadius: '16px', background: `${f.color}15`, color: f.color,
-                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '24px'
+                width: '64px', height: '64px', borderRadius: '12px', background: 'var(--bg-card)', color: f.color,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.75rem', marginBottom: '24px',
+                border: '1px solid var(--border-color-strong)'
               }}>
                 {f.icon}
               </div>
-              <h3 style={{ fontSize: 'clamp(1.25rem, 4vw, 1.5rem)', fontWeight: '800', color: 'white', marginBottom: '16px' }}>{f.title}</h3>
-              <p style={{ color: 'var(--slate-400)', lineHeight: '1.6', fontSize: '1rem', flex: 1 }}>{f.desc}</p>
+              <h3 style={{ fontSize: '1.5rem', fontWeight: '900', color: 'var(--text-primary)', marginBottom: '16px', letterSpacing: '-0.02em' }}>{f.title}</h3>
+              <p style={{ color: 'var(--text-secondary)', lineHeight: '1.7', fontSize: '1.0625rem', flex: 1, fontWeight: '500' }}>{f.desc}</p>
               {f.extra}
+              
+              {/* Hardware Label */}
+              <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px dashed var(--border-color)', fontSize: '0.75rem', color: 'var(--slate-400)', fontFamily: 'var(--mono)', fontWeight: 'bold' }}>
+                MODULE_PRTK_00{i+1} // STAT_OK
+              </div>
             </div>
           ))}
         </div>

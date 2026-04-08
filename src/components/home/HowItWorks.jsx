@@ -57,13 +57,13 @@ const HowItWorks = () => {
                 transition: 'all 0.3s ease' 
               }} onMouseOver={e => e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)'} onMouseOut={e => e.currentTarget.style.transform = 'translateY(0) scale(1)'}>
                 <div style={{ 
-                  width: '72px', height: '72px', borderRadius: '24px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
+                  width: '72px', height: '72px', borderRadius: '24px', background: 'var(--bg-surface)', border: '1px solid var(--border-color)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', marginBottom: '24px', boxShadow: '0 10px 30px rgba(0,0,0,0.2)'
                 }}>
                   {item.icon}
                 </div>
                 <div style={{ fontSize: '0.75rem', fontWeight: '900', color: 'var(--indigo-400)', letterSpacing: '0.15em', marginBottom: '12px' }}>STEP {item.step}</div>
-                <h3 style={{ fontSize: 'clamp(1.1rem, 3vw, 1.25rem)', fontWeight: '800', marginBottom: '16px', color: 'white' }}>{item.title}</h3>
+                <h3 style={{ fontSize: 'clamp(1.1rem, 3vw, 1.25rem)', fontWeight: '800', marginBottom: '16px', color: 'var(--text-primary)' }}>{item.title}</h3>
                 <p style={{ color: 'var(--slate-400)', fontSize: '0.9375rem', lineHeight: '1.6' }}>{item.desc}</p>
               </div>
             </div>

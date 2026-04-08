@@ -1,32 +1,32 @@
 import React from 'react';
 
-// Build a stable UTC-based YYYY-MM-DD key (matches backend storage format)
-const toUTCDateStr = (d) =>
-  `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
-
-// Build today's LOCAL date string (for highlighting the correct "today" cell visually)
-const toLocalDateStr = (d) =>
-  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+// Utility to get IST date string in YYYY-MM-DD
+const getISTDateStr = (date) => 
+  new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(date);
 
 const ActivityHeatmap = ({ heatmapData = {} }) => {
-  const nowLocal = new Date();
-  // "Today" in local terms — for visual highlight only
-  const todayLocalStr = toLocalDateStr(nowLocal);
+  const now = new Date();
+  const todayISTStr = getISTDateStr(now);
 
-  // Generate last 183 days (approx 6 months) to fit desktop without scroll.
+  // Generate last 183 days (approx 6 months)
   const days = [];
   for (let i = 182; i >= 0; i--) {
-    // Step back i days from today in UTC
-    const utcMs = Date.UTC(nowLocal.getUTCFullYear(), nowLocal.getUTCMonth(), nowLocal.getUTCDate() - i);
-    const d = new Date(utcMs);
-    const utcStr = toUTCDateStr(d);        // key for looking up heatmapData
-    const localStr = toLocalDateStr(d);     // for checking if this is "today" locally
+    // We want the YYYY-MM-DD for "Today IST minus i days"
+    const d = new Date(now.getTime());
+    d.setDate(d.getDate() - i);
+    
+    const istStr = getISTDateStr(d);
+    
+    // To get day of week and month for the IST date, we parse it back as local midnight
+    const istDateObj = new Date(istStr + 'T00:00:00');
+
     days.push({
-      date: utcStr,
-      count: heatmapData[utcStr] || 0,
-      dayOfWeek: d.getUTCDay(),             // UTC day-of-week keeps grid columns aligned
-      month: d.getUTCMonth(),
-      isToday: localStr === todayLocalStr,
+      date: istStr,
+      count: heatmapData[istStr] || 0,
+      dayOfWeek: istDateObj.getDay(),
+      month: istDateObj.getMonth(),
+      isToday: istStr === todayISTStr,
+      isRestDay: heatmapData[istStr] === -1,
     });
   }
 
@@ -72,84 +72,108 @@ const ActivityHeatmap = ({ heatmapData = {} }) => {
     groupedByMonth.push(currentMonthGroup);
   }
 
-  const getColor = (count) => {
-    if (count === 0) return 'rgba(255, 255, 255, 0.05)';
-    if (count === 1) return 'rgba(16, 185, 129, 0.2)';
-    if (count === 2) return 'rgba(16, 185, 129, 0.4)';
-    if (count === 3) return 'rgba(16, 185, 129, 0.7)';
-    return 'rgba(16, 185, 129, 1)';
+  const getBackground = (day) => {
+    if (!day) return 'transparent';
+    if (day.isRestDay) return 'repeating-linear-gradient(45deg, transparent, transparent 2px, var(--border-color-strong) 2px, var(--border-color-strong) 4px)';
+    if (day.count === 0) return 'var(--bg-card)';
+    if (day.count === 1) return 'color-mix(in srgb, var(--text-primary) 20%, transparent)';
+    if (day.count === 2) return 'color-mix(in srgb, var(--text-primary) 40%, transparent)';
+    if (day.count === 3) return 'color-mix(in srgb, var(--text-primary) 70%, transparent)';
+    return 'var(--text-primary)';
   };
 
   const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   return (
-    <div className="glass-card" style={{ padding: 'min(24px, 4vw)', overflowX: 'auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
-        <h3 style={{ fontSize: '0.75rem', fontWeight: '900', color: 'var(--slate-400)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
-          Activity Heatmap
-        </h3>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.7rem', color: 'var(--slate-500)', fontWeight: 'bold' }}>
-          <span>LESS</span>
-          <div style={{ display: 'flex', gap: '4px' }}>
-            {[0, 1, 2, 3, 4].map(v => (
-              <div key={v} style={{ width: '12px', height: '12px', borderRadius: '3px', background: getColor(v), border: '1px solid rgba(255,255,255,0.02)' }}></div>
-            ))}
+    <div className="glass-card" style={{ padding: '24px', overflowX: 'auto', borderRadius: 'var(--radius)' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px', flexWrap: 'wrap', gap: '16px' }}>
+        <div>
+          <h3 style={{ fontSize: '0.85rem', fontWeight: '800', color: 'var(--text-primary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>
+            Activity Record
+          </h3>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>183 days of deliberate practice.</p>
+        </div>
+        
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.7rem', color: 'var(--text-secondary)', fontWeight: '600' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <div style={{ width: '12px', height: '12px', borderRadius: '2px', background: getBackground({isRestDay: true}) }}></div>
+            <span>REST</span>
           </div>
-          <span>MORE</span>
+          <div style={{ width: '1px', height: '12px', background: 'var(--border-color-strong)' }}></div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span>LESS</span>
+            <div style={{ display: 'flex', gap: '4px' }}>
+              {[0, 1, 2, 3, 4].map(v => (
+                <div key={v} style={{ width: '12px', height: '12px', borderRadius: '2px', background: getBackground({count: v}), border: v === 0 ? '1px solid var(--border-color)' : 'none' }}></div>
+              ))}
+            </div>
+            <span>MORE</span>
+          </div>
         </div>
       </div>
 
-      <div style={{ display: 'flex', minWidth: 'max-content' }}>
+      <div style={{ display: 'flex', minWidth: 'max-content', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>
         {/* Day Labels Row-Synced */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginRight: '10px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginRight: '16px' }}>
           {[0, 1, 2, 3, 4, 5, 6].map(i => {
             const label = i === 1 ? 'Mon' : i === 3 ? 'Wed' : i === 5 ? 'Fri' : '';
             return (
-              <div key={i} style={{ height: '10px', fontSize: '0.65rem', color: 'var(--slate-600)', lineHeight: '10px', display: 'flex', alignItems: 'center' }}>
+              <div key={i} style={{ height: '12px', fontSize: '0.65rem', color: 'var(--text-secondary)', lineHeight: '12px', display: 'flex', alignItems: 'center' }}>
                 {label}
               </div>
             );
           })}
           {/* Spacer to match bottom month label height */}
-          <div style={{ height: '24px' }}></div> 
+          <div style={{ height: '28px' }}></div> 
         </div>
 
-        <div style={{ display: 'flex', gap: '12px' }}>
+        <div style={{ display: 'flex', gap: '16px' }}>
           {groupedByMonth.map((mGroup, mIdx) => (
-            <div key={mIdx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+             <div key={mIdx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               
               {/* Weeks inside this month */}
               <div style={{ display: 'flex', gap: '4px' }}>
                 {mGroup.weeks.map((week, wIdx) => (
                   <div key={wIdx} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                    {week.map((day, dIdx) => (
-                      day ? (
+                    {week.map((day, dIdx) => {
+                      if (!day) return <div key={dIdx} style={{ width: '12px', height: '12px' }}></div>;
+                      
+                      // Identify Boss Fights: Saturdays (index 6) with actual activity
+                      const isBossFight = day.dayOfWeek === 6 && day.count > 0;
+                      
+                      return (
                         <div
                           key={dIdx}
                           title={`${day.date}: ${day.count} solved`}
                           style={{
-                            width: '10px',
-                            height: '10px',
+                            width: '12px',
+                            height: '12px',
                             borderRadius: '2px',
-                            background: getColor(day.count),
+                            background: getBackground(day),
+                            border: day.count === 0 ? '1px solid var(--border-color)' : 'none',
                             cursor: 'pointer',
-                            transition: 'transform 0.1s',
-                            outline: day.isToday ? '2px solid rgba(99,102,241,0.8)' : 'none',
-                            outlineOffset: '1px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            transition: 'opacity 0.2s',
+                            outline: day.isToday ? '2px solid var(--accent-primary)' : 'none',
+                            outlineOffset: '2px',
                           }}
-                          onMouseOver={e => e.currentTarget.style.transform = 'scale(1.3)'}
-                          onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
-                        ></div>
-                      ) : (
-                        <div key={dIdx} style={{ width: '10px', height: '10px' }}></div>
-                      )
-                    ))}
+                          onMouseOver={e => e.currentTarget.style.opacity = '0.7'}
+                          onMouseOut={e => e.currentTarget.style.opacity = '1'}
+                        >
+                          {isBossFight && (
+                            <span style={{ fontSize: '8px', color: 'var(--bg-base)', lineHeight: 1 }}>★</span>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 ))}
               </div>
 
               {/* Month Label */}
-              <div style={{ marginTop: '8px', fontSize: '0.65rem', color: 'var(--slate-500)', fontWeight: '700', height: '16px' }}>
+              <div style={{ marginTop: '12px', fontSize: '0.65rem', color: 'var(--text-primary)', fontWeight: '700', height: '16px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 {monthNames[mGroup.month]}
               </div>
 

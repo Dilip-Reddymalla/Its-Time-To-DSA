@@ -7,9 +7,9 @@ const CircularProgress = ({ value, size = 120, strokeWidth = 10, color = 'var(--
 
   return (
     <div style={{ position: 'relative', width: size, height: size, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <svg width={size} height={size}>
+      <svg width={size} height={size} style={{ display: 'block', overflow: 'visible' }}>
         <circle
-          stroke="rgba(255,255,255,0.05)"
+          stroke="var(--border-color)"
           fill="transparent"
           strokeWidth={strokeWidth}
           r={radius}
@@ -26,10 +26,24 @@ const CircularProgress = ({ value, size = 120, strokeWidth = 10, color = 'var(--
           r={radius}
           cx={size / 2}
           cy={size / 2}
-          style={{ transition: 'stroke-dashoffset 0.5s ease', transform: 'rotate(-90deg)', transformOrigin: 'center' }}
+          style={{ 
+            transition: 'stroke-dashoffset 0.5s ease', 
+            transform: 'rotate(-90deg)', 
+            transformOrigin: '50% 50%' 
+          }}
         />
       </svg>
-      <div style={{ position: 'absolute', fontSize: '1.5rem', fontWeight: '900', color: 'white' }}>
+      <div style={{ 
+        position: 'absolute', 
+        inset: 0, 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        fontSize: '1.5rem', 
+        fontWeight: '900', 
+        color: 'var(--text-primary)',
+        pointerEvents: 'none'
+      }}>
         {Math.round(value)}%
       </div>
     </div>

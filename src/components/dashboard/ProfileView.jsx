@@ -105,7 +105,7 @@ const ProfileView = () => {
             <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '4px' }}>{profile?.name}</h2>
             <p style={{ color: 'var(--slate-500)', fontSize: '0.875rem', marginBottom: '24px' }}>{profile?.email}</p>
             
-            <div style={{ textAlign: 'left', padding: '16px', borderRadius: '12px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)' }}>
+            <div style={{ textAlign: 'left', padding: '16px', borderRadius: '12px', background: 'var(--bg-surface)', border: '1px solid var(--border-color)' }}>
               <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>LeetCode Handle</div>
               <div style={{ color: 'var(--indigo-400)', fontWeight: 'bold' }}>@{profile?.leetcodeUsername || 'not set'}</div>
             </div>
@@ -133,7 +133,7 @@ const ProfileView = () => {
                 onChange={(e) => setLeetcodeUsername(e.target.value)}
                 disabled={changesLeft <= 0}
                 placeholder="e.g. janesmith_99"
-                style={{ width: '100%', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '12px 16px', color: 'white', fontSize: '1rem', marginBottom: '4px' }}
+                style={{ width: '100%', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '12px 16px', color: 'var(--text-primary)', fontSize: '1rem', marginBottom: '4px' }}
               />
               <p style={{ fontSize: '0.75rem', color: changesLeft > 0 ? 'var(--slate-500)' : '#ef4444' }}>
                 {changesLeft > 0 ? `${changesLeft} changes remaining` : 'You have reached the maximum number of username changes.'}
@@ -149,7 +149,7 @@ const ProfileView = () => {
                   type="date" 
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  style={{ width: '100%', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '12px 16px', color: 'white', fontSize: '1rem' }}
+                  style={{ width: '100%', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '12px 16px', color: 'var(--text-primary)', fontSize: '1rem' }}
                 />
               </div>
 
@@ -160,7 +160,7 @@ const ProfileView = () => {
                 <select 
                   value={dailyGoal}
                   onChange={(e) => setDailyGoal(e.target.value)}
-                  style={{ width: '100%', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '12px 16px', color: 'white', fontSize: '1rem', cursor: 'pointer' }}
+                  style={{ width: '100%', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '12px 16px', color: 'var(--text-primary)', fontSize: '1rem', cursor: 'pointer' }}
                 >
                   <option value="light">Light (3 problems/day)</option>
                   <option value="medium">Medium (5 problems/day)</option>
@@ -175,7 +175,7 @@ const ProfileView = () => {
                 <select 
                   value={totalDays}
                   onChange={(e) => setTotalDays(Number(e.target.value))}
-                  style={{ width: '100%', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '12px 16px', color: 'white', fontSize: '1rem', cursor: 'pointer' }}
+                  style={{ width: '100%', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '12px 16px', color: 'var(--text-primary)', fontSize: '1rem', cursor: 'pointer' }}
                 >
                   <option value={60}>Sprint (60 Days)</option>
                   <option value={90}>Standard (90 Days)</option>
@@ -184,7 +184,7 @@ const ProfileView = () => {
               </div>
             </div>
 
-            <div style={{ marginTop: '16px', padding: '16px', borderRadius: '12px', background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-color)' }}>
+            <div style={{ marginTop: '16px', padding: '16px', borderRadius: '12px', background: 'var(--bg-surface)', border: '1px solid var(--border-color)' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
                 <input 
                   type="checkbox" 
@@ -193,7 +193,7 @@ const ProfileView = () => {
                   style={{ width: '20px', height: '20px', borderRadius: '6px', cursor: 'pointer', flexShrink: 0 }}
                 />
                 <div>
-                  <span style={{ fontWeight: 'bold', color: 'white', fontSize: '0.925rem' }}>Reschedule Plan</span>
+                  <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', fontSize: '0.925rem' }}>Reschedule Plan</span>
                   <p style={{ fontSize: '0.8125rem', color: 'var(--slate-500)', marginTop: '2px', lineHeight: '1.4' }}>Recalculate roadmap from chosen start date (skipping solved problems).</p>
                 </div>
               </label>
@@ -226,7 +226,7 @@ const ProfileView = () => {
         }
         select option {
           background-color: var(--bg-card, #0f172a);
-          color: white;
+          color: var(--text-primary)
         }
         select {
           appearance: none;

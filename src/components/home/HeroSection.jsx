@@ -76,12 +76,14 @@ const HeroSection = () => {
               className="hero-mockup"
               ref={visualRef}
               style={{ 
-                background: 'linear-gradient(135deg, #0b0e14 0%, #151923 100%)',
-                border: '1px solid rgba(255,255,255,0.1)',
-                boxShadow: '0 40px 100px -20px rgba(0,0,0,0.8), var(--shadow-glow)'
+                background: 'var(--bg-surface)',
+                border: '4px solid var(--border-color-strong)',
+                borderRadius: '12px',
+                boxShadow: '20px 20px 0px var(--border-color), 0 40px 100px -20px rgba(0,0,0,0.1)',
+                transformStyle: 'preserve-3d'
               }}
             >
-              <div className="mockup-header" style={{ background: 'rgba(255,255,255,0.02)' }}>
+              <div className="mockup-header" style={{ background: 'var(--bg-surface)' }}>
                 <div className="mac-dot mac-red"></div>
                 <div className="mac-dot mac-yellow"></div>
                 <div className="mac-dot mac-green"></div>
@@ -92,7 +94,7 @@ const HeroSection = () => {
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '32px' }}>
                   <div>
                      <div style={{ fontSize: '0.75rem', color: 'var(--indigo-400)', fontWeight: 'bold', textTransform: 'uppercase', marginBottom: '4px' }}>Status</div>
-                     <h3 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'white' }}>Pattern Day 14</h3>
+                     <h3 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--text-primary)' }}>Pattern Day 14</h3>
                   </div>
                   <div style={{ textAlign: 'right' }}>
                     <div style={{ color: 'var(--amber-500)', fontSize: '2rem', fontWeight: '900' }}>🔥 12</div>
@@ -102,7 +104,7 @@ const HeroSection = () => {
 
                 <div className="glass-card" style={{ padding: '20px', borderRadius: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', border: '1px solid rgba(16,185,129,0.2)' }}>
                   <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                    <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'var(--emerald-500)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>✓</div>
+                    <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'var(--emerald-500)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-primary)' }}>✓</div>
                     <div style={{ fontWeight: '600', fontSize: '1rem' }}>Two Sum</div>
                   </div>
                   <span className="badge badge-easy">Easy</span>
@@ -110,7 +112,7 @@ const HeroSection = () => {
 
                 <div className="glass-card" style={{ padding: '20px', borderRadius: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', opacity: 0.6 }}>
                   <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                    <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--slate-600)' }}>•</div>
+                    <div style={{ width: '32px', height: '32px', borderRadius: '8px', background: 'var(--bg-surface)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--slate-600)' }}>•</div>
                     <div style={{ fontWeight: '600', fontSize: '1rem' }}>Group Anagrams</div>
                   </div>
                   <span className="badge badge-medium">Medium</span>
@@ -120,10 +122,10 @@ const HeroSection = () => {
               <div className="mock-floating-widget glass" style={{ padding: '20px', borderRadius: '20px', boxShadow: '0 20px 40px rgba(0,0,0,0.4)' }}>
                  <div style={{ fontSize: '0.75rem', fontWeight: 'bold', color: 'var(--slate-500)', marginBottom: '10px' }}>PROGRESS</div>
                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ width: '100px', height: '8px', background: 'rgba(255,255,255,0.05)', borderRadius: '99px' }}>
+                    <div style={{ width: '100px', height: '8px', background: 'var(--bg-surface)', borderRadius: '99px' }}>
                        <div style={{ width: '65%', height: '100%', background: 'var(--indigo-500)', borderRadius: '99px', boxShadow: '0 0 10px var(--indigo-500)' }}></div>
                     </div>
-                    <span style={{ fontWeight: 'bold', color: 'white', fontSize: '0.875rem' }}>65%</span>
+                    <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', fontSize: '0.875rem' }}>65%</span>
                  </div>
               </div>
             </div>

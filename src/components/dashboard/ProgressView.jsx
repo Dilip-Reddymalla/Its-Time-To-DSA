@@ -103,7 +103,7 @@ const ProgressView = () => {
     scales: {
       y: {
         beginAtZero: true,
-        grid: { color: 'rgba(255,255,255,0.05)', drawBorder: false },
+        grid: { color: 'var(--text-primary)', drawBorder: false },
         ticks: { color: '#64748b', stepSize: 1, font: { family: 'Inter' } }
       },
       x: {
@@ -116,7 +116,7 @@ const ProgressView = () => {
   return (
     <div className="reveal visible container" style={{ paddingBottom: '80px', paddingTop: 'clamp(20px, 5vw, 40px)' }}>
       <div style={{ marginBottom: '40px' }}>
-        <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', fontWeight: '900', color: 'white', marginBottom: '8px', letterSpacing: '-0.03em', lineHeight: '1.1' }}>Mastery Analytics</h1>
+        <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', fontWeight: '900', color: 'var(--text-primary)', marginBottom: '8px', letterSpacing: '-0.03em', lineHeight: '1.1' }}>Mastery Analytics</h1>
         <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(0.9rem, 2vw, 1.1rem)' }}>Tracking your consistency and pattern recognition.</p>
       </div>
 
@@ -149,7 +149,7 @@ const ProgressView = () => {
         
         {/* Difficulty Distribution */}
         <div className="glass-card" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
-          <h3 style={{ fontWeight: '800', color: 'white', marginBottom: '24px', fontSize: '1.125rem' }}>Difficulty Distribution</h3>
+          <h3 style={{ fontWeight: '800', color: 'var(--text-primary)', marginBottom: '24px', fontSize: '1.125rem' }}>Difficulty Distribution</h3>
           <div style={{ height: '300px', position: 'relative' }}>
             <Bar data={chartData} options={chartOptions} />
           </div>
@@ -158,7 +158,7 @@ const ProgressView = () => {
         {/* Topic breakdown */}
         <div className="glass-card" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
-            <h3 style={{ fontWeight: '800', color: 'white', fontSize: '1.125rem' }}>Topic Breakdown</h3>
+            <h3 style={{ fontWeight: '800', color: 'var(--text-primary)', fontSize: '1.125rem' }}>Topic Breakdown</h3>
             <span style={{ fontSize: '0.75rem', color: 'var(--indigo-400)', fontWeight: 'bold' }} className="hide-mobile">TOP PERFORMER</span>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxHeight: '300px', overflowY: 'auto', paddingRight: '8px' }} className="custom-scrollbar">
@@ -168,10 +168,10 @@ const ProgressView = () => {
                 .map(([topic, data]) => (
                 <div key={topic}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem', marginBottom: '8px' }}>
-                    <span style={{ color: 'white', fontWeight: '600' }}>{topic}</span>
+                    <span style={{ color: 'var(--text-primary)', fontWeight: '600' }}>{topic}</span>
                     <span style={{ color: 'var(--slate-400)', fontWeight: '500' }}>{data.total} solved</span>
                   </div>
-                  <div style={{ width: '100%', background: 'rgba(255,255,255,0.05)', borderRadius: '99px', height: '8px', overflow: 'hidden' }}>
+                  <div style={{ width: '100%', background: 'var(--bg-surface)', borderRadius: '99px', height: '8px', overflow: 'hidden' }}>
                     <div style={{ 
                       background: `linear-gradient(90deg, var(--indigo-500), var(--indigo-400))`, 
                       height: '100%', 

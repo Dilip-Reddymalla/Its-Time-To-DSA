@@ -82,14 +82,14 @@ const ProblemSetView = () => {
       {/* Header Section */}
       <div style={{ marginBottom: '48px', position: 'relative' }}>
         <div style={{ position: 'absolute', top: '-20px', left: '-20px', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%)', zIndex: -1 }}></div>
-        <h1 style={{ fontSize: 'clamp(2rem, 6vw, 3.5rem)', fontWeight: '900', color: 'white', marginBottom: '12px', letterSpacing: '-0.04em', lineHeight: '1' }}>Problem <span className="gradient-text">Library</span></h1>
+        <h1 style={{ fontSize: 'clamp(2rem, 6vw, 3.5rem)', fontWeight: '900', color: 'var(--text-primary)', marginBottom: '12px', letterSpacing: '-0.04em', lineHeight: '1' }}>Problem <span className="gradient-text">Library</span></h1>
         <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(1rem, 1.5vw, 1.25rem)', maxWidth: '600px' }}>
           Explore the ultimate collection of DSA challenges. Filter, search, and master patterns one problem at a time.
         </p>
       </div>
 
       {/* Filter Bar */}
-      <div className="glass-card" style={{ padding: '24px', marginBottom: '32px', display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems: 'center', justifyContent: 'space-between', border: '1px solid rgba(255,255,255,0.08)' }}>
+      <div className="glass-card" style={{ padding: '24px', marginBottom: '32px', display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems: 'center', justifyContent: 'space-between', border: '1px solid var(--border-color)' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', flex: 1 }}>
           <div style={{ minWidth: '200px', flex: 1 }}>
             <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '700', color: 'var(--slate-500)', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.05em' }}>Search Problems</label>
@@ -100,9 +100,9 @@ const ProblemSetView = () => {
                 value={filters.search}
                 onChange={handleFilterChange}
                 placeholder="Search by name..." 
-                style={{ width: '100%', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '12px 16px', color: 'white', fontSize: '0.9375rem', outline: 'none', transition: 'all 0.2s' }}
+                style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '12px 16px', color: 'var(--text-primary)', fontSize: '0.9375rem', outline: 'none', transition: 'all 0.2s' }}
                 onFocus={e => e.target.style.borderColor = 'var(--indigo-500)'}
-                onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.1)'}
+                onBlur={e => e.target.style.borderColor = 'var(--border-color)'}
               />
             </div>
           </div>
@@ -113,7 +113,7 @@ const ProblemSetView = () => {
               name="topic"
               value={filters.topic}
               onChange={handleFilterChange}
-              style={{ width: '100%', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '12px 16px', color: 'white', fontSize: '0.9375rem', outline: 'none', cursor: 'pointer' }}
+              style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '12px 16px', color: 'var(--text-primary)', fontSize: '0.9375rem', outline: 'none', cursor: 'pointer' }}
             >
               <option value="All">All Concepts</option>
               {filterOptions.topics.map(t => <option key={t} value={t}>{t}</option>)}
@@ -126,7 +126,7 @@ const ProblemSetView = () => {
               name="difficulty"
               value={filters.difficulty}
               onChange={handleFilterChange}
-              style={{ width: '100%', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '12px 16px', color: 'white', fontSize: '0.9375rem', outline: 'none', cursor: 'pointer' }}
+              style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '12px 16px', color: 'var(--text-primary)', fontSize: '0.9375rem', outline: 'none', cursor: 'pointer' }}
             >
               <option value="All">All Difficulties</option>
               {filterOptions.difficulties.map(d => <option key={d} value={d}>{d}</option>)}
@@ -136,20 +136,20 @@ const ProblemSetView = () => {
 
         <button 
           onClick={clearFilters}
-          style={{ padding: '12px 20px', borderRadius: '12px', background: 'rgba(255,255,255,0.05)', color: 'var(--slate-300)', border: '1px solid rgba(255,255,255,0.1)', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s', alignSelf: 'flex-end', marginBottom: '2px' }}
-          onMouseOver={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = 'white'; }}
-          onMouseOut={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; e.currentTarget.style.color = 'var(--slate-300)'; }}
+          style={{ padding: '12px 20px', borderRadius: '12px', background: 'var(--bg-surface)', color: 'var(--slate-300)', border: '1px solid var(--border-color)', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s', alignSelf: 'flex-end', marginBottom: '2px' }}
+          onMouseOver={e => { e.currentTarget.style.background = 'var(--bg-base)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
+          onMouseOut={e => { e.currentTarget.style.background = 'var(--border-color)'; e.currentTarget.style.color = 'var(--slate-300)'; }}
         >
           Reset
         </button>
       </div>
 
       {/* Problems List */}
-      <div className="glass-card" style={{ overflow: 'hidden', border: '1px solid rgba(255,255,255,0.08)' }}>
+      <div className="glass-card" style={{ overflow: 'hidden', border: '1px solid var(--border-color)' }}>
         <div style={{ width: '100%', overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
-              <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+              <tr style={{ background: 'var(--bg-surface)', borderBottom: '1px solid var(--border-color)' }}>
                 <th style={{ padding: '20px 24px', fontSize: '0.75rem', fontWeight: '700', color: 'var(--slate-500)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Status</th>
                 <th style={{ padding: '20px 24px', fontSize: '0.75rem', fontWeight: '700', color: 'var(--slate-500)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Title</th>
                 <th style={{ padding: '20px 24px', fontSize: '0.75rem', fontWeight: '700', color: 'var(--slate-500)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Concept</th>
@@ -168,22 +168,22 @@ const ProblemSetView = () => {
                 <tr>
                   <td colSpan="5" style={{ padding: '80px 24px', textAlign: 'center' }}>
                     <div style={{ fontSize: '2rem', marginBottom: '16px' }}>🔍</div>
-                    <h3 style={{ color: 'white', marginBottom: '8px' }}>No problems found</h3>
+                    <h3 style={{ color: 'var(--text-primary)', marginBottom: '8px' }}>No problems found</h3>
                     <p style={{ color: 'var(--slate-500)' }}>Try adjusting your filters or search query.</p>
                   </td>
                 </tr>
               ) : (
                 problems.map((problem) => (
-                  <tr key={problem._id} className="problem-row" style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', transition: 'background 0.2s' }}>
+                  <tr key={problem._id} className="problem-row" style={{ borderBottom: '1px solid var(--border-color)', transition: 'background 0.2s' }}>
                     <td style={{ padding: '20px 24px' }}>
                       {problem.isSolved ? (
                         <span style={{ color: 'var(--emerald-500)', fontSize: '1.25rem' }}>check_circle</span>
                       ) : (
-                        <div style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid rgba(255,255,255,0.1)', margin: '2px' }}></div>
+                        <div style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid var(--border-color)', margin: '2px' }}></div>
                       )}
                     </td>
                     <td style={{ padding: '20px 24px' }}>
-                      <div style={{ fontWeight: '700', color: 'white', fontSize: '1rem' }}>{problem.name}</div>
+                      <div style={{ fontWeight: '700', color: 'var(--text-primary)', fontSize: '1rem' }}>{problem.name}</div>
                       <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)', marginTop: '4px' }}>{problem.source || 'Standard'}</div>
                     </td>
                     <td style={{ padding: '20px 24px' }}>
@@ -231,7 +231,7 @@ const ProblemSetView = () => {
         
         {/* Pagination Info */}
         {!loading && problems.length > 0 && (
-          <div style={{ padding: '20px 24px', background: 'rgba(255,255,255,0.02)', borderTop: '1px solid rgba(255,255,255,0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ padding: '20px 24px', background: 'var(--bg-surface)', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div style={{ fontSize: '0.875rem', color: 'var(--slate-500)' }}>
               Showing {problems.length} of {pagination.total} problems
             </div>
@@ -239,14 +239,14 @@ const ProblemSetView = () => {
               <button 
                 disabled={pagination.page === 1}
                 onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
-                style={{ padding: '8px 16px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', color: pagination.page === 1 ? 'var(--slate-700)' : 'white', border: '1px solid rgba(255,255,255,0.1)', cursor: pagination.page === 1 ? 'not-allowed' : 'pointer' }}
+                style={{ padding: '8px 16px', borderRadius: '8px', background: 'var(--bg-surface)', color: pagination.page === 1 ? 'var(--slate-700)' : 'var(--text-primary)', border: '1px solid var(--border-color)', cursor: pagination.page === 1 ? 'not-allowed' : 'pointer' }}
               >
                 Previous
               </button>
               <button 
                 disabled={pagination.page >= pagination.pages}
                 onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
-                style={{ padding: '8px 16px', borderRadius: '8px', background: 'rgba(255,255,255,0.05)', color: pagination.page >= pagination.pages ? 'var(--slate-700)' : 'white', border: '1px solid rgba(255,255,255,0.1)', cursor: pagination.page >= pagination.pages ? 'not-allowed' : 'pointer' }}
+                style={{ padding: '8px 16px', borderRadius: '8px', background: 'var(--bg-surface)', color: pagination.page >= pagination.pages ? 'var(--slate-700)' : 'var(--text-primary)', border: '1px solid var(--border-color)', cursor: pagination.page >= pagination.pages ? 'not-allowed' : 'pointer' }}
               >
                 Next
               </button>
@@ -257,7 +257,7 @@ const ProblemSetView = () => {
 
       <style>{`
         .problem-row:hover {
-          background: rgba(255, 255, 255, 0.02);
+          background: var(--bg-surface);
         }
         .gradient-text {
           background: linear-gradient(135deg, var(--indigo-400), var(--emerald-400));
@@ -266,7 +266,7 @@ const ProblemSetView = () => {
         }
         select option {
           background: var(--bg-card);
-          color: white;
+          color: var(--text-primary)
         }
       `}</style>
     </div>

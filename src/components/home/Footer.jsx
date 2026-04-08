@@ -19,7 +19,7 @@ const Footer = () => {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '48px' }}>
             <div>
-              <h4 style={{ color: 'white', fontWeight: '800', marginBottom: '20px', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Product</h4>
+              <h4 style={{ color: 'var(--text-primary)', fontWeight: '800', marginBottom: '20px', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Product</h4>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <li><a href="#features" style={{ color: 'var(--slate-500)', fontSize: '0.875rem' }}>Features</a></li>
                 <li><a href="#how-it-works" style={{ color: 'var(--slate-500)', fontSize: '0.875rem' }}>How it works</a></li>
@@ -27,7 +27,7 @@ const Footer = () => {
               </ul>
             </div>
             <div>
-              <h4 style={{ color: 'white', fontWeight: '800', marginBottom: '20px', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Resources</h4>
+              <h4 style={{ color: 'var(--text-primary)', fontWeight: '800', marginBottom: '20px', fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Resources</h4>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <li><a href="https://leetcode.com" target="_blank" rel="noreferrer" style={{ color: 'var(--slate-500)', fontSize: '0.875rem' }}>LeetCode</a></li>
                 <li><a href="https://takeuforward.org" target="_blank" rel="noreferrer" style={{ color: 'var(--slate-500)', fontSize: '0.875rem' }}>Striver A2Z</a></li>
