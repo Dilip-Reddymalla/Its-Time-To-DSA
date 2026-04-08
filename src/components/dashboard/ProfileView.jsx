@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../../api/axios';
+import useAuthStore from '../../store/authStore';
 
 const ProfileView = () => {
+  const { checkAuth } = useAuthStore();
+  const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -59,9 +63,12 @@ const ProfileView = () => {
         setMessage(res.data.message);
         setProfile(res.data.data);
         if (reschedule) {
-          // If rescheduled, show a success toast or alert
-          alert('Roadmap has been rescheduled! Questions are now synced with your progress.');
           setReschedule(false);
+          // Refresh the global user object (picks up new startDate/totalDays)
+          // then navigate to Today — this forces TodayView & CalendarView to re-mount
+          // and re-fetch the updated schedule from the server.
+          await checkAuth();
+          navigate('/dashboard/today');
         }
       }
     } catch (err) {

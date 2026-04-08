@@ -59,14 +59,15 @@ const TodayView = () => {
     } finally {
       if (!pollingRef.current) setLoading(false);
     }
-  }, [retryCount, error, user?.onboardingComplete]);
+  }, [retryCount, error, user?.onboardingComplete, user?.startDate]);
 
   useEffect(() => {
     fetchToday(retryCount > 0);
     return () => {
       if (pollingRef.current) clearTimeout(pollingRef.current);
     };
-  }, [retryCount, user?.onboardingComplete, error]);
+  // user?.startDate ensures we re-fetch when a reschedule changes the start date.
+  }, [retryCount, user?.onboardingComplete, user?.startDate, error]);
 
   const triggerConfetti = () => {
     confetti({

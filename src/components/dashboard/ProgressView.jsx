@@ -141,10 +141,9 @@ const ProgressView = () => {
 
       {/* Heatmap Section */}
       <div style={{ marginBottom: '32px', maxWidth: '100%', overflowX: 'auto', paddingBottom: '10px' }} className="custom-scrollbar">
-        <div style={{ minWidth: '800px' }}>
-          <ActivityHeatmap heatmapData={stats.heatmap} />
-        </div>
+        <ActivityHeatmap heatmapData={stats.heatmap} />
       </div>
+
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 45vw, 400px), 1fr))', gap: '32px' }}>
         

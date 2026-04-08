@@ -31,7 +31,9 @@ const DashboardLayout = () => {
     { name: 'Today', path: '/dashboard/today', icon: '🏠' },
     { name: 'Progress', path: '/dashboard/progress', icon: '📊' },
     { name: 'Calendar', path: '/dashboard/calendar', icon: '📅' },
+    { name: 'Problem Set', path: '/dashboard/problems', icon: '📚' },
     { name: 'Profile', path: '/dashboard/profile', icon: '👤' },
+
   ];
 
   return (

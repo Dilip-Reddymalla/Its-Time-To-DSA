@@ -12,6 +12,7 @@ import TodayView from './components/dashboard/TodayView';
 import ProgressView from './components/dashboard/ProgressView';
 import CalendarView from './components/dashboard/CalendarView';
 import ProfileView from './components/dashboard/ProfileView';
+import ProblemSetView from './components/dashboard/ProblemSetView';
 
 const App = () => {
   return (
@@ -28,7 +29,9 @@ const App = () => {
           <Route path="today" element={<TodayView />} />
           <Route path="progress" element={<ProgressView />} />
           <Route path="calendar" element={<CalendarView />} />
+          <Route path="problems" element={<ProblemSetView />} />
           <Route path="profile" element={<ProfileView />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

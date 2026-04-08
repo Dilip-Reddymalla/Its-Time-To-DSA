@@ -13,9 +13,9 @@ const ActivityHeatmap = ({ heatmapData = {} }) => {
   // "Today" in local terms — for visual highlight only
   const todayLocalStr = toLocalDateStr(nowLocal);
 
-  // Generate last 365 days. Use UTC midnight to match how backend stores Progress.date
+  // Generate last 183 days (approx 6 months) to fit desktop without scroll.
   const days = [];
-  for (let i = 364; i >= 0; i--) {
+  for (let i = 182; i >= 0; i--) {
     // Step back i days from today in UTC
     const utcMs = Date.UTC(nowLocal.getUTCFullYear(), nowLocal.getUTCMonth(), nowLocal.getUTCDate() - i);
     const d = new Date(utcMs);
@@ -30,26 +30,46 @@ const ActivityHeatmap = ({ heatmapData = {} }) => {
     });
   }
 
-  // Group by weeks
-  const weeks = [];
-  let currentWeek = [];
+  // Group strictly by months, and then by weeks within those months
+  const groupedByMonth = [];
+  let currentMonthGroup = null;
 
-  // Padding: use the first day entry's already-correct local dayOfWeek
-  const firstDayOfWeek = days[0].dayOfWeek;
-  for (let i = 0; i < firstDayOfWeek; i++) {
-    currentWeek.push(null);
-  }
+  days.forEach(day => {
+    if (!currentMonthGroup || currentMonthGroup.month !== day.month) {
+      if (currentMonthGroup) {
+         while(currentMonthGroup.currentWeek.length < 7) {
+            currentMonthGroup.currentWeek.push(null);
+         }
+         currentMonthGroup.weeks.push(currentMonthGroup.currentWeek);
+         groupedByMonth.push(currentMonthGroup);
+      }
+      currentMonthGroup = {
+        month: day.month,
+        weeks: [],
+        currentWeek: []
+      };
+      // Pad the start of this month's first week
+      for (let i = 0; i < day.dayOfWeek; i++) {
+        currentMonthGroup.currentWeek.push(null);
+      }
+    }
 
-  days.forEach((day) => {
-    currentWeek.push(day);
-    if (currentWeek.length === 7) {
-      weeks.push(currentWeek);
-      currentWeek = [];
+    currentMonthGroup.currentWeek.push(day);
+
+    if (currentMonthGroup.currentWeek.length === 7) {
+      currentMonthGroup.weeks.push(currentMonthGroup.currentWeek);
+      currentMonthGroup.currentWeek = [];
     }
   });
-  if (currentWeek.length > 0) {
-    while (currentWeek.length < 7) currentWeek.push(null);
-    weeks.push(currentWeek);
+
+  if (currentMonthGroup) {
+    if (currentMonthGroup.currentWeek.length > 0) {
+      while(currentMonthGroup.currentWeek.length < 7) {
+         currentMonthGroup.currentWeek.push(null);
+      }
+      currentMonthGroup.weeks.push(currentMonthGroup.currentWeek);
+    }
+    groupedByMonth.push(currentMonthGroup);
   }
 
   const getColor = (count) => {
@@ -79,39 +99,66 @@ const ActivityHeatmap = ({ heatmapData = {} }) => {
         </div>
       </div>
 
-      <div style={{ display: 'flex', gap: '4px', minWidth: 'max-content' }}>
-        {/* Day Labels */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginRight: '8px', paddingTop: '14px' }}>
-          {['Mon', 'Wed', 'Fri'].map(day => (
-            <span key={day} style={{ fontSize: '0.65rem', color: 'var(--slate-600)', height: '10px', lineHeight: '10px', marginBottom: '14px' }}>{day}</span>
-          ))}
+      <div style={{ display: 'flex', minWidth: 'max-content' }}>
+        {/* Day Labels Row-Synced */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', marginRight: '10px' }}>
+          {[0, 1, 2, 3, 4, 5, 6].map(i => {
+            const label = i === 1 ? 'Mon' : i === 3 ? 'Wed' : i === 5 ? 'Fri' : '';
+            return (
+              <div key={i} style={{ height: '10px', fontSize: '0.65rem', color: 'var(--slate-600)', lineHeight: '10px', display: 'flex', alignItems: 'center' }}>
+                {label}
+              </div>
+            );
+          })}
+          {/* Spacer to match bottom month label height */}
+          <div style={{ height: '24px' }}></div> 
         </div>
 
-        <div style={{ display: 'flex', gap: '4px' }}>
-          {weeks.map((week, wIdx) => (
-            <div key={wIdx} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              {week.map((day, dIdx) => (
-                <div
-                  key={dIdx}
-                  title={day ? `${day.date}: ${day.count} solved` : ''}
-                  style={{
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '2px',
-                    background: day ? getColor(day.count) : 'transparent',
-                    cursor: day ? 'pointer' : 'default',
-                    transition: 'transform 0.1s',
-                    outline: day?.isToday ? '2px solid rgba(99,102,241,0.8)' : 'none',
-                    outlineOffset: '1px',
-                  }}
-                  onMouseOver={e => day && (e.currentTarget.style.transform = 'scale(1.3)')}
-                  onMouseOut={e => day && (e.currentTarget.style.transform = 'scale(1)')}
-                ></div>
-              ))}
+        <div style={{ display: 'flex', gap: '12px' }}>
+          {groupedByMonth.map((mGroup, mIdx) => (
+            <div key={mIdx} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              
+              {/* Weeks inside this month */}
+              <div style={{ display: 'flex', gap: '4px' }}>
+                {mGroup.weeks.map((week, wIdx) => (
+                  <div key={wIdx} style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    {week.map((day, dIdx) => (
+                      day ? (
+                        <div
+                          key={dIdx}
+                          title={`${day.date}: ${day.count} solved`}
+                          style={{
+                            width: '10px',
+                            height: '10px',
+                            borderRadius: '2px',
+                            background: getColor(day.count),
+                            cursor: 'pointer',
+                            transition: 'transform 0.1s',
+                            outline: day.isToday ? '2px solid rgba(99,102,241,0.8)' : 'none',
+                            outlineOffset: '1px',
+                          }}
+                          onMouseOver={e => e.currentTarget.style.transform = 'scale(1.3)'}
+                          onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}
+                        ></div>
+                      ) : (
+                        <div key={dIdx} style={{ width: '10px', height: '10px' }}></div>
+                      )
+                    ))}
+                  </div>
+                ))}
+              </div>
+
+              {/* Month Label */}
+              <div style={{ marginTop: '8px', fontSize: '0.65rem', color: 'var(--slate-500)', fontWeight: '700', height: '16px' }}>
+                {monthNames[mGroup.month]}
+              </div>
+
             </div>
           ))}
         </div>
+
       </div>
+
     </div>
   );
 };

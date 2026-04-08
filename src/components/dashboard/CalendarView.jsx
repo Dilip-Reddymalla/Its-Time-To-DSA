@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import api from '../../api/axios';
 
 const CalendarView = () => {
   const { user } = useAuthStore();
+  const location = useLocation();
   const [schedule, setSchedule] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedDay, setSelectedDay] = useState(null);
 
   useEffect(() => {
     const fetchFullSchedule = async () => {
+      setLoading(true);
       try {
         const res = await api.get('/schedule/full');
         if (res.data.success) {
@@ -23,13 +25,14 @@ const CalendarView = () => {
       }
     };
     fetchFullSchedule();
-  }, []);
+  // location.key changes on navigation, user changes on reschedule/profile update.
+  }, [location.key, user]);
 
   if (loading) {
     return (
       <div style={{ color: 'white', padding: '40px', textAlign: 'center' }}>
         <div className="loader" style={{ margin: '0 auto 24px' }}></div>
-        <h2 style={{ opacity: 0.5 }}>Loading Your 90-Day Vision...</h2>
+        <h2 style={{ opacity: 0.5 }}>Loading {user?.name?.split(' ')[0]}'s Vision...</h2>
       </div>
     );
   }
@@ -201,15 +204,18 @@ const CalendarView = () => {
     <div className="reveal visible container" style={{ paddingBottom: '80px', paddingTop: 'clamp(20px, 5vw, 40px)' }}>
       <div style={{ marginBottom: '48px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '20px' }}>
         <div>
-          <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', fontWeight: '900', color: 'white', marginBottom: '8px', letterSpacing: '-0.03em', lineHeight: '1.1' }}>Master Roadmap</h1>
+          <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', fontWeight: '900', color: 'white', marginBottom: '8px', letterSpacing: '-0.03em', lineHeight: '1.1' }}>
+            {user?.name?.split(' ')[0]}'s Master Roadmap
+          </h1>
           <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(0.9rem, 1.5vw, 1.125rem)' }}>Visualize your 90-day evolution from patterns to mastery.</p>
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 45vw, 360px), 1fr))', gap: '32px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 45vw, 360px), 1fr))', gap: '64px 48px' }}>
         {Object.entries(months).map(([key, month]) => (
-          <div key={key} className="glass-card" style={{ padding: 'clamp(20px, 4vw, 32px)' }}>
-            <h3 style={{ fontSize: '1.125rem', fontWeight: '800', marginBottom: '24px', color: 'white', borderLeft: '4px solid var(--indigo-500)', paddingLeft: '16px' }}>{month.name}</h3>
+          <div key={key} className="glass-card" style={{ padding: 'clamp(20px, 4vw, 32px)', marginBottom: '20px' }}>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '28px', color: 'white', borderLeft: '5px solid var(--indigo-500)', paddingLeft: '20px', letterSpacing: '-0.01em' }}>{month.name}</h3>
+
             <div style={{ width: '100%', overflowX: 'auto' }} className="custom-scrollbar">
               <div style={{ minWidth: '280px' }}>
                 {renderGrid(month)}
