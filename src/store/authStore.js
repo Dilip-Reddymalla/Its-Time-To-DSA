@@ -40,7 +40,7 @@ const useAuthStore = create((set, get) => ({
 
   // Provide Google OAuth URL
   getGoogleAuthUrl: () => {
-    return `${import.meta.env.VITE_API_URL || 'http://localhost:3001/api'}/auth/google`;
+    return `${import.meta.env.VITE_API_URL}/auth/google`;
   }
 }));
 

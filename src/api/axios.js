@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // As per user requirements, this relies on axios@1.12.0 that was installed
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001/api',
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true, // Crucial for sending/receiving httpOnly cookies
   timeout: 10000,
   headers: {
