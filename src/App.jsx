@@ -15,6 +15,21 @@ import ProfileView from './components/dashboard/ProfileView';
 import ProblemSetView from './components/dashboard/ProblemSetView';
 
 const App = () => {
+  React.useEffect(() => {
+    // Check for token in hash fragment (delivered by backend for Cross-Origin/iOS support)
+    const hash = window.location.hash;
+    if (hash && hash.includes('token=')) {
+      const tokenMatch = hash.match(/token=([^&]+)/);
+      if (tokenMatch && tokenMatch[1]) {
+        const token = tokenMatch[1];
+        localStorage.setItem('token', token);
+        
+        // Scrub the hash from URL instantly
+        window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
+      }
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       {/* Todo: global ToastContainer, Theme wrapper, Auth listener */}

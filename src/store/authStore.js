@@ -13,6 +13,12 @@ const useAuthStore = create((set, get) => ({
     try {
       // The backend uses authGuard for this endpoint to verify cookie
       const response = await api.get('/auth/me');
+      
+      // If the backend returned a new token (rotating), capture it
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token);
+      }
+
       set({ 
         user: response.data.user, 
         isAuthenticated: true, 
@@ -32,6 +38,7 @@ const useAuthStore = create((set, get) => ({
   logout: async () => {
     try {
       await api.post('/auth/logout');
+      localStorage.removeItem('token');
       set({ user: null, isAuthenticated: false });
     } catch (error) {
       console.error('Logout failed', error);

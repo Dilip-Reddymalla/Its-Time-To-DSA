@@ -3,12 +3,26 @@ import axios from 'axios';
 // As per user requirements, this relies on axios@1.12.0 that was installed
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
-  withCredentials: true, // Crucial for sending/receiving httpOnly cookies
+  withCredentials: true,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   }
 });
+
+// Interceptor for adding the token to every request for cross-origin/iOS support
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 // Interceptor for handling 401s globally (token expiration / not logged in)
 api.interceptors.response.use(
