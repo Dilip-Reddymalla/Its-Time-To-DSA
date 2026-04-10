@@ -13,6 +13,7 @@ import ProgressView from './components/dashboard/ProgressView';
 import CalendarView from './components/dashboard/CalendarView';
 import ProfileView from './components/dashboard/ProfileView';
 import ProblemSetView from './components/dashboard/ProblemSetView';
+import JournalView from './components/dashboard/JournalView';
 
 const App = () => {
   React.useEffect(() => {
@@ -46,6 +47,7 @@ const App = () => {
           <Route path="calendar" element={<CalendarView />} />
           <Route path="problems" element={<ProblemSetView />} />
           <Route path="profile" element={<ProfileView />} />
+          <Route path="journal" element={<JournalView />} />
 
         </Route>
       </Routes>

@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import api from '../../api/axios';
 import CircularProgress from '../ui/CircularProgress';
+import ProblemLink from '../ui/ProblemLink';
 import confetti from 'canvas-confetti';
 
 const TodayView = () => {
@@ -14,6 +15,11 @@ const TodayView = () => {
   const [error, setError] = useState(null);
   const [tomorrowPreview, setTomorrowPreview] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
+  // notes: { [problemId]: string }
+  const [notes, setNotes] = useState({});
+  // expandedNote: problemId that currently has the note editor open
+  const [expandedNote, setExpandedNote] = useState(null);
+  const [savingNote, setSavingNote] = useState(null); // problemId being saved
   const pollingRef = React.useRef(null);
 
   const fetchToday = useCallback(async (isRetry = false) => {
@@ -31,7 +37,13 @@ const TodayView = () => {
       if (res.data.success) {
         setScheduleData(res.data.data);
         setError(null);
-        
+        // Pre-populate notes from API
+        const initialNotes = {};
+        (res.data.data.problems || []).forEach((p) => {
+          if (p.note) initialNotes[p._id?.toString() || p.problemId?.toString()] = p.note;
+        });
+        setNotes(prev => ({ ...initialNotes, ...prev }));
+
         // Fetch tomorrow preview if today is fully completed
         if (res.data.data.progress.completed === res.data.data.progress.total && res.data.data.progress.total > 0) {
           triggerConfetti();
@@ -80,6 +92,18 @@ const TodayView = () => {
       origin: { y: 0.6 },
       colors: ['#6366f1', '#10b981', '#f59e0b']
     });
+  };
+
+  const saveNote = async (problemId, text) => {
+    if (!problemId) return;
+    setSavingNote(problemId.toString());
+    try {
+      await api.post('/progress/note', { problemId: problemId.toString(), text });
+    } catch (e) {
+      console.warn('Note save failed', e);
+    } finally {
+      setSavingNote(null);
+    }
   };
 
   const handleSync = async () => {
@@ -174,7 +198,7 @@ const TodayView = () => {
     );
   }
 
-  const { problems, progress, dayNumber, isRevision } = scheduleData;
+  const { problems, progress, dayNumber, isRevision, carryoverCount } = scheduleData;
   const progressPercent = Math.round((progress.completed / progress.total) * 100) || 0;
   const accentColor = isRevision ? 'var(--emerald-500)' : 'var(--indigo-500)';
 
@@ -194,47 +218,184 @@ const TodayView = () => {
         <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(1rem, 2vw, 1.25rem)', maxWidth: '500px', lineHeight: '1.5' }}>
           {isRevision ? "Reviewing previously solved patterns to build long-term muscle memory." : "Mastering the sliding window and two-pointer patterns through deliberate practice."}
         </p>
+
+        {/* Carry-over notice banner */}
+        {carryoverCount > 0 && (
+          <div style={{ marginTop: '20px', display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 20px', background: 'rgba(245,158,11,0.06)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: '14px', maxWidth: '560px' }}>
+            <span style={{ fontSize: '1.25rem' }}>📌</span>
+            <div>
+              <span style={{ fontWeight: '700', color: 'var(--amber-500)', fontSize: '0.9rem' }}>{carryoverCount} problem{carryoverCount > 1 ? 's' : ''} rolled over from previous days</span>
+              <p style={{ fontSize: '0.8rem', color: 'var(--slate-500)', marginTop: '2px' }}>These were not completed earlier and have been added to today's session.</p>
+            </div>
+          </div>
+        )}
       </div>
 
-      <div className="dashboard-grid" style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: '32px' }}>
+      <div className="dashboard-grid today-grid">
         {/* Problems List */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          {problems.map((p, i) => (
+          {problems.map((p, i) => {
+            const pid = (p._id || p.problemId)?.toString();
+            const noteText = notes[pid] ?? p.note ?? '';
+            const isNoteOpen = expandedNote === pid;
+
+            return (
             <div key={p.slug || i} className="glass-card problem-card-hover" style={{ 
-              padding: '24px', background: p.solved ? 'var(--bg-surface)' : 'var(--bg-card)', opacity: p.solved ? 0.7 : 1, transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', border: p.solved ? '1px solid var(--border-color)' : '2px solid var(--border-color-strong)',
-              display: 'flex', alignItems: 'center', gap: '20px', position: 'relative', overflow: 'hidden'
+              padding: '20px 24px',
+              background: p.solved ? 'var(--bg-surface)' : 'var(--bg-card)',
+              opacity: p.solved ? 0.8 : 1,
+              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              border: p.isCarryover
+                ? (p.solved ? '1px solid rgba(245,158,11,0.2)' : '2px solid rgba(245,158,11,0.4)')
+                : (p.solved ? '1px solid var(--border-color)' : '2px solid var(--border-color-strong)'),
+              position: 'relative', overflow: 'hidden',
             }}>
-              <div 
-                onClick={() => toggleProblem(p)}
-                style={{ 
-                  width: '40px', height: '40px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  background: p.solved ? accentColor : 'var(--bg-surface)',
-                  color: p.solved ? 'var(--bg-base)' : 'var(--slate-600)',
-                  fontSize: '1.25rem',
-                  flexShrink: 0,
-                  border: '1px solid var(--border-color)',
-                  transition: 'all 0.2s',
-                  opacity: p.leetcodeSlug ? 0.8 : 1,
-                  cursor: p.leetcodeSlug ? 'not-allowed' : 'pointer'
-                }}
-              >
-                {p.solved ? '✓' : (p.leetcodeSlug ? '🔒' : '')}
+              {/* Top row: checkbox + problem info + note toggle */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                <div 
+                  onClick={() => toggleProblem(p)}
+                  style={{ 
+                    width: '40px', height: '40px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: p.solved ? (p.isCarryover ? 'var(--amber-500)' : accentColor) : 'var(--bg-surface)',
+                    color: p.solved ? 'var(--bg-base)' : 'var(--slate-600)',
+                    fontSize: '1.25rem', flexShrink: 0,
+                    border: '1px solid var(--border-color)',
+                    transition: 'all 0.2s',
+                    opacity: p.leetcodeSlug ? 0.8 : 1,
+                    cursor: p.leetcodeSlug ? 'not-allowed' : 'pointer'
+                  }}
+                >
+                  {p.solved ? '✓' : (p.leetcodeSlug ? '🔒' : '')}
+                </div>
+
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '4px' }}>
+                    <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: 'var(--text-primary)', margin: 0 }}>{p.title || p.name}</h3>
+                    <span className={`badge badge-${(p.difficulty || '').toLowerCase()}`}>{p.difficulty}</span>
+                    {p.isCarryover && (
+                      <span style={{ fontSize: '0.65rem', fontWeight: '700', padding: '2px 8px', borderRadius: '99px', background: 'rgba(245,158,11,0.12)', color: 'var(--amber-500)', border: '1px solid rgba(245,158,11,0.3)', letterSpacing: '0.04em' }}>📌 CARRY-OVER</span>
+                    )}
+                  </div>
+                  <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <ProblemLink
+                      leetcodeSlug={p.leetcodeSlug}
+                      gfgUrl={p.gfgUrl || p.gfgLink}
+                      url={p.url || p.leetcodeLink}
+                    />
+                    {(p.videoSolution || p.gfgLink) && (
+                      <a href={p.videoSolution || p.gfgLink} target="_blank" rel="noreferrer" style={{ fontSize: '0.8125rem', color: 'var(--slate-500)', fontWeight: '600', textDecoration: 'none' }}>Solution ↗</a>
+                    )}
+                  </div>
+                </div>
+
+                {/* Note toggle button */}
+                <button
+                  onClick={() => setExpandedNote(isNoteOpen ? null : pid)}
+                  title={isNoteOpen ? 'Close notes' : (noteText ? 'Edit note' : 'Add note')}
+                  style={{
+                    flexShrink: 0, width: '36px', height: '36px', borderRadius: '10px',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    background: noteText ? 'rgba(99,102,241,0.1)' : 'var(--bg-surface)',
+                    border: noteText ? '1px solid rgba(99,102,241,0.3)' : '1px solid var(--border-color)',
+                    color: noteText ? 'var(--indigo-400)' : 'var(--slate-500)',
+                    fontSize: '1rem', cursor: 'pointer', transition: 'all 0.2s',
+                  }}
+                  onMouseOver={e => { e.currentTarget.style.background = 'rgba(99,102,241,0.12)'; e.currentTarget.style.borderColor = 'rgba(99,102,241,0.4)'; e.currentTarget.style.color = 'var(--indigo-400)'; }}
+                  onMouseOut={e => { e.currentTarget.style.background = noteText ? 'rgba(99,102,241,0.1)' : 'var(--bg-surface)'; e.currentTarget.style.borderColor = noteText ? 'rgba(99,102,241,0.3)' : 'var(--border-color)'; e.currentTarget.style.color = noteText ? 'var(--indigo-400)' : 'var(--slate-500)'; }}
+                >
+                  📝
+                </button>
               </div>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '4px' }}>
-                  <h3 style={{ fontSize: '1.125rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>{p.title}</h3>
-                  <span className={`badge badge-${p.difficulty.toLowerCase()}`}>{p.difficulty}</span>
+
+              {/* Expandable notes section */}
+              {isNoteOpen && (
+                <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid var(--border-color)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>My Notes</span>
+                    {savingNote === pid && (
+                      <span style={{ fontSize: '0.7rem', color: 'var(--slate-500)' }}>Saving...</span>
+                    )}
+                    {savingNote !== pid && noteText && (
+                      <span style={{ fontSize: '0.7rem', color: 'var(--emerald-500)' }}>✓ Saved</span>
+                    )}
+                  </div>
+                  <textarea
+                    value={noteText}
+                    onChange={e => setNotes(prev => ({ ...prev, [pid]: e.target.value }))}
+                    onBlur={() => saveNote(pid, noteText)}
+                    placeholder="Write your approach, key insight, time/space complexity, or anything you want to remember..."
+                    rows={4}
+                    style={{
+                      width: '100%', resize: 'vertical', padding: '12px 14px',
+                      background: 'var(--bg-base)', color: 'var(--text-primary)',
+                      border: '1px solid var(--border-color)', borderRadius: '10px',
+                      fontSize: '0.875rem', lineHeight: '1.6', fontFamily: 'inherit',
+                      outline: 'none', boxSizing: 'border-box',
+                      transition: 'border-color 0.2s',
+                    }}
+                    onFocus={e => { e.currentTarget.style.borderColor = 'var(--indigo-500)'; }}
+                    onBlurCapture={e => { e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+                  />
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '8px' }}>
+                    <button
+                      onClick={() => { saveNote(pid, noteText); setExpandedNote(null); }}
+                      style={{ padding: '6px 16px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '600', background: accentColor, color: 'white', border: 'none', cursor: 'pointer' }}
+                    >
+                      Save & Close
+                    </button>
+                    <button
+                      onClick={() => setExpandedNote(null)}
+                      style={{ padding: '6px 14px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '600', background: 'var(--bg-surface)', color: 'var(--slate-400)', border: '1px solid var(--border-color)', cursor: 'pointer' }}
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', gap: '12px' }}>
-                  <a href={p.url || p.leetcodeLink || `https://leetcode.com/problems/${p.leetcodeSlug || p.slug}`} target="_blank" rel="noreferrer" style={{ fontSize: '0.8125rem', color: 'var(--indigo-400)', fontWeight: '600', textDecoration: 'none' }}>Solve on {p.leetcodeSlug ? 'LeetCode' : 'Platform'} ↗</a>
-                  {(p.videoSolution || p.gfgLink) && (
-                    <a href={p.videoSolution || p.gfgLink} target="_blank" rel="noreferrer" style={{ fontSize: '0.8125rem', color: 'var(--slate-500)', fontWeight: '600', textDecoration: 'none' }}>Solution ↗</a>
-                  )}
-                </div>
+              )}
+            </div>
+            );
+          })}
+          
+          {/* Search & Practice */}
+          {scheduleData?.searchPractice && scheduleData.searchPractice.length > 0 && (
+            <div style={{ marginTop: '24px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                <span style={{ fontSize: '1.2rem' }}>🔍</span>
+                <h3 style={{ fontSize: '1rem', fontWeight: 'bold', color: 'var(--slate-300)' }}>Search & Practice</h3>
+              </div>
+              <p style={{ fontSize: '0.875rem', color: 'var(--slate-500)', marginBottom: '16px', lineHeight: '1.5' }}>
+                These conceptual questions have no direct links to LeetCode or GeeksForGeeks. Search for them online to practice the theory — they don't count towards your daily goal streak.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {scheduleData.searchPractice.map((p, i) => (
+                  <div key={p.slug || i} style={{ 
+                    padding: '16px', 
+                    background: 'var(--bg-surface)', 
+                    border: '1px solid var(--border-color)', 
+                    borderRadius: '12px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}>
+                    <div>
+                      <div style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize: '0.95rem', marginBottom: '4px' }}>{p.name}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>{p.topic} • {p.difficulty}</div>
+                    </div>
+                    <a 
+                      href={`https://www.google.com/search?q=${encodeURIComponent(p.name + ' ' + p.topic + ' ' + (p.source || 'dsa problem'))}`}
+                      target="_blank" 
+                      rel="noreferrer"
+                      className="btn btn-sm btn-ghost"
+                      style={{ padding: '6px 12px', fontSize: '0.75rem' }}
+                    >
+                      Search Web ↗
+                    </a>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
-          
+          )}
+
           {/* GFG Disclaimer if needed */}
           {problems.some(p => !p.leetcodeSlug) && (
             <div style={{ marginTop: '16px', padding: '16px', background: 'rgba(245,158,11,0.05)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: '12px', fontSize: '0.8125rem', color: 'var(--amber-500)', textAlign: 'left', lineHeight: '1.5' }}>
@@ -300,13 +461,12 @@ const TodayView = () => {
           </div>
         </div>
       </div>
-
       <style>{`
+        .today-grid { grid-template-columns: 1fr; gap: 32px; }
         @media (min-width: 1024px) {
-          .dashboard-grid { grid-template-columns: 1.6fr 1fr !important; }
+          .today-grid { grid-template-columns: 1.6fr 1fr; }
         }
-        .reveal { animation: slideIn 0.6s ease-out forwards; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .problem-card-hover:hover { transform: translateY(-2px); border-color: var(--border-color-strong) !important; }
       `}</style>
     </div>
   );

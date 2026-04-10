@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import api from '../../api/axios';
+import ProblemLink from '../ui/ProblemLink';
 
 const CalendarView = () => {
   const { user } = useAuthStore();
@@ -103,8 +105,14 @@ const CalendarView = () => {
           const isRevision = scheduledDay && (scheduledDay.type === 'revision' || scheduledDay.type === 'mixed');
           const isLearn = scheduledDay && scheduledDay.type === 'learn';
           const isScheduled = !!scheduledDay;
+          const isPastDay = isScheduled && calDateStr < todayStr;
 
-          // Colour coding
+          // Progress-based states (from backend's enrichedDays)
+          const isDone = isScheduled && scheduledDay.allDone;
+          const isIncomplete = isPastDay && !isDone && (scheduledDay.problemCount || 0) > 0;
+          const hasCarryoverAlert = isScheduled && scheduledDay.hasPrevIncomplete && !isToday;
+
+          // ── Colour coding (priority: today > done > incomplete > carry-over-alert > revision > learn) ──
           let bg = 'var(--bg-base)';
           let border = '1px solid var(--border-color)';
           let dayNumColor = 'var(--slate-600)';
@@ -113,9 +121,24 @@ const CalendarView = () => {
             bg = 'rgba(99,102,241,0.15)';
             border = '2px solid var(--indigo-500)';
             dayNumColor = 'var(--text-primary)';
+          } else if (isIncomplete) {
+            // Past day — problems were not all done
+            bg = 'rgba(239,68,68,0.07)';
+            border = '1px solid rgba(239,68,68,0.3)';
+            dayNumColor = '#f87171';
+          } else if (isDone) {
+            // Completed day — bright green
+            bg = 'rgba(16,185,129,0.09)';
+            border = '1px solid rgba(16,185,129,0.3)';
+            dayNumColor = 'var(--emerald-400)';
+          } else if (hasCarryoverAlert && !isRevision) {
+            // The day right after an incomplete day — amber accent
+            bg = 'rgba(245,158,11,0.07)';
+            border = '1px solid rgba(245,158,11,0.3)';
+            dayNumColor = 'var(--amber-500)';
           } else if (isRevision) {
-            bg = 'rgba(16,185,129,0.07)';
-            border = '1px solid rgba(16,185,129,0.2)';
+            bg = 'rgba(16,185,129,0.05)';
+            border = '1px solid rgba(16,185,129,0.15)';
             dayNumColor = 'var(--emerald-400)';
           } else if (isLearn) {
             bg = 'rgba(99,102,241,0.05)';
@@ -150,10 +173,17 @@ const CalendarView = () => {
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'scale(1)';
                 e.currentTarget.style.zIndex = '1';
-                if (!isToday) e.currentTarget.style.borderColor = isRevision ? 'rgba(16,185,129,0.2)' : isLearn ? 'rgba(99,102,241,0.12)' : 'var(--border-color)';
+                if (!isToday) {
+                  if (isIncomplete) e.currentTarget.style.borderColor = 'rgba(239,68,68,0.3)';
+                  else if (isDone) e.currentTarget.style.borderColor = 'rgba(16,185,129,0.3)';
+                  else if (hasCarryoverAlert) e.currentTarget.style.borderColor = 'rgba(245,158,11,0.3)';
+                  else if (isRevision) e.currentTarget.style.borderColor = 'rgba(16,185,129,0.15)';
+                  else if (isLearn) e.currentTarget.style.borderColor = 'rgba(99,102,241,0.12)';
+                  else e.currentTarget.style.borderColor = 'var(--border-color)';
+                }
               }}
             >
-              {/* Actual calendar date — big & clear */}
+              {/* Date number */}
               <span style={{
                 fontSize: '0.9rem',
                 fontWeight: isToday ? '900' : isScheduled ? '700' : '400',
@@ -163,7 +193,7 @@ const CalendarView = () => {
                 {i + 1}
               </span>
 
-              {/* Schedule Day badge pill — unique "D42" style label */}
+              {/* D-badge */}
               {isScheduled && (
                 <span style={{
                   marginTop: '3px',
@@ -172,16 +202,30 @@ const CalendarView = () => {
                   letterSpacing: '0.04em',
                   padding: '1px 4px',
                   borderRadius: '99px',
-                  background: isRevision ? 'rgba(16,185,129,0.25)' : isToday ? 'rgba(99,102,241,0.4)' : 'rgba(99,102,241,0.15)',
-                  color: isRevision ? 'var(--emerald-400)' : 'var(--indigo-300)',
+                  background: isIncomplete
+                    ? 'rgba(239,68,68,0.2)'
+                    : isDone
+                    ? 'rgba(16,185,129,0.25)'
+                    : isToday
+                    ? 'rgba(99,102,241,0.4)'
+                    : isRevision
+                    ? 'rgba(16,185,129,0.2)'
+                    : 'rgba(99,102,241,0.15)',
+                  color: isIncomplete
+                    ? '#f87171'
+                    : isDone
+                    ? 'var(--emerald-400)'
+                    : isRevision
+                    ? 'var(--emerald-400)'
+                    : 'var(--indigo-300)',
                   textTransform: 'uppercase',
                 }}>
                   D{scheduledDay.dayNumber}
                 </span>
               )}
 
-              {/* Tiny dot for revision/mixed */}
-              {isRevision && (
+              {/* Status dot (top-right corner) */}
+              {isScheduled && (
                 <div style={{
                   position: 'absolute',
                   top: '5px',
@@ -189,8 +233,22 @@ const CalendarView = () => {
                   width: '5px',
                   height: '5px',
                   borderRadius: '50%',
-                  background: 'var(--emerald-500)',
-                  boxShadow: '0 0 6px rgba(16,185,129,0.8)',
+                  background: isIncomplete
+                    ? '#ef4444'
+                    : isDone
+                    ? 'var(--emerald-500)'
+                    : hasCarryoverAlert
+                    ? 'var(--amber-500)'
+                    : isRevision
+                    ? 'var(--emerald-500)'
+                    : 'transparent',
+                  boxShadow: isIncomplete
+                    ? '0 0 5px rgba(239,68,68,0.7)'
+                    : isDone
+                    ? '0 0 5px rgba(16,185,129,0.7)'
+                    : hasCarryoverAlert
+                    ? '0 0 5px rgba(245,158,11,0.7)'
+                    : 'none',
                 }} />
               )}
             </div>
@@ -207,7 +265,23 @@ const CalendarView = () => {
           <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', fontWeight: '900', color: 'var(--text-primary)', marginBottom: '8px', letterSpacing: '-0.03em', lineHeight: '1.1' }}>
             {user?.name?.split(' ')[0]}'s Master Roadmap
           </h1>
-          <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(0.9rem, 1.5vw, 1.125rem)' }}>Visualize your 90-day evolution from patterns to mastery.</p>
+          <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(0.9rem, 1.5vw, 1.125rem)', marginBottom: '20px' }}>Visualize your 90-day evolution from patterns to mastery.</p>
+
+          {/* Color Legend */}
+          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
+            {[
+              { dot: 'var(--indigo-500)', label: 'Today' },
+              { dot: 'var(--emerald-500)', label: 'Completed' },
+              { dot: '#ef4444',            label: 'Incomplete (past)' },
+              { dot: 'var(--amber-500)',   label: 'Has carry-overs' },
+              { dot: 'var(--indigo-300)',  label: 'Upcoming' },
+            ].map(({ dot, label }) => (
+              <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: dot, boxShadow: `0 0 5px ${dot}80`, flexShrink: 0 }} />
+                <span style={{ fontSize: '0.75rem', color: 'var(--slate-500)', fontWeight: '600' }}>{label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -225,69 +299,117 @@ const CalendarView = () => {
         ))}
       </div>
 
-      {/* Slide-in Details Panel (Fixed Overlay) */}
-      {selectedDay && (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', justifyContent: 'flex-end' }}>
-          <div onClick={() => setSelectedDay(null)} style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}></div>
-          <div className="glass" style={{ 
-            width: '100%', 
-            maxWidth: '500px', 
-            height: '100%', 
-            padding: 'clamp(24px, 6vw, 48px)', 
-            position: 'relative', 
-            overflowY: 'auto', 
-            borderLeft: '1px solid var(--border-color)', 
-            animation: 'slideRight 0.4s cubic-bezier(0, 0.55, 0.45, 1)',
-            background: 'var(--bg-card)'
-          }}>
-            <button onClick={() => setSelectedDay(null)} style={{ position: 'absolute', top: '24px', right: '24px', background: 'transparent', border: 'none', color: 'var(--slate-500)', fontSize: '1.5rem', cursor: 'pointer', zIndex: 10 }}>×</button>
-            
-            <div style={{ marginBottom: '32px' }}>
-              <div style={{ color: 'var(--indigo-400)', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '0.8125rem', marginBottom: '8px', letterSpacing: '0.1em' }}>Day {selectedDay.dayNumber}</div>
-              <h2 style={{ fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', fontWeight: '900', color: 'var(--text-primary)', letterSpacing: '-0.02em', lineHeight: '1.1' }}>{selectedDay.concepts?.[0] || selectedDay.readings?.[0]?.title || 'Learning Session'}</h2>
-              <p style={{ color: 'var(--slate-400)', marginTop: '12px', fontSize: '0.9375rem' }}>{new Date(selectedDay.date).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
+      {/* Slide-in Details Panel — rendered via portal into #modal-root in index.html */}
+      {selectedDay && ReactDOM.createPortal(
+        <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', justifyContent: 'flex-end' }}>
+          {/* Backdrop */}
+          <div
+            onClick={() => setSelectedDay(null)}
+            style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.72)', backdropFilter: 'blur(5px)', cursor: 'pointer' }}
+          />
+          {/* Panel */}
+          <div
+            className="glass"
+            style={{
+              width: '100%',
+              maxWidth: '500px',
+              height: '100%',
+              padding: 'clamp(24px, 6vw, 48px)',
+              position: 'relative',
+              overflowY: 'auto',
+              borderLeft: '1px solid var(--border-color)',
+              animation: 'slideRight 0.38s cubic-bezier(0, 0.55, 0.45, 1)',
+              background: 'var(--bg-card)',
+              zIndex: 1,
+            }}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setSelectedDay(null)}
+              style={{
+                position: 'absolute', top: '20px', right: '20px',
+                width: '36px', height: '36px', borderRadius: '50%',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: 'var(--bg-surface)', border: '1px solid var(--border-color)',
+                color: 'var(--slate-400)', fontSize: '1.25rem', cursor: 'pointer',
+                transition: 'all 0.2s', zIndex: 10,
+              }}
+              onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.1)'; e.currentTarget.style.color = '#f87171'; e.currentTarget.style.borderColor = 'rgba(239,68,68,0.3)'; }}
+              onMouseOut={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.color = 'var(--slate-400)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+            >
+              ×
+            </button>
+
+            {/* Header */}
+            <div style={{ marginBottom: '32px', paddingRight: '40px' }}>
+              <div style={{ color: 'var(--indigo-400)', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '0.8125rem', marginBottom: '8px', letterSpacing: '0.1em' }}>
+                {selectedDay.type === 'revision' ? '🔄 Revision Day' : `📅 Day ${selectedDay.dayNumber}`}
+              </div>
+              <h2 style={{ fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', fontWeight: '900', color: 'var(--text-primary)', letterSpacing: '-0.02em', lineHeight: '1.1' }}>
+                {selectedDay.concepts?.[0] || selectedDay.readings?.[0]?.title || 'Learning Session'}
+              </h2>
+              <p style={{ color: 'var(--slate-400)', marginTop: '12px', fontSize: '0.9375rem' }}>
+                {new Date(selectedDay.date).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+              </p>
             </div>
 
-            <div style={{ display: 'flex', gap: '16px', marginBottom: '40px' }}>
+            {/* Stats row */}
+            <div style={{ display: 'flex', gap: '12px', marginBottom: '36px' }}>
               <div className="glass-card" style={{ flex: 1, padding: '16px', textAlign: 'center', background: 'var(--bg-surface)' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>{selectedDay.problems?.length || (selectedDay.problemIds?.length || 0)}</div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>Tasks</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: '900', color: 'var(--indigo-400)' }}>{selectedDay.problems?.length || (selectedDay.problemIds?.length || 0)}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--slate-500)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>Tasks</div>
               </div>
               <div className="glass-card" style={{ flex: 1, padding: '16px', textAlign: 'center', background: 'var(--bg-surface)' }}>
-                <div style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'var(--text-primary)' }}>{selectedDay.estimatedTime}</div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>Commitment</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: '900', color: selectedDay.allDone ? 'var(--emerald-400)' : 'var(--text-primary)' }}>
+                  {selectedDay.allDone ? '✓' : (selectedDay.completedCount || 0)}
+                </div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--slate-500)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>Solved</div>
+              </div>
+              <div className="glass-card" style={{ flex: 1, padding: '16px', textAlign: 'center', background: 'var(--bg-surface)' }}>
+                <div style={{ fontSize: '1.5rem', fontWeight: '900', color: 'var(--text-primary)' }}>{selectedDay.estimatedTime || '—'}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--slate-500)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>Commitment</div>
               </div>
             </div>
 
-            <h3 style={{ fontSize: '0.875rem', fontWeight: 'bold', color: 'var(--slate-500)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '16px' }}>Target Problems</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {/* Problem list */}
+            <h3 style={{ fontSize: '0.8125rem', fontWeight: '800', color: 'var(--slate-500)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '16px' }}>Target Problems</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {selectedDay.problems && selectedDay.problems.map((sp, i) => {
                 const p = sp.problemId;
                 if (!p || !p.name) return null;
                 return (
-                 <a key={i} href={p.leetcodeSlug ? `https://leetcode.com/problems/${p.leetcodeSlug}` : (p.gfgUrl || '#')} target="_blank" rel="noreferrer" className="glass-card" style={{ padding: '20px', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', textDecoration: 'none', transition: 'all 0.2s ease', border: '1px solid var(--border-color)' }} onMouseOver={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.borderColor = 'rgba(99,102,241,0.3)'; }} onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 'bold', color: 'var(--text-primary)', marginBottom: '4px', fontSize: '1rem' }}>{p.name}</div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <div
+                    key={i}
+                    className="glass-card"
+                    style={{ padding: '16px 20px', borderRadius: '14px', border: '1px solid var(--border-color)', transition: 'all 0.2s ease' }}
+                    onMouseOver={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.borderColor = 'rgba(99,102,241,0.3)'; e.currentTarget.style.transform = 'translateX(4px)'; }}
+                    onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'var(--border-color)'; e.currentTarget.style.transform = 'translateX(0)'; }}
+                  >
+                    <div style={{ fontWeight: '700', color: 'var(--text-primary)', marginBottom: '8px', fontSize: '0.9375rem' }}>{p.name}</div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                       <span className={`badge badge-${(sp.difficulty || p.difficulty || 'easy').toLowerCase()}`}>{sp.difficulty || p.difficulty || 'Easy'}</span>
-                      {sp.isRevision && <span className="badge" style={{ background: 'rgba(16,185,129,0.1)', color: 'var(--emerald-400)' }}>Revision</span>}
+                      {sp.isRevision && <span className="badge" style={{ background: 'rgba(16,185,129,0.1)', color: 'var(--emerald-400)', border: '1px solid rgba(16,185,129,0.2)' }}>🔄 Revision</span>}
+                      {sp.isCarryover && <span className="badge" style={{ background: 'rgba(245,158,11,0.1)', color: 'var(--amber-500)', border: '1px solid rgba(245,158,11,0.2)' }}>📌 Carry-over</span>}
+                      <ProblemLink
+                        leetcodeSlug={p.leetcodeSlug}
+                        gfgUrl={p.gfgUrl}
+                        style={{ marginLeft: '4px' }}
+                      />
                     </div>
                   </div>
-                  <span style={{ color: 'var(--indigo-400)', fontSize: '1.25rem' }}>↗</span>
-                 </a>
                 );
               })}
+              {(!selectedDay.problems || selectedDay.problems.length === 0) && (
+                <div style={{ textAlign: 'center', color: 'var(--slate-500)', padding: '32px', fontSize: '0.9rem' }}>No problems assigned for this day.</div>
+              )}
             </div>
           </div>
-        </div>
+        </div>,
+        document.getElementById('modal-root')
       )}
 
       <style>{`
         @keyframes slideRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
-        .loader { width: 48px; height: 48px; border: 3px solid rgba(99,102,241,0.2); border-top-color: var(--indigo-500); border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        .custom-scrollbar::-webkit-scrollbar { height: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--slate-600); border-radius: 4px; }
       `}</style>
     </div>
   );

@@ -93,7 +93,7 @@ const ProfileView = () => {
         <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(0.9375rem, 2vw, 1.1rem)' }}>Manage your profile and 90-day roadmap configuration.</p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: '32px' }} className="stack-on-mobile dashboard-grid">
+      <div className="profile-grid dashboard-grid stack-on-mobile">
         {/* Sidebar Info */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', flex: '1' }}>
           <div className="glass-card" style={{ padding: 'clamp(24px, 5vw, 32px)', textAlign: 'center' }}>
@@ -217,8 +217,9 @@ const ProfileView = () => {
       </div>
 
       <style>{`
+        .profile-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
         @media (min-width: 1024px) {
-          .dashboard-grid { grid-template-columns: 1fr 2fr !important; }
+          .profile-grid { grid-template-columns: 1fr 2fr; }
         }
         input[type="date"]::-webkit-calendar-picker-indicator {
           filter: invert(1);
@@ -236,10 +237,6 @@ const ProfileView = () => {
           background-position: right 1rem center;
           background-size: 0.65em auto;
           padding-right: 2.5rem !important;
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </div>

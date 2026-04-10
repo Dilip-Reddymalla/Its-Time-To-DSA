@@ -23,19 +23,18 @@ const DashboardLayout = () => {
   if (isLoading) {
     return (
       <div style={{ minHeight: '100vh', background: 'var(--bg-base)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ width: '48px', height: '48px', border: '4px solid rgba(99,102,241,0.3)', borderTopColor: 'var(--indigo-500)', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-        <style>{`@keyframes spin { 100% { transform: rotate(360deg); } }`}</style>
+        <div className="loader"></div>
       </div>
     );
   }
 
   const navItems = [
-    { name: 'Today', path: '/dashboard/today', icon: '🏠' },
-    { name: 'Progress', path: '/dashboard/progress', icon: '📊' },
-    { name: 'Calendar', path: '/dashboard/calendar', icon: '📅' },
+    { name: 'Today',       path: '/dashboard/today',    icon: '🏠' },
+    { name: 'Progress',    path: '/dashboard/progress', icon: '📊' },
+    { name: 'Calendar',    path: '/dashboard/calendar', icon: '📅' },
     { name: 'Problem Set', path: '/dashboard/problems', icon: '📚' },
-    { name: 'Profile', path: '/dashboard/profile', icon: '👤' },
-
+    { name: 'Journal',     path: '/dashboard/journal',  icon: '📓' },
+    { name: 'Profile',     path: '/dashboard/profile',  icon: '👤' },
   ];
 
   return (
@@ -184,11 +183,7 @@ const DashboardLayout = () => {
       <CommandPalette />
       
       <style>{`
-        @media (min-width: 768px) {
-          .md-hidden { display: none !important; }
-        }
         @media (max-width: 767px) {
-          .hidden-mobile { display: none !important; }
           .sidebar { position: fixed; top: 65px; left: 0; bottom: 0; transform: translateX(-100%); }
           .sidebar.open { transform: translateX(0); }
         }

@@ -193,10 +193,6 @@ const ProgressView = () => {
 
       </div>
       <style>{`
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: var(--slate-600); border-radius: 4px; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
       `}</style>
     </div>
   );

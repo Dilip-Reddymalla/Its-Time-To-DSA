@@ -259,11 +259,6 @@ const ProblemSetView = () => {
         .problem-row:hover {
           background: var(--bg-surface);
         }
-        .gradient-text {
-          background: linear-gradient(135deg, var(--indigo-400), var(--emerald-400));
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
         select option {
           background: var(--bg-card);
           color: var(--text-primary)
