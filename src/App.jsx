@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import OnboardingFlow from './components/onboarding/OnboardingFlow';
@@ -51,6 +52,7 @@ const App = () => {
 
         </Route>
       </Routes>
+      <Analytics />
     </BrowserRouter>
   );
 };
