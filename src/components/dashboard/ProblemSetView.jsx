@@ -198,6 +198,17 @@ const ProblemSetView = () => {
                     </td>
                     <td style={{ padding: '20px 24px', textAlign: 'right' }}>
                       <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end' }}>
+                        {(!problem.leetcodeSlug && !problem.gfgUrl) && (
+                          <a 
+                            href={`https://www.google.com/search?q=${encodeURIComponent(problem.title || problem.name)}`}
+                            target="_blank" 
+                            rel="noreferrer"
+                            className="btn btn-sm btn-ghost"
+                            style={{ padding: '6px 12px', color: 'var(--indigo-400)' }}
+                          >
+                            🔎 Search Web
+                          </a>
+                        )}
                         {problem.leetcodeSlug && (
                           <a 
                             href={`https://leetcode.com/problems/${problem.leetcodeSlug}`} 
@@ -218,6 +229,21 @@ const ProblemSetView = () => {
                             style={{ padding: '6px 12px' }}
                           >
                             GFG ↗
+                          </a>
+                        )}
+                        {(problem.youtubeUrl || problem.resourceUrl) && (
+                          <a 
+                            href={problem.youtubeUrl || problem.resourceUrl} 
+                            target="_blank" 
+                            rel="noreferrer"
+                            style={{
+                              padding: '6px 12px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '600',
+                              background: 'rgba(239,68,68,0.08)', color: '#ef4444',
+                              border: '1px solid rgba(239,68,68,0.2)', textDecoration: 'none',
+                              display: 'inline-flex', alignItems: 'center', gap: '4px'
+                            }}
+                          >
+                            ▶ Tutorial
                           </a>
                         )}
                       </div>

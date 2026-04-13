@@ -74,11 +74,32 @@ const NoteEditor = ({ problem, date, onSave }) => {
               {problem.difficulty}
             </span>
             <span style={{ fontSize: '0.7rem', color: 'var(--slate-500)', fontWeight: '500' }}>{problem.topic}</span>
-            <ProblemLink
-              leetcodeSlug={problem.leetcodeSlug}
-              gfgUrl={problem.gfgUrl}
-              style={{ fontSize: '0.75rem' }}
-            />
+            {(!problem.leetcodeSlug && !problem.gfgUrl) ? (
+              <a href={`https://www.google.com/search?q=${encodeURIComponent(problem.name)}`} target="_blank" rel="noreferrer" style={{ fontSize: '0.75rem', color: 'var(--indigo-400)', textDecoration: 'none', fontWeight: '600', marginLeft: '4px' }}>
+                🔎 Search Web
+              </a>
+            ) : (
+              <ProblemLink
+                leetcodeSlug={problem.leetcodeSlug}
+                gfgUrl={problem.gfgUrl}
+                style={{ fontSize: '0.75rem' }}
+              />
+            )}
+            {problem.youtubeUrl && (
+              <a href={problem.youtubeUrl} target="_blank" rel="noreferrer" style={{
+                display: 'inline-flex', alignItems: 'center', gap: '4px',
+                fontSize: '0.75rem', color: '#ef4444', fontWeight: '600',
+                textDecoration: 'none', padding: '2px 8px',
+                background: 'rgba(239,68,68,0.08)', borderRadius: '8px',
+                border: '1px solid rgba(239,68,68,0.2)', transition: 'all 0.2s'
+              }}
+                onClick={(e) => e.stopPropagation()}
+                onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.15)'; }}
+                onMouseOut={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.08)'; }}
+              >
+                ▶ Tutorial
+              </a>
+            )}
           </div>
         </div>
 

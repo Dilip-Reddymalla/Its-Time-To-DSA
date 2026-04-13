@@ -272,16 +272,47 @@ const TodayView = () => {
                   <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '4px' }}>
                     <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: 'var(--text-primary)', margin: 0 }}>{p.title || p.name}</h3>
                     <span className={`badge badge-${(p.difficulty || '').toLowerCase()}`}>{p.difficulty}</span>
+                    {(!p.leetcodeSlug && !p.gfgUrl) && (
+                      <span style={{ fontSize: '0.65rem', fontWeight: '700', padding: '2px 8px', borderRadius: '99px', background: 'rgba(100,116,139,0.1)', color: 'var(--slate-500)', border: '1px solid rgba(100,116,139,0.3)', letterSpacing: '0.04em' }}>
+                        ⚪ OPTIONAL
+                      </span>
+                    )}
                     {p.isCarryover && (
                       <span style={{ fontSize: '0.65rem', fontWeight: '700', padding: '2px 8px', borderRadius: '99px', background: 'rgba(245,158,11,0.12)', color: 'var(--amber-500)', border: '1px solid rgba(245,158,11,0.3)', letterSpacing: '0.04em' }}>📌 CARRY-OVER</span>
                     )}
+                    {p.isFoundation && (
+                      <span style={{ fontSize: '0.65rem', fontWeight: '700', padding: '2px 8px', borderRadius: '99px', background: 'rgba(16,185,129,0.1)', color: 'var(--emerald-500)', border: '1px solid rgba(16,185,129,0.3)', letterSpacing: '0.04em' }}>🏋️ FOUNDATION</span>
+                    )}
                   </div>
                   <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
-                    <ProblemLink
-                      leetcodeSlug={p.leetcodeSlug}
-                      gfgUrl={p.gfgUrl || p.gfgLink}
-                      url={p.url || p.leetcodeLink}
-                    />
+                    {(!p.leetcodeSlug && !p.gfgUrl) ? (
+                      <span style={{ fontSize: '0.8125rem', color: 'var(--slate-500)', fontWeight: '500' }}>
+                        No proper links available. 
+                        <a href={`https://www.google.com/search?q=${encodeURIComponent(p.title || p.name)}`} target="_blank" rel="noreferrer" style={{ marginLeft: '4px', color: 'var(--indigo-400)', textDecoration: 'none', fontWeight: '600' }}>
+                          Search Web ↗
+                        </a>
+                      </span>
+                    ) : (
+                      <ProblemLink
+                        leetcodeSlug={p.leetcodeSlug}
+                        gfgUrl={p.gfgUrl || p.gfgLink}
+                        url={p.url || p.leetcodeLink}
+                      />
+                    )}
+                    {(p.youtubeUrl || p.resourceUrl) && (
+                      <a href={p.youtubeUrl || p.resourceUrl} target="_blank" rel="noreferrer" style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '4px',
+                        fontSize: '0.8125rem', color: '#ef4444', fontWeight: '600',
+                        textDecoration: 'none', padding: '3px 10px',
+                        background: 'rgba(239,68,68,0.08)', borderRadius: '8px',
+                        border: '1px solid rgba(239,68,68,0.2)', transition: 'all 0.2s'
+                      }}
+                        onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.15)'; }}
+                        onMouseOut={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.08)'; }}
+                      >
+                        ▶ Tutorial
+                      </a>
+                    )}
                     {(p.videoSolution || p.gfgLink) && (
                       <a href={p.videoSolution || p.gfgLink} target="_blank" rel="noreferrer" style={{ fontSize: '0.8125rem', color: 'var(--slate-500)', fontWeight: '600', textDecoration: 'none' }}>Solution ↗</a>
                     )}
