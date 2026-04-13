@@ -272,9 +272,15 @@ const TodayView = () => {
                   <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '4px' }}>
                     <h3 style={{ fontSize: '1.05rem', fontWeight: '700', color: 'var(--text-primary)', margin: 0 }}>{p.title || p.name}</h3>
                     <span className={`badge badge-${(p.difficulty || '').toLowerCase()}`}>{p.difficulty}</span>
-                    {(!p.leetcodeSlug && !p.gfgUrl) && (
-                      <span style={{ fontSize: '0.65rem', fontWeight: '700', padding: '2px 8px', borderRadius: '99px', background: 'rgba(100,116,139,0.1)', color: 'var(--slate-500)', border: '1px solid rgba(100,116,139,0.3)', letterSpacing: '0.04em' }}>
-                        ⚪ OPTIONAL
+                    {p.isOptional && (
+                      <span style={{ 
+                        fontSize: '0.65rem', fontWeight: '700', padding: '2px 8px', borderRadius: '99px', 
+                        background: p.leetcodeSlug ? 'rgba(239,68,68,0.1)' : 'rgba(100,116,139,0.1)', 
+                        color: p.leetcodeSlug ? '#ef4444' : 'var(--slate-500)', 
+                        border: p.leetcodeSlug ? '1px solid rgba(239,68,68,0.3)' : '1px solid rgba(100,116,139,0.3)', 
+                        letterSpacing: '0.04em' 
+                      }}>
+                         {p.leetcodeSlug ? '💎 PREMIUM / OPTIONAL' : '⚪ OPTIONAL'}
                       </span>
                     )}
                     {p.isCarryover && (
