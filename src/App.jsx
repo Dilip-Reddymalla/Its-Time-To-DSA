@@ -15,6 +15,13 @@ import CalendarView from './components/dashboard/CalendarView';
 import ProfileView from './components/dashboard/ProfileView';
 import ProblemSetView from './components/dashboard/ProblemSetView';
 import JournalView from './components/dashboard/JournalView';
+import AdminLayout from './pages/AdminLayout';
+import AdminOverview from './components/admin/AdminOverview';
+import UserListView from './components/admin/UserListView';
+import UserDetailView from './components/admin/UserDetailView';
+import TodaySnapshotView from './components/admin/TodaySnapshotView';
+import LeaderboardView from './components/admin/LeaderboardView';
+import PlatformStatsView from './components/admin/PlatformStatsView';
 
 const App = () => {
   React.useEffect(() => {
@@ -50,6 +57,17 @@ const App = () => {
           <Route path="profile" element={<ProfileView />} />
           <Route path="journal" element={<JournalView />} />
 
+        </Route>
+
+        {/* Admin Routes */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Navigate to="overview" replace />} />
+          <Route path="overview" element={<AdminOverview />} />
+          <Route path="users" element={<UserListView />} />
+          <Route path="users/:userId" element={<UserDetailView />} />
+          <Route path="today" element={<TodaySnapshotView />} />
+          <Route path="leaderboard" element={<LeaderboardView />} />
+          <Route path="stats" element={<PlatformStatsView />} />
         </Route>
       </Routes>
       <Analytics />

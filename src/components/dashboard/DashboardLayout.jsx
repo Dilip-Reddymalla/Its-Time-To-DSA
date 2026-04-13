@@ -35,6 +35,7 @@ const DashboardLayout = () => {
     { name: 'Problem Set', path: '/dashboard/problems', icon: '📚' },
     { name: 'Journal',     path: '/dashboard/journal',  icon: '📓' },
     { name: 'Profile',     path: '/dashboard/profile',  icon: '👤' },
+    ...(user?.isAdmin ? [{ name: 'Admin Panel', path: '/admin/overview', icon: '🛡️' }] : []),
   ];
 
   return (
