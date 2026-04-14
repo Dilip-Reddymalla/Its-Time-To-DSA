@@ -20,6 +20,14 @@ const TodayView = () => {
   // expandedNote: problemId that currently has the note editor open
   const [expandedNote, setExpandedNote] = useState(null);
   const [savingNote, setSavingNote] = useState(null); // problemId being saved
+  
+  const [replacingProblem, setReplacingProblem] = useState(null);
+  const [reportModalProblemId, setReportModalProblemId] = useState(null);
+  const [reportReason, setReportReason] = useState('broken-link');
+  const [reportDescription, setReportDescription] = useState('');
+  const [isSubmittingReport, setIsSubmittingReport] = useState(false);
+  const [reportedProblems, setReportedProblems] = useState(new Set());
+
   const pollingRef = React.useRef(null);
 
   const fetchToday = useCallback(async (isRetry = false) => {
@@ -118,6 +126,40 @@ const TodayView = () => {
       alert("Verification failed. Check your LeetCode submissions!");
     } finally {
       setSyncing(false);
+    }
+  };
+
+  const handleReplace = async (pid) => {
+    if (!window.confirm("Swap this problem for a new one from the database?")) return;
+    setReplacingProblem(pid);
+    try {
+      const res = await api.post('/schedule/replace-problem', { problemId: pid });
+      if (res.data.success) {
+        await fetchToday(true);
+      }
+    } catch (e) {
+      alert(e.response?.data?.message || 'Failed to replace problem');
+    } finally {
+      setReplacingProblem(null);
+    }
+  };
+
+  const submitReport = async () => {
+    if (!reportModalProblemId) return;
+    setIsSubmittingReport(true);
+    try {
+      const res = await api.post(`/problems/${reportModalProblemId}/report`, { reason: reportReason, description: reportDescription });
+      if (res.data.success) {
+        alert("Report submitted! You can now replace this problem.");
+        setReportedProblems(prev => new Set(prev).add(reportModalProblemId));
+        setReportModalProblemId(null);
+        setReportReason('broken-link');
+        setReportDescription('');
+      }
+    } catch (e) {
+      alert(e.response?.data?.message || 'Failed to submit report');
+    } finally {
+      setIsSubmittingReport(false);
     }
   };
 
@@ -342,6 +384,40 @@ const TodayView = () => {
                 >
                   📝
                 </button>
+
+                {(p.isOptional || reportedProblems.has(pid)) ? (
+                  <button
+                    onClick={() => handleReplace(pid)}
+                    disabled={replacingProblem === pid}
+                    title="Replace this reported problem"
+                    style={{
+                      flexShrink: 0, width: '36px', height: '36px', borderRadius: '10px',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: 'var(--bg-surface)', border: '1px solid var(--border-color)',
+                      color: 'var(--amber-500)', fontSize: '1rem', cursor: 'pointer', transition: 'all 0.2s',
+                      opacity: replacingProblem === pid ? 0.5 : 1
+                    }}
+                    onMouseOver={e => { e.currentTarget.style.background = 'rgba(245,158,11,0.1)'; e.currentTarget.style.borderColor = 'rgba(245,158,11,0.4)'; }}
+                    onMouseOut={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+                  >
+                    🔄
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setReportModalProblemId(pid)}
+                    title="Report link issue"
+                    style={{
+                      flexShrink: 0, width: '36px', height: '36px', borderRadius: '10px',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      background: 'var(--bg-surface)', border: '1px solid var(--border-color)',
+                      color: 'var(--slate-500)', fontSize: '1rem', cursor: 'pointer', transition: 'all 0.2s',
+                    }}
+                    onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.1)'; e.currentTarget.style.borderColor = 'rgba(239,68,68,0.4)'; }}
+                    onMouseOut={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+                  >
+                    🚩
+                  </button>
+                )}
               </div>
 
               {/* Expandable notes section */}
@@ -505,6 +581,56 @@ const TodayView = () => {
         }
         .problem-card-hover:hover { transform: translateY(-2px); border-color: var(--border-color-strong) !important; }
       `}</style>
+
+      {/* Report Modal */}
+      {reportModalProblemId && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}>
+          <div className="glass-card" style={{ width: '90%', maxWidth: '400px', padding: '24px', background: 'var(--bg-card)', border: '1px solid var(--border-color-strong)' }}>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              🚩 Report Problem
+            </h3>
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 'bold', color: 'var(--slate-400)', marginBottom: '8px' }}>Reason</label>
+              <select 
+                value={reportReason} onChange={e => setReportReason(e.target.value)}
+                style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', background: 'var(--bg-base)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', outline: 'none' }}
+              >
+                <option value="broken-link">Broken / Missing Link</option>
+                <option value="wrong-difficulty">Wrong Difficulty</option>
+                <option value="wrong-topic">Wrong Topic</option>
+                <option value="missing-details">Missing Details</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 'bold', color: 'var(--slate-400)', marginBottom: '8px' }}>Description (optional)</label>
+              <textarea 
+                value={reportDescription} onChange={e => setReportDescription(e.target.value)}
+                rows={3}
+                placeholder="Give us details..."
+                style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', background: 'var(--bg-base)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', outline: 'none', resize: 'vertical' }}
+              />
+            </div>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+              <button 
+                className="btn btn-ghost" 
+                onClick={() => setReportModalProblemId(null)}
+                style={{ padding: '8px 16px' }}
+              >
+                Cancel
+              </button>
+              <button 
+                className="btn btn-primary" 
+                onClick={submitReport}
+                disabled={isSubmittingReport}
+                style={{ padding: '8px 16px' }}
+              >
+                {isSubmittingReport ? 'Submitting...' : 'Submit Report'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

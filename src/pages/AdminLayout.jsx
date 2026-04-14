@@ -35,6 +35,7 @@ const AdminLayout = () => {
 
   const navItems = [
     { name: 'Overview',   path: '/admin/overview',     icon: '📊' },
+    { name: 'Reports',    path: '/admin/reports',      icon: '🚨' },
     { name: 'Users',      path: '/admin/users',        icon: '👥' },
     { name: 'Today',      path: '/admin/today',        icon: '📋' },
     { name: 'Leaderboard',path: '/admin/leaderboard',  icon: '🏆' },

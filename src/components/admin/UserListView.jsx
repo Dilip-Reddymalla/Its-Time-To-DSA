@@ -148,7 +148,7 @@ const UserListView = () => {
                       </div>
                     </td>
                     <td>
-                      <span style={{ fontWeight: '800', fontFamily: 'Space Grotesk, sans-serif', color: 'var(--indigo-400)' }}>{u.totalSolved}</span>
+                      <span style={{ fontWeight: '800', fontFamily: 'Space Grotesk, sans-serif', color: 'var(--indigo-400)' }}>{u.realTotalSolved ?? u.totalSolved}</span>
                     </td>
                     <td>
                       <span style={{ fontWeight: '800', fontFamily: 'Space Grotesk, sans-serif', color: u.currentStreak > 0 ? 'var(--amber-500)' : 'var(--text-secondary)' }}>

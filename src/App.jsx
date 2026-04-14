@@ -22,6 +22,7 @@ import UserDetailView from './components/admin/UserDetailView';
 import TodaySnapshotView from './components/admin/TodaySnapshotView';
 import LeaderboardView from './components/admin/LeaderboardView';
 import PlatformStatsView from './components/admin/PlatformStatsView';
+import ReportsView from './components/admin/ReportsView';
 
 const App = () => {
   React.useEffect(() => {
@@ -68,6 +69,7 @@ const App = () => {
           <Route path="today" element={<TodaySnapshotView />} />
           <Route path="leaderboard" element={<LeaderboardView />} />
           <Route path="stats" element={<PlatformStatsView />} />
+          <Route path="reports" element={<ReportsView />} />
         </Route>
       </Routes>
       <Analytics />
