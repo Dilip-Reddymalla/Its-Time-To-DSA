@@ -17,13 +17,11 @@ const HomePage = () => {
 
   useEffect(() => {
     if (isAuthenticated && !isLoading) {
-      if (user?.isAdmin) {
-        navigate('/admin/overview');
-      } else {
-        navigate('/dashboard');
-      }
+      // Send all users to the main dashboard by default.
+      // Admins can navigate to the admin panel from the dashboard sidebar.
+      navigate('/dashboard');
     }
-  }, [isAuthenticated, isLoading, navigate, user]);
+  }, [isAuthenticated, isLoading, navigate]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
