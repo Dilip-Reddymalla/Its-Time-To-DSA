@@ -1,0 +1,13 @@
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+Allow: /login
+
+# Prevent crawlers from indexing private/auth-required areas
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /onboarding/
+
+# Sitemap location
+Sitemap: https://its-time-to-dsa.vercel.app//sitemap.xml
