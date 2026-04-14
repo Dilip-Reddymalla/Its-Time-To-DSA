@@ -144,6 +144,9 @@ const UserDetailView = () => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: 0 }}>
                       <span style={{ fontSize: '1rem' }}>{p.solved ? '✅' : '⬜'}</span>
                       <span style={{ fontWeight: '600', fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</span>
+                      {p.isCarryover && (
+                        <span style={{ fontSize: '0.65rem', fontWeight: '700', padding: '2px 8px', borderRadius: '99px', background: 'rgba(245,158,11,0.12)', color: 'var(--amber-500)', border: '1px solid rgba(245,158,11,0.3)', letterSpacing: '0.04em' }}>📌 CARRY-OVER</span>
+                      )}
                       <span className={`admin-badge ${p.difficulty === 'Easy' ? 'admin-badge-success' : p.difficulty === 'Medium' ? 'admin-badge-warning' : 'admin-badge-danger'}`}>
                         {p.difficulty}
                       </span>
