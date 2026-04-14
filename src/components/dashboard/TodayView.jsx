@@ -136,6 +136,7 @@ const TodayView = () => {
       const res = await api.post('/schedule/replace-problem', { problemId: pid });
       if (res.data.success) {
         await fetchToday(true);
+        await checkAuth();
       }
     } catch (e) {
       alert(e.response?.data?.message || 'Failed to replace problem');

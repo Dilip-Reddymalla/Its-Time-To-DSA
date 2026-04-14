@@ -10,6 +10,10 @@ const UserDetailView = () => {
   const [loading, setLoading] = useState(true);
   const [markLoading, setMarkLoading] = useState(null);
   const [banLoading, setBanLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [fullSchedule, setFullSchedule] = useState(null);
+  const [scheduleLoading, setScheduleLoading] = useState(false);
+  const [regenLoading, setRegenLoading] = useState(null);
 
   const fetchDetail = async () => {
     try {
@@ -24,6 +28,25 @@ const UserDetailView = () => {
 
   useEffect(() => { fetchDetail(); }, [userId]);
 
+  const loadFullSchedule = async () => {
+    if (fullSchedule) return;
+    setScheduleLoading(true);
+    try {
+      const res = await api.get(`/admin/users/${userId}/schedule`);
+      setFullSchedule(res.data.data);
+    } catch (err) {
+      console.error('Failed to fetch full schedule', err);
+    } finally {
+      setScheduleLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'schedule') {
+      loadFullSchedule();
+    }
+  }, [activeTab]);
+
   const handleMarkProblem = async (problemId, solved) => {
     setMarkLoading(problemId);
     try {
@@ -33,6 +56,25 @@ const UserDetailView = () => {
       console.error('Failed to mark problem', err);
     } finally {
       setMarkLoading(null);
+    }
+  };
+
+  const handleRegenerate = async (problemId) => {
+    if (!confirm('Are you sure you want to replace this problem with a new one?')) return;
+    setRegenLoading(problemId);
+    try {
+      await api.post(`/admin/users/${userId}/replace-problem`, { problemId });
+      fetchDetail();
+      if (activeTab === 'schedule') {
+        // Refresh full schedule too
+        const res = await api.get(`/admin/users/${userId}/schedule`);
+        setFullSchedule(res.data.data);
+      }
+    } catch (err) {
+      console.error('Failed to regenerate problem', err);
+      alert('Failed to regenerate: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setRegenLoading(null);
     }
   };
 
@@ -71,8 +113,9 @@ const UserDetailView = () => {
       {/* Profile Header */}
       <div className="admin-section-card" style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
         <img 
-          src={user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`} 
+          src={(user.avatar && user.avatar !== 'null') ? user.avatar : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`} 
           alt="" 
+          onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`; }}
           style={{ width: '56px', height: '56px', borderRadius: '14px', border: '3px solid var(--border-color-strong)' }} 
         />
         <div style={{ flex: 1, minWidth: '150px' }}>
@@ -121,6 +164,23 @@ const UserDetailView = () => {
         </div>
       </div>
 
+      {/* Tabs */}
+      <div style={{ display: 'flex', gap: '16px', marginBottom: '24px', borderBottom: '1px solid var(--border-color)', paddingBottom: '8px' }}>
+        <button
+          onClick={() => setActiveTab('overview')}
+          style={{ background: 'none', border: 'none', fontSize: '1rem', fontWeight: '700', color: activeTab === 'overview' ? 'var(--text-primary)' : 'var(--text-secondary)', cursor: 'pointer', borderBottom: activeTab === 'overview' ? '2px solid var(--primary-color)' : 'none', paddingBottom: '4px' }}
+        >
+          Overview
+        </button>
+        <button
+          onClick={() => setActiveTab('schedule')}
+          style={{ background: 'none', border: 'none', fontSize: '1rem', fontWeight: '700', color: activeTab === 'schedule' ? 'var(--text-primary)' : 'var(--text-secondary)', cursor: 'pointer', borderBottom: activeTab === 'schedule' ? '2px solid var(--primary-color)' : 'none', paddingBottom: '4px' }}
+        >
+          Full Schedule (Day-wise)
+        </button>
+      </div>
+
+      {activeTab === 'overview' ? (
       <div className="admin-detail-grid">
         {/* Today's Assignment */}
         <div className="admin-section-card">
@@ -151,14 +211,23 @@ const UserDetailView = () => {
                         {p.difficulty}
                       </span>
                     </div>
-                    <button
-                      className={p.solved ? 'admin-btn-danger' : 'admin-btn-success'}
-                      onClick={() => handleMarkProblem(p._id, !p.solved)}
-                      disabled={markLoading === p._id}
-                      style={{ flexShrink: 0 }}
-                    >
-                      {markLoading === p._id ? '...' : p.solved ? 'Unmark' : 'Mark Solved'}
-                    </button>
+                    <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
+                      <button
+                        className="admin-btn-neutral"
+                        onClick={() => handleRegenerate(p._id)}
+                        disabled={regenLoading === p._id}
+                        title="Regenerate/Replace Problem"
+                      >
+                        {regenLoading === p._id ? '...' : '🔄'}
+                      </button>
+                      <button
+                        className={p.solved ? 'admin-btn-danger' : 'admin-btn-success'}
+                        onClick={() => handleMarkProblem(p._id, !p.solved)}
+                        disabled={markLoading === p._id}
+                      >
+                        {markLoading === p._id ? '...' : p.solved ? 'Unmark' : 'Mark Solved'}
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -269,6 +338,107 @@ const UserDetailView = () => {
           )}
         </div>
       </div>
+      ) : (
+        <div className="admin-schedule-view" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {scheduleLoading ? (
+            <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)' }}>Loading schedule...</div>
+          ) : !fullSchedule || fullSchedule.length === 0 ? (
+            <div className="admin-section-card">
+              <p style={{ color: 'var(--text-secondary)', textAlign: 'center', margin: 0 }}>This user does not have an active schedule generated.</p>
+            </div>
+          ) : (
+            fullSchedule.map((day) => (
+              <div key={day.dayNumber} className="admin-section-card" style={{ borderLeft: day.allDone ? '4px solid var(--emerald-500)' : '4px solid var(--border-color)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '10px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <h3 style={{ margin: 0, fontSize: '1.2rem', fontWeight: '800' }}>Day {day.dayNumber}</h3>
+                    <span className="admin-badge admin-badge-neutral" style={{ textTransform: 'capitalize' }}>{day.type}</span>
+                    <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{new Date(day.date).toLocaleDateString()}</span>
+                  </div>
+                  <div>
+                    <span className={`admin-badge ${day.allDone ? 'admin-badge-success' : day.completedCount > 0 ? 'admin-badge-warning' : 'admin-badge-neutral'}`}>
+                      {day.completedCount} / {day.problemCount} Completed
+                    </span>
+                  </div>
+                </div>
+
+                {day.problems && day.problems.length > 0 ? (
+                  <div className="admin-table-wrapper">
+                    <table className="admin-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: '40px' }}>Status</th>
+                          <th>Problem</th>
+                          <th style={{ width: '100px' }}>Difficulty</th>
+                          <th style={{ width: '150px' }}>Topic</th>
+                          <th style={{ width: '100px' }}>Platform</th>
+                          <th style={{ width: '120px' }}>Actions</th>
+                          <th style={{ width: '100px' }}>Flags</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {day.problems.map((p) => {
+                          const prob = p.problemId || p;
+                          const isOpt = prob.isOptional || !!(prob.leetcodeSlug && prob.isPremium);
+                          return (
+                          <tr key={prob._id} style={{ opacity: p.solved ? 0.7 : 1 }}>
+                            <td style={{ textAlign: 'center', fontSize: '1.1rem' }}>{p.solved ? '✅' : '⬜'}</td>
+                            <td>
+                              <div style={{ fontWeight: '600' }}>{prob.name}</div>
+                            </td>
+                            <td>
+                              <span className={`admin-badge ${prob.difficulty === 'Easy' ? 'admin-badge-success' : prob.difficulty === 'Medium' ? 'admin-badge-warning' : 'admin-badge-danger'}`}>
+                                {prob.difficulty}
+                              </span>
+                            </td>
+                            <td><span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{prob.topic}</span></td>
+                            <td>
+                              {prob.leetcodeSlug && prob.leetcodeSlug !== 'null' ? (
+                                <a href={`https://leetcode.com/problems/${prob.leetcodeSlug}`} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-color)', fontSize: '0.8rem', textDecoration: 'none' }}>LeetCode ↗</a>
+                              ) : prob.gfgUrl && prob.gfgUrl !== 'null' ? (
+                                <a href={prob.gfgUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-color)', fontSize: '0.8rem', textDecoration: 'none' }}>GeeksforGeeks ↗</a>
+                              ) : (
+                                <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>None</span>
+                              )}
+                            </td>
+                            <td>
+                              <div style={{ display: 'flex', gap: '6px' }}>
+                                <button
+                                  className="admin-btn-neutral"
+                                  style={{ padding: '4px 8px', fontSize: '0.75rem' }}
+                                  onClick={() => handleRegenerate(prob._id)}
+                                  disabled={regenLoading === prob._id}
+                                  title="Replace with new problem"
+                                >
+                                  {regenLoading === prob._id ? '...' : 'Regen'}
+                                </button>
+                                <button
+                                  className={p.solved ? 'admin-btn-danger' : 'admin-btn-success'}
+                                  style={{ padding: '4px 8px', fontSize: '0.75rem' }}
+                                  onClick={() => handleMarkProblem(prob._id, !p.solved)}
+                                  disabled={markLoading === prob._id}
+                                >
+                                  {markLoading === prob._id ? '...' : p.solved ? 'Unmark' : 'Mark'}
+                                </button>
+                              </div>
+                            </td>
+                            <td>
+                              {isOpt && <span className="admin-badge admin-badge-neutral" style={{ fontSize: '0.65rem', padding: '2px 6px' }}>Optional</span>}
+                              {prob.isPremium && <span className="admin-badge admin-badge-warning" style={{ fontSize: '0.65rem', padding: '2px 6px', marginTop: '4px' }}>Premium</span>}
+                            </td>
+                          </tr>
+                        )})}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', fontStyle: 'italic', margin: 0 }}>No problems assigned for this day.</p>
+                )}
+              </div>
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 };

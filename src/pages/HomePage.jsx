@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAuthStore from '../store/authStore';
 import Navbar from '../components/home/Navbar';
 import HeroSection from '../components/home/HeroSection';
 import StatsTicker from '../components/home/StatsTicker';
@@ -6,6 +8,23 @@ import FeaturesGrid from '../components/home/FeaturesGrid';
 import Footer from '../components/home/Footer';
 
 const HomePage = () => {
+  const navigate = useNavigate();
+  const { user, isAuthenticated, isLoading, checkAuth } = useAuthStore();
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  useEffect(() => {
+    if (isAuthenticated && !isLoading) {
+      if (user?.isAdmin) {
+        navigate('/admin/overview');
+      } else {
+        navigate('/dashboard');
+      }
+    }
+  }, [isAuthenticated, isLoading, navigate, user]);
+
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {

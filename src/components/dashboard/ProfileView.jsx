@@ -98,9 +98,10 @@ const ProfileView = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', flex: '1' }}>
           <div className="glass-card" style={{ padding: 'clamp(24px, 5vw, 32px)', textAlign: 'center' }}>
             <img 
-              src={profile?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile?.name}`} 
+              src={(profile?.avatar && profile.avatar !== 'null') ? profile.avatar : `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile?.name}`} 
+              onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile?.name}`; }}
               alt="Avatar" 
-              style={{ width: '100px', height: '100px', borderRadius: '50%', marginBottom: '16px', border: '3px solid var(--indigo-500)', margin: '0 auto 16px' }} 
+              style={{ width: '100px', height: '100px', borderRadius: '50%', marginBottom: '16px', border: '3px solid var(--indigo-500)', margin: '0 auto 16px', objectFit: 'cover' }} 
             />
             <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '4px' }}>{profile?.name}</h2>
             <p style={{ color: 'var(--slate-500)', fontSize: '0.875rem', marginBottom: '24px' }}>{profile?.email}</p>

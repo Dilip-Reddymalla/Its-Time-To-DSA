@@ -143,7 +143,12 @@ const DashboardLayout = () => {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div style={{ position: 'relative' }}>
-                  <img src={user?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name}`} alt="Avatar" style={{ width: '44px', height: '44px', borderRadius: '14px', border: '2px solid var(--border-color)', padding: '2px' }} />
+                  <img 
+                    src={(user?.avatar && user.avatar !== 'null') ? user.avatar : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'User'}`} 
+                    alt="Avatar" 
+                    onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'User'}`; }}
+                    style={{ width: '44px', height: '44px', borderRadius: '14px', border: '2px solid var(--border-color)', padding: '2px' }} 
+                  />
                   <div style={{ position: 'absolute', bottom: '-2px', right: '-2px', width: '12px', height: '12px', borderRadius: '50%', background: 'var(--emerald-500)', border: '2px solid var(--bg-surface)' }}></div>
                 </div>
                 <div style={{ overflow: 'hidden', flex: 1 }}>

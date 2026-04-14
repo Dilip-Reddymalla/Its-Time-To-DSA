@@ -95,8 +95,9 @@ const LeaderboardView = () => {
                   >
                     <div style={{ fontSize: '2rem', marginBottom: '8px' }}>{medals[podiumIdx]}</div>
                     <img 
-                      src={u.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`}
+                      src={(u.avatar && u.avatar !== 'null') ? u.avatar : `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`}
                       alt="" 
+                      onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`; }}
                       style={{ width: '44px', height: '44px', borderRadius: '12px', border: '2px solid var(--border-color)', marginBottom: '8px' }}
                     />
                     <div style={{ fontWeight: '800', fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>{u.name}</div>
@@ -137,8 +138,9 @@ const LeaderboardView = () => {
                     <td>
                       <div className="admin-user-cell">
                         <img 
-                          src={u.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`}
+                          src={(u.avatar && u.avatar !== 'null') ? u.avatar : `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`}
                           alt="" className="admin-user-avatar" 
+                          onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`; }}
                         />
                         <div className="admin-user-info">
                           <span className="admin-user-name">{u.name}</span>

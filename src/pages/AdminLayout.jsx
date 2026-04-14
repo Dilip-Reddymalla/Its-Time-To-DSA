@@ -136,7 +136,12 @@ const AdminLayout = () => {
           {/* User Card */}
           <div style={{ padding: '20px 16px', marginTop: 'auto', borderTop: '1px solid var(--border-color)', background: 'var(--bg-base)', opacity: 0.8 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '14px' }}>
-              <img src={user?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name}`} alt="Avatar" style={{ width: '40px', height: '40px', borderRadius: '12px', border: '2px solid var(--border-color)' }} />
+              <img 
+                src={(user?.avatar && user.avatar !== 'null') ? user.avatar : `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'User'}`} 
+                alt="Avatar" 
+                onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'User'}`; }}
+                style={{ width: '40px', height: '40px', borderRadius: '12px', border: '2px solid var(--border-color)' }} 
+              />
               <div style={{ overflow: 'hidden', flex: 1 }}>
                 <div style={{ fontWeight: '700', fontSize: '0.8rem', color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user?.name}</div>
                 <div className="admin-badge admin-badge-info" style={{ marginTop: '2px' }}>Admin</div>

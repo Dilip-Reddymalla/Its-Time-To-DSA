@@ -133,8 +133,9 @@ const UserListView = () => {
                     <td>
                       <div className="admin-user-cell">
                         <img 
-                          src={u.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`} 
+                          src={(u.avatar && u.avatar !== 'null') ? u.avatar : `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`} 
                           alt="" 
+                          onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`; }}
                           className="admin-user-avatar" 
                         />
                         <div className="admin-user-info">

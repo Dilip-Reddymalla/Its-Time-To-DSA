@@ -144,8 +144,9 @@ const TodaySnapshotView = () => {
                 onMouseOut={e => e.currentTarget.style.background = 'transparent'}
               >
                 <img 
-                  src={u.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`} 
+                  src={(u.avatar && u.avatar !== 'null') ? u.avatar : `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`} 
                   alt="" 
+                  onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`; }}
                   style={{ width: '38px', height: '38px', borderRadius: '10px', border: '2px solid var(--border-color)', flexShrink: 0 }}
                 />
                 <div style={{ flex: 1, minWidth: 0 }}>
