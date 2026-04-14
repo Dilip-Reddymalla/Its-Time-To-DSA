@@ -64,6 +64,12 @@ Its-Time-To-DSA takes the guesswork out of competitive programming preparation. 
 - Live stats ticker
 - CTA banner + footer
 
+### 🛡️ Admin Dashboard (`/admin`)
+- **Platform Overview** — Real-time stats, user growth, and solve rates
+- **User Management** — Detailed user profiles and progress tracking
+- **Problem Analytics** — Identify broken links and report frequency
+- **Leaderboard** — Global rankings based on total problems solved
+
 ---
 
 ## 🛠️ Tech Stack
@@ -83,6 +89,21 @@ Its-Time-To-DSA takes the guesswork out of competitive programming preparation. 
 
 ---
 
+## 🎨 Design System
+
+All design tokens are CSS custom properties in `src/styles/index.css`:
+
+- **Vanilla CSS** — Custom properties, glassmorphism, and bento-layout cards
+- **Modern Typography** — Inter font family for a premium feel
+- **Animations** — Scroll-triggered reveals and micro-interactions
+
+## 🔍 SEO & Discovery
+- **Sitemap** — `sitemap.xml` generated for public routes (`/`, `/login`)
+- **Robots Control** — `robots.txt` configured to allow public indexing while protecting `/dashboard` and `/admin`
+- **Vercel Optimized** — Custom routing logic in `vercel.json` to ensure SEO files are served with correct headers
+
+---
+
 ## 📁 Project Structure
 
 ```
@@ -92,7 +113,9 @@ Its-Time-To-DSA/
 │   ├── logo.png             # App logo (shown in sidebar + login page)
 │   ├── favicon.svg          # Browser tab icon
 │   ├── icons.svg            # SVG sprite sheet
-│   └── manifest.json        # PWA manifest
+│   ├── manifest.json        # PWA manifest
+│   ├── sitemap.xml          # Google SEO sitemap
+│   └── robots.txt           # Crawler instructions
 │
 ├── src/
 │   ├── api/
@@ -127,7 +150,8 @@ Its-Time-To-DSA/
 │   │
 │   ├── pages/
 │   │   ├── HomePage.jsx     # Landing page assembler
-│   │   └── LoginPage.jsx    # Google OAuth sign-in page
+│   │   ├── LoginPage.jsx    # Google OAuth sign-in page
+│   │   └── AdminLayout.jsx  # Admin dashboard shell
 │   │
 │   ├── store/
 │   │   └── authStore.js     # Zustand store: user, isAuthenticated, checkAuth, logout
@@ -240,6 +264,7 @@ All design tokens are CSS custom properties in `src/styles/index.css`:
 | `/dashboard/calendar` | `CalendarView` | Yes |
 | `/dashboard/progress` | `ProgressView` | Yes |
 | `/dashboard/profile` | `ProfileView` | Yes |
+| `/admin/*` | `AdminLayout` | Yes (Admin Role) |
 
 ---
 
