@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import api from '../../api/axios';
 
 const ReportsView = () => {
@@ -125,8 +126,8 @@ const ReportsView = () => {
       </div>
 
       {/* Problem Edit Modal */}
-      {editingProblem && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100 }}>
+      {editingProblem && createPortal(
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 }}>
           <div className="glass-card" style={{ width: '90%', maxWidth: '500px', padding: '24px', background: 'var(--bg-card)', border: '1px solid var(--border-color-strong)' }}>
             <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '16px' }}>Edit Problem: {editingProblem.name}</h3>
             <form onSubmit={submitProblemEdit}>
@@ -158,7 +159,8 @@ const ReportsView = () => {
               </div>
             </form>
           </div>
-        </div>
+        </div>,
+        document.getElementById('modal-root')
       )}
 
       {totalPages > 1 && (
