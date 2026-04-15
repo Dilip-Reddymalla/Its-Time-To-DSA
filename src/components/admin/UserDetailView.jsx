@@ -14,6 +14,7 @@ const UserDetailView = () => {
   const [fullSchedule, setFullSchedule] = useState(null);
   const [scheduleLoading, setScheduleLoading] = useState(false);
   const [regenLoading, setRegenLoading] = useState(null);
+  const [removeLoading, setRemoveLoading] = useState(null);
 
   const fetchDetail = async () => {
     try {
@@ -60,7 +61,7 @@ const UserDetailView = () => {
   };
 
   const handleRegenerate = async (problemId) => {
-    if (!confirm('Are you sure you want to replace this problem with a new one?')) return;
+    if (!window.confirm('Are you sure you want to replace this problem with a new one?')) return;
     setRegenLoading(problemId);
     try {
       await api.post(`/admin/users/${userId}/replace-problem`, { problemId });
@@ -78,8 +79,26 @@ const UserDetailView = () => {
     }
   };
 
+  const handleRemoveProblem = async (problemId) => {
+    if (!window.confirm("Are you sure you want to completely remove this problem from the user's schedule?")) return;
+    setRemoveLoading(problemId);
+    try {
+      await api.post(`/admin/users/${userId}/remove-problem`, { problemId });
+      fetchDetail();
+      if (activeTab === 'schedule') {
+        const res = await api.get(`/admin/users/${userId}/schedule`);
+        setFullSchedule(res.data.data);
+      }
+    } catch (err) {
+      console.error('Failed to remove problem', err);
+      alert('Failed to remove: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setRemoveLoading(null);
+    }
+  };
+
   const handleBan = async () => {
-    if (!confirm(`Are you sure you want to ${data.user.isBanned ? 'unban' : 'ban'} ${data.user.name}?`)) return;
+    if (!window.confirm(`Are you sure you want to ${data.user.isBanned ? 'unban' : 'ban'} ${data.user.name}?`)) return;
     setBanLoading(true);
     try {
       await api.post(`/admin/users/${userId}/ban`, { reason: 'Admin action' });
@@ -212,6 +231,14 @@ const UserDetailView = () => {
                       </span>
                     </div>
                     <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
+                      <button
+                        className="admin-btn-danger"
+                        onClick={() => handleRemoveProblem(p._id)}
+                        disabled={removeLoading === p._id}
+                        title="Delete Problem from Schedule"
+                      >
+                        {removeLoading === p._id ? '...' : '🗑️'}
+                      </button>
                       <button
                         className="admin-btn-neutral"
                         onClick={() => handleRegenerate(p._id)}
@@ -403,6 +430,15 @@ const UserDetailView = () => {
                             </td>
                             <td>
                               <div style={{ display: 'flex', gap: '6px' }}>
+                                <button
+                                  className="admin-btn-danger"
+                                  style={{ padding: '4px 8px', fontSize: '0.75rem' }}
+                                  onClick={() => handleRemoveProblem(prob._id)}
+                                  disabled={removeLoading === prob._id}
+                                  title="Delete problem"
+                                >
+                                  {removeLoading === prob._id ? '...' : 'Del'}
+                                </button>
                                 <button
                                   className="admin-btn-neutral"
                                   style={{ padding: '4px 8px', fontSize: '0.75rem' }}
