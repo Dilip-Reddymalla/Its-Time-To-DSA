@@ -18,6 +18,10 @@ const fmt = (dateStr) =>
 const NoteEditor = ({ problem, date, onSave }) => {
   const [text, setText] = useState(problem.note || '');
   const [status, setStatus] = useState('idle'); // 'idle' | 'saving' | 'saved' | 'error'
+  const [submissionUrl, setSubmissionUrl] = useState(problem.submissionUrl || '');
+  const [submissionDraft, setSubmissionDraft] = useState(problem.submissionUrl || '');
+  const [submissionStatus, setSubmissionStatus] = useState('idle'); // 'idle' | 'saving' | 'saved' | 'error'
+  const [showSubmissionEditor, setShowSubmissionEditor] = useState(false);
   const [open, setOpen] = useState(false);
 
   const save = useCallback(async (value = text) => {
@@ -38,6 +42,32 @@ const NoteEditor = ({ problem, date, onSave }) => {
   }, [text, problem.problemId, date, onSave]);
 
   const dc = diffColor(problem.difficulty);
+
+  const saveSubmissionLink = useCallback(async () => {
+    const nextUrl = submissionDraft.trim();
+    if (!nextUrl) {
+      setSubmissionStatus('error');
+      setTimeout(() => setSubmissionStatus('idle'), 3000);
+      return;
+    }
+
+    setSubmissionStatus('saving');
+    try {
+      await api.post('/progress/submission-link', {
+        problemId: problem.problemId.toString(),
+        submissionUrl: nextUrl,
+        date,
+      });
+      setSubmissionUrl(nextUrl);
+      setSubmissionDraft(nextUrl);
+      setSubmissionStatus('saved');
+      setShowSubmissionEditor(false);
+      setTimeout(() => setSubmissionStatus('idle'), 2000);
+    } catch {
+      setSubmissionStatus('error');
+      setTimeout(() => setSubmissionStatus('idle'), 3000);
+    }
+  }, [date, problem.problemId, submissionDraft]);
 
   return (
     <div style={{
@@ -100,6 +130,38 @@ const NoteEditor = ({ problem, date, onSave }) => {
                 ▶ Tutorial
               </a>
             )}
+            {submissionUrl ? (
+              <a
+                href={submissionUrl}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '4px',
+                  fontSize: '0.75rem', color: 'var(--emerald-400)', fontWeight: '700',
+                  textDecoration: 'none', padding: '2px 8px', borderRadius: '8px',
+                  background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.25)',
+                }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                🔗 Submission
+              </a>
+            ) : (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setOpen(true);
+                  setShowSubmissionEditor(true);
+                }}
+                style={{
+                  fontSize: '0.75rem', color: 'var(--amber-300)', fontWeight: '700',
+                  border: '1px solid rgba(245,158,11,0.35)', background: 'rgba(245,158,11,0.08)',
+                  borderRadius: '8px', padding: '2px 8px', cursor: 'pointer',
+                }}
+              >
+                + Add Submission Link
+              </button>
+            )}
           </div>
         </div>
 
@@ -128,6 +190,58 @@ const NoteEditor = ({ problem, date, onSave }) => {
             {status === 'saved'  && <span style={{ fontSize: '0.7rem', color: 'var(--emerald-500)' }}>✓ Saved</span>}
             {status === 'error'  && <span style={{ fontSize: '0.7rem', color: '#f87171' }}>⚠ Save failed</span>}
           </div>
+
+          <div style={{ marginBottom: '12px', padding: '10px', borderRadius: '10px', background: 'rgba(15,23,42,0.35)', border: '1px solid var(--border-color)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '8px' }}>
+              <span style={{ fontSize: '0.72rem', fontWeight: '800', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>LeetCode Submission</span>
+              {submissionStatus === 'saving' && <span style={{ fontSize: '0.7rem', color: 'var(--slate-500)' }}>Saving…</span>}
+              {submissionStatus === 'saved' && <span style={{ fontSize: '0.7rem', color: 'var(--emerald-500)' }}>✓ Saved</span>}
+              {submissionStatus === 'error' && <span style={{ fontSize: '0.7rem', color: '#f87171' }}>⚠ Save failed</span>}
+            </div>
+
+            {submissionUrl && !showSubmissionEditor ? (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', flexWrap: 'wrap' }}>
+                <a href={submissionUrl} target="_blank" rel="noreferrer" style={{ color: 'var(--emerald-400)', fontSize: '0.82rem', textDecoration: 'none', fontWeight: '600' }}>
+                  Open saved submission
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setShowSubmissionEditor(true)}
+                  style={{
+                    padding: '6px 12px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '700',
+                    border: '1px solid var(--border-color)', background: 'var(--bg-surface)', color: 'var(--text-secondary)', cursor: 'pointer',
+                  }}
+                >
+                  Edit Link
+                </button>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <input
+                  value={submissionDraft}
+                  onChange={(e) => setSubmissionDraft(e.target.value)}
+                  placeholder="https://leetcode.com/submissions/detail/..."
+                  style={{
+                    flex: 1, minWidth: '240px', padding: '9px 10px', borderRadius: '8px',
+                    border: '1px solid var(--border-color)', background: 'var(--bg-base)', color: 'var(--text-primary)', fontSize: '0.82rem',
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={saveSubmissionLink}
+                  disabled={submissionStatus === 'saving'}
+                  style={{
+                    padding: '8px 12px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '700',
+                    border: 'none', background: 'var(--emerald-600)', color: 'white', cursor: submissionStatus === 'saving' ? 'not-allowed' : 'pointer',
+                    opacity: submissionStatus === 'saving' ? 0.6 : 1,
+                  }}
+                >
+                  Save Link
+                </button>
+              </div>
+            )}
+          </div>
+
           <textarea
             value={text}
             onChange={e => setText(e.target.value)}

@@ -11,6 +11,7 @@ const ReportsView = () => {
   
   const [editingProblem, setEditingProblem] = useState(null);
   const [resolvingId, setResolvingId] = useState(null);
+  const [approvingId, setApprovingId] = useState(null);
 
   const fetchReports = useCallback(async () => {
     setLoading(true);
@@ -36,10 +37,22 @@ const ReportsView = () => {
     try {
       await api.put(`/admin/reports/${id}/resolve`);
       fetchReports();
-    } catch (err) {
+    } catch {
       alert('Failed to resolve');
     } finally {
       setResolvingId(null);
+    }
+  };
+
+  const handleApproveReplacement = async (id) => {
+    setApprovingId(id);
+    try {
+      await api.put(`/admin/reports/${id}/approve-replacement`);
+      fetchReports();
+    } catch {
+      alert('Failed to approve replacement');
+    } finally {
+      setApprovingId(null);
     }
   };
 
@@ -56,7 +69,7 @@ const ReportsView = () => {
       alert('Problem updated successfully');
       setEditingProblem(null);
       fetchReports();
-    } catch (err) {
+    } catch {
       alert('Failed to update problem');
     }
   };
@@ -82,14 +95,15 @@ const ReportsView = () => {
               <th style={{ padding: '16px', color: 'var(--slate-400)', fontWeight: '600' }}>Reason</th>
               <th style={{ padding: '16px', color: 'var(--slate-400)', fontWeight: '600' }}>Problem</th>
               <th style={{ padding: '16px', color: 'var(--slate-400)', fontWeight: '600' }}>User</th>
+              <th style={{ padding: '16px', color: 'var(--slate-400)', fontWeight: '600' }}>Replacement</th>
               <th style={{ padding: '16px', color: 'var(--slate-400)', fontWeight: '600' }}>Action</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan="5" style={{ padding: '24px', textAlign: 'center' }}>Loading reports...</td></tr>
+              <tr><td colSpan="6" style={{ padding: '24px', textAlign: 'center' }}>Loading reports...</td></tr>
             ) : reports.length === 0 ? (
-              <tr><td colSpan="5" style={{ padding: '24px', textAlign: 'center', color: 'var(--slate-500)' }}>No {statusFilter} reports.</td></tr>
+              <tr><td colSpan="6" style={{ padding: '24px', textAlign: 'center', color: 'var(--slate-500)' }}>No {statusFilter} reports.</td></tr>
             ) : (
               reports.map((r) => (
                 <tr key={r._id} style={{ borderBottom: '1px solid var(--border-color)' }}>
@@ -105,9 +119,29 @@ const ReportsView = () => {
                       Slug: {r.problemId?.leetcodeSlug || 'N/A'}
                     </div>
                   </td>
-                  <td style={{ padding: '16px', color: 'var(--text-secondary)' }}>{r.userId?.username || 'Unknown'}</td>
+                  <td style={{ padding: '16px', color: 'var(--text-secondary)' }}>
+                    <div style={{ fontWeight: '600', color: 'var(--text-primary)' }}>{r.userId?.name || 'Unknown'}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>{r.userId?.email || 'No email'}</div>
+                  </td>
+                  <td style={{ padding: '16px', color: 'var(--text-secondary)' }}>
+                    {r.adminApprovedReplacement ? (
+                      <span style={{ color: 'var(--emerald-500)', fontWeight: '700' }}>Approved</span>
+                    ) : (
+                      <span style={{ color: 'var(--amber-500)', fontWeight: '700' }}>Not approved</span>
+                    )}
+                  </td>
                   <td style={{ padding: '16px' }}>
                     <div style={{ display: 'flex', gap: '8px' }}>
+                      {!r.adminApprovedReplacement && (
+                        <button
+                          onClick={() => handleApproveReplacement(r._id)}
+                          disabled={approvingId === r._id}
+                          className="btn btn-ghost"
+                          style={{ padding: '6px 12px', fontSize: '0.75rem' }}
+                        >
+                          {approvingId === r._id ? 'Approving...' : 'Allow Replace'}
+                        </button>
+                      )}
                       {r.problemId && (
                         <button onClick={() => setEditingProblem(r.problemId)} className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: '0.75rem' }}>Edit Problem</button>
                       )}

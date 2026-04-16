@@ -15,6 +15,14 @@ const UserDetailView = () => {
   const [scheduleLoading, setScheduleLoading] = useState(false);
   const [regenLoading, setRegenLoading] = useState(null);
   const [removeLoading, setRemoveLoading] = useState(null);
+  const [addingCustom, setAddingCustom] = useState(false);
+  const [customQuestion, setCustomQuestion] = useState({
+    dayNumber: '',
+    name: '',
+    topic: 'Custom',
+    difficulty: 'Medium',
+    resourceUrl: '',
+  });
 
   const fetchDetail = async () => {
     try {
@@ -107,6 +115,33 @@ const UserDetailView = () => {
       console.error('Failed to toggle ban', err);
     } finally {
       setBanLoading(false);
+    }
+  };
+
+  const handleAddCustomQuestion = async (e) => {
+    e.preventDefault();
+    if (!customQuestion.dayNumber || !customQuestion.name.trim()) {
+      alert('Day number and question name are required.');
+      return;
+    }
+
+    setAddingCustom(true);
+    try {
+      await api.post(`/admin/users/${userId}/custom-question`, {
+        dayNumber: Number(customQuestion.dayNumber),
+        name: customQuestion.name.trim(),
+        topic: customQuestion.topic.trim(),
+        difficulty: customQuestion.difficulty,
+        resourceUrl: customQuestion.resourceUrl.trim() || null,
+      });
+      setCustomQuestion({ dayNumber: '', name: '', topic: 'Custom', difficulty: 'Medium', resourceUrl: '' });
+      const res = await api.get(`/admin/users/${userId}/schedule`);
+      setFullSchedule(res.data.data);
+      fetchDetail();
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to add custom question.');
+    } finally {
+      setAddingCustom(false);
     }
   };
 
@@ -223,6 +258,11 @@ const UserDetailView = () => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: 0 }}>
                       <span style={{ fontSize: '1rem' }}>{p.solved ? '✅' : '⬜'}</span>
                       <span style={{ fontWeight: '600', fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</span>
+                      {p.solved && p.submissionUrl && (
+                        <a href={p.submissionUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: 'var(--indigo-400)', textDecoration: 'none', fontWeight: '700' }}>
+                          Submission ↗
+                        </a>
+                      )}
                       {p.isCarryover && (
                         <span style={{ fontSize: '0.65rem', fontWeight: '700', padding: '2px 8px', borderRadius: '99px', background: 'rgba(245,158,11,0.12)', color: 'var(--amber-500)', border: '1px solid rgba(245,158,11,0.3)', letterSpacing: '0.04em' }}>📌 CARRY-OVER</span>
                       )}
@@ -367,6 +407,54 @@ const UserDetailView = () => {
       </div>
       ) : (
         <div className="admin-schedule-view" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div className="admin-section-card">
+            <div className="admin-section-title">➕ Add Custom Question</div>
+            <form onSubmit={handleAddCustomQuestion} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '10px' }}>
+              <input
+                type="number"
+                min="1"
+                max="365"
+                placeholder="Day Number"
+                value={customQuestion.dayNumber}
+                onChange={(e) => setCustomQuestion((prev) => ({ ...prev, dayNumber: e.target.value }))}
+                style={{ padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-primary)' }}
+              />
+              <input
+                type="text"
+                placeholder="Question Name"
+                value={customQuestion.name}
+                onChange={(e) => setCustomQuestion((prev) => ({ ...prev, name: e.target.value }))}
+                style={{ padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-primary)' }}
+              />
+              <input
+                type="text"
+                placeholder="Topic"
+                value={customQuestion.topic}
+                onChange={(e) => setCustomQuestion((prev) => ({ ...prev, topic: e.target.value }))}
+                style={{ padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-primary)' }}
+              />
+              <select
+                value={customQuestion.difficulty}
+                onChange={(e) => setCustomQuestion((prev) => ({ ...prev, difficulty: e.target.value }))}
+                style={{ padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-primary)' }}
+              >
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
+              </select>
+              <input
+                type="url"
+                placeholder="Resource URL (optional)"
+                value={customQuestion.resourceUrl}
+                onChange={(e) => setCustomQuestion((prev) => ({ ...prev, resourceUrl: e.target.value }))}
+                style={{ padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-primary)' }}
+              />
+              <button type="submit" className="admin-btn-success" disabled={addingCustom}>
+                {addingCustom ? 'Adding...' : 'Add to Day'}
+              </button>
+            </form>
+          </div>
+
           {scheduleLoading ? (
             <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-secondary)' }}>Loading schedule...</div>
           ) : !fullSchedule || fullSchedule.length === 0 ? (
@@ -399,6 +487,7 @@ const UserDetailView = () => {
                           <th style={{ width: '100px' }}>Difficulty</th>
                           <th style={{ width: '150px' }}>Topic</th>
                           <th style={{ width: '100px' }}>Platform</th>
+                          <th style={{ width: '120px' }}>Submission</th>
                           <th style={{ width: '120px' }}>Actions</th>
                           <th style={{ width: '100px' }}>Flags</th>
                         </tr>
@@ -426,6 +515,15 @@ const UserDetailView = () => {
                                 <a href={prob.gfgUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary-color)', fontSize: '0.8rem', textDecoration: 'none' }}>GeeksforGeeks ↗</a>
                               ) : (
                                 <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>None</span>
+                              )}
+                            </td>
+                            <td>
+                              {p.solved && p.submissionUrl ? (
+                                <a href={p.submissionUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--indigo-400)', fontSize: '0.8rem', textDecoration: 'none', fontWeight: '700' }}>
+                                  Open ↗
+                                </a>
+                              ) : (
+                                <span style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>—</span>
                               )}
                             </td>
                             <td>

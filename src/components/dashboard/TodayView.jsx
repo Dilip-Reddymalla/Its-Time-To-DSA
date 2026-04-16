@@ -27,7 +27,6 @@ const TodayView = () => {
   const [reportReason, setReportReason] = useState('broken-link');
   const [reportDescription, setReportDescription] = useState('');
   const [isSubmittingReport, setIsSubmittingReport] = useState(false);
-  const [reportedProblems, setReportedProblems] = useState(new Set());
 
   const pollingRef = React.useRef(null);
 
@@ -152,8 +151,7 @@ const TodayView = () => {
     try {
       const res = await api.post(`/problems/${reportModalProblemId}/report`, { reason: reportReason, description: reportDescription });
       if (res.data.success) {
-        alert("Report submitted! You can now replace this problem.");
-        setReportedProblems(prev => new Set(prev).add(reportModalProblemId));
+        alert('Report submitted. Admin will review and allow replacement if needed.');
         setReportModalProblemId(null);
         setReportReason('broken-link');
         setReportDescription('');
@@ -387,7 +385,7 @@ const TodayView = () => {
                   📝
                 </button>
 
-                {(p.isOptional || reportedProblems.has(pid)) ? (
+                {(p.isOptional || p.canReplace) ? (
                   <button
                     onClick={() => handleReplace(pid)}
                     disabled={replacingProblem === pid}
