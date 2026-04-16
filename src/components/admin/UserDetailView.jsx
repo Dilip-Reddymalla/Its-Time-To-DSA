@@ -21,6 +21,9 @@ const UserDetailView = () => {
     name: '',
     topic: 'Custom',
     difficulty: 'Medium',
+    platform: 'leetcode',
+    leetcodeSlug: '',
+    gfgUrl: '',
     resourceUrl: '',
   });
 
@@ -132,9 +135,12 @@ const UserDetailView = () => {
         name: customQuestion.name.trim(),
         topic: customQuestion.topic.trim(),
         difficulty: customQuestion.difficulty,
+        platform: customQuestion.platform,
+        leetcodeSlug: customQuestion.platform === 'leetcode' ? customQuestion.leetcodeSlug.trim() || null : null,
+        gfgUrl: customQuestion.platform === 'gfg' ? customQuestion.gfgUrl.trim() || null : null,
         resourceUrl: customQuestion.resourceUrl.trim() || null,
       });
-      setCustomQuestion({ dayNumber: '', name: '', topic: 'Custom', difficulty: 'Medium', resourceUrl: '' });
+      setCustomQuestion({ dayNumber: '', name: '', topic: 'Custom', difficulty: 'Medium', platform: 'leetcode', leetcodeSlug: '', gfgUrl: '', resourceUrl: '' });
       const res = await api.get(`/admin/users/${userId}/schedule`);
       setFullSchedule(res.data.data);
       fetchDetail();
@@ -442,6 +448,33 @@ const UserDetailView = () => {
                 <option value="Medium">Medium</option>
                 <option value="Hard">Hard</option>
               </select>
+              <select
+                value={customQuestion.platform}
+                onChange={(e) => setCustomQuestion((prev) => ({ ...prev, platform: e.target.value, leetcodeSlug: '', gfgUrl: '' }))}
+                style={{ padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-primary)' }}
+              >
+                <option value="leetcode">LeetCode</option>
+                <option value="gfg">GeeksforGeeks</option>
+                <option value="none">None</option>
+              </select>
+              {customQuestion.platform === 'leetcode' && (
+                <input
+                  type="text"
+                  placeholder="LeetCode Slug (e.g. two-sum)"
+                  value={customQuestion.leetcodeSlug}
+                  onChange={(e) => setCustomQuestion((prev) => ({ ...prev, leetcodeSlug: e.target.value }))}
+                  style={{ padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-primary)' }}
+                />
+              )}
+              {customQuestion.platform === 'gfg' && (
+                <input
+                  type="url"
+                  placeholder="GFG URL (e.g. https://practice.geeksforgeeks.org/...)"
+                  value={customQuestion.gfgUrl}
+                  onChange={(e) => setCustomQuestion((prev) => ({ ...prev, gfgUrl: e.target.value }))}
+                  style={{ padding: '10px 12px', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--bg-card)', color: 'var(--text-primary)' }}
+                />
+              )}
               <input
                 type="url"
                 placeholder="Resource URL (optional)"
