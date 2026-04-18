@@ -259,7 +259,7 @@ const TodayView = () => {
     );
   }
 
-  if (isRestDay) {
+  if (isRestDay && carryoverCount === 0) {
     return (
       <div className="reveal visible" style={{ maxWidth: '600px', margin: '80px auto', textAlign: 'center' }}>
         <div style={{ fontSize: '4rem', marginBottom: '24px' }}>🛋️</div>
@@ -287,15 +287,15 @@ const TodayView = () => {
       <div style={{ marginBottom: '48px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
           <span className="badge badge-primary" style={{ background: `${accentColor}20`, color: accentColor, border: `1px solid ${accentColor}40` }}>
-            {isRevision ? 'REVISION DAY' : `MISSION DAY ${dayNumber}`}
+            {isRestDay ? 'REST DAY CATCH-UP' : (isRevision ? 'REVISION DAY' : `MISSION DAY ${dayNumber}`)}
           </span>
           <span style={{ fontSize: '0.875rem', color: 'var(--slate-500)', fontWeight: '600' }}>{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</span>
         </div>
         <h1 style={{ fontSize: 'clamp(2rem, 6vw, 3.5rem)', fontWeight: '900', color: 'var(--text-primary)', marginBottom: '12px', letterSpacing: '-0.04em', lineHeight: '1' }}>
-          Today's <span className="gradient-text">Patterns</span>
+          {isRestDay ? <><span className="gradient-text">Catch-up</span> Time</> : <>Today's <span className="gradient-text">Patterns</span></>}
         </h1>
         <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(1rem, 2vw, 1.25rem)', maxWidth: '500px', lineHeight: '1.5' }}>
-          {isRevision ? "Reviewing previously solved patterns to build long-term muscle memory." : "Mastering the sliding window and two-pointer patterns through deliberate practice."}
+          {isRestDay ? "It's a rest day, but let's clear out your remaining carry-over problems to stay on track." : (isRevision ? "Reviewing previously solved patterns to build long-term muscle memory." : "Mastering the sliding window and two-pointer patterns through deliberate practice.")}
         </p>
 
         {/* Carry-over notice banner */}
