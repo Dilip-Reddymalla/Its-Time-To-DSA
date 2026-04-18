@@ -21,6 +21,7 @@ Its-Time-To-DSA takes the guesswork out of competitive programming preparation. 
 - Choose your **Daily Intensity**: Light / Medium / Intense
 - Choose your **Roadmap Duration**: Sprint (60 days) / Standard (90 days) / Marathon (120 days)
 - Set your **start date** — schedule generates around it automatically
+- Opt-in for **Sunday Rest Days** to take a break without losing your streak
 
 ### 🎯 Today's Mission (`/dashboard`)
 - Full list of today's problems with difficulty badges (`Easy` / `Medium` / `Hard`)
@@ -31,6 +32,8 @@ Its-Time-To-DSA takes the guesswork out of competitive programming preparation. 
 - 🔥 Streak counter
 - ⌛ LeetCode sync button — verifies your actual submissions
 - 🎊 Confetti celebration when all problems are completed
+- 🛋️ **Rest Day UI** — visually alerts you when it's your designated day off
+- ⏸️ **Pause Banner** — displays clearly when the global schedule or your personal account is frozen
 
 ### 📅 Master Roadmap Calendar (`/dashboard/calendar`)
 - Full month-by-month grid of your entire roadmap
@@ -53,7 +56,9 @@ Its-Time-To-DSA takes the guesswork out of competitive programming preparation. 
 - Change daily intensity
 - Change roadmap duration (60 / 90 / 120 days)
 - Change start date
+- **Toggle Sunday Rest Days** — automatically and seamlessly shifts future dates based on preference
 - **Reschedule Plan** checkbox — triggers a full roadmap regeneration skipping already-solved problems
+- **Request Schedule Pause** — dynamically ask administrators to freeze your timeline and streak
 
 ### 🏠 Landing Page (`/`)
 - Animated hero section
@@ -69,6 +74,7 @@ Its-Time-To-DSA takes the guesswork out of competitive programming preparation. 
 - **User Management** — Detailed user profiles and progress tracking
 - **Problem Analytics** — Identify broken links and report frequency
 - **Leaderboard** — Global rankings based on total problems solved
+- **Schedule Pausing** — Dynamically freeze the global platform timeline or individually review user pause requests
 
 ---
 

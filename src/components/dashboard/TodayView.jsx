@@ -240,7 +240,44 @@ const TodayView = () => {
     );
   }
 
-  const { problems, progress, dayNumber, isRevision, carryoverCount } = scheduleData;
+  const { problems, progress, dayNumber, isRevision, carryoverCount, isRestDay, isPaused, pauseReason } = scheduleData;
+
+  if (isPaused) {
+    return (
+      <div className="reveal visible" style={{ maxWidth: '600px', margin: '80px auto', textAlign: 'center' }}>
+        <div style={{ fontSize: '4rem', marginBottom: '24px' }}>⏸️</div>
+        <h2 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '12px' }}>Schedule Paused</h2>
+        <p style={{ color: 'var(--slate-400)', marginBottom: '32px', fontSize: '1.2rem', lineHeight: '1.6' }}>
+          Your schedule has been paused by the administrator. Don't worry, your streak and progress are frozen safely until the schedule resumes.
+        </p>
+        {pauseReason && (
+          <div style={{ padding: '16px', borderRadius: '12px', background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', display: 'inline-block', marginBottom: '32px' }}>
+            <strong>Reason:</strong> {pauseReason}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (isRestDay) {
+    return (
+      <div className="reveal visible" style={{ maxWidth: '600px', margin: '80px auto', textAlign: 'center' }}>
+        <div style={{ fontSize: '4rem', marginBottom: '24px' }}>🛋️</div>
+        <h2 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '12px' }}>Sunday Rest Day</h2>
+        <p style={{ color: 'var(--slate-400)', marginBottom: '20px', fontSize: '1.2rem', lineHeight: '1.6' }}>
+          Take a deep breath and relax. No new patterns today.
+        </p>
+        <p style={{ color: 'var(--amber-500)', marginBottom: '32px', fontSize: '1rem', fontWeight: 'bold' }}>
+          If you want to keep practicing, try LeetCode's Problem of the Day!
+        </p>
+        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+          <a href="https://leetcode.com/" target="_blank" rel="noreferrer" className="btn btn-primary" style={{ padding: '14px 28px' }}>View POTD</a>
+          <Link to="/dashboard/calendar" className="btn btn-ghost" style={{ padding: '14px 28px' }}>Browse Roadmap</Link>
+        </div>
+      </div>
+    );
+  }
+
   const progressPercent = Math.round((progress.completed / progress.total) * 100) || 0;
   const accentColor = isRevision ? 'var(--emerald-500)' : 'var(--indigo-500)';
 

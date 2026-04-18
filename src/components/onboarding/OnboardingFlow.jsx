@@ -15,6 +15,7 @@ const OnboardingFlow = () => {
   const [dailyGoal, setDailyGoal] = useState('medium');
   const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
   const [totalDays, setTotalDays] = useState(90);
+  const [sundayRestEnabled, setSundayRestEnabled] = useState(true);
   const [preferences, setPreferences] = useState({
     targetCompanies: [],
     weakTopics: []
@@ -76,6 +77,7 @@ const OnboardingFlow = () => {
         startDate: new Date(startDate).toISOString(),
         dailyGoal,
         totalDays,
+        sundayRestEnabled,
         preferences // Sending extra info for future parity
       });
       await checkAuth();
@@ -234,8 +236,21 @@ const OnboardingFlow = () => {
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  style={{ width: '100%', background: 'var(--bg-base)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '14px 16px', color: 'var(--text-primary)' }}
+                  style={{ width: '100%', background: 'var(--bg-base)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '14px 16px', color: 'var(--text-primary)', marginBottom: '16px' }}
                 />
+
+                <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', background: 'rgba(255,255,255,0.02)', padding: '12px 16px', borderRadius: '12px', border: '1px solid var(--border-color)' }}>
+                  <input 
+                    type="checkbox" 
+                    checked={sundayRestEnabled}
+                    onChange={(e) => setSundayRestEnabled(e.target.checked)}
+                    style={{ width: '20px', height: '20px', borderRadius: '6px', cursor: 'pointer', flexShrink: 0 }}
+                  />
+                  <div>
+                    <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', fontSize: '0.925rem' }}>Enable Sunday Rest Days</span>
+                    <p style={{ fontSize: '0.8125rem', color: 'var(--slate-500)', marginTop: '2px', lineHeight: '1.4' }}>Take Sundays off to recharge. No new patterns will be assigned.</p>
+                  </div>
+                </label>
               </div>
 
               <div style={{ display: 'flex', gap: '16px' }}>

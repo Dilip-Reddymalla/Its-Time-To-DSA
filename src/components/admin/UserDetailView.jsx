@@ -10,6 +10,7 @@ const UserDetailView = () => {
   const [loading, setLoading] = useState(true);
   const [markLoading, setMarkLoading] = useState(null);
   const [banLoading, setBanLoading] = useState(false);
+  const [pauseLoading, setPauseLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [fullSchedule, setFullSchedule] = useState(null);
   const [scheduleLoading, setScheduleLoading] = useState(false);
@@ -121,6 +122,32 @@ const UserDetailView = () => {
     }
   };
 
+  const handleTogglePause = async () => {
+    const isPausing = !data.user.isPaused;
+    let reason = '';
+    if (isPausing) {
+      reason = window.prompt(`Enter a reason for pausing the schedule of ${data.user.name}:`);
+      if (reason === null) return; // Cancelled
+    } else {
+      if (!window.confirm(`Are you sure you want to resume the schedule for ${data.user.name}? (Dates will be shifted automatically)`)) return;
+    }
+
+    setPauseLoading(true);
+    try {
+      await api.post(`/admin/users/${userId}/pause`, { isPaused: isPausing, reason: reason || 'Admin paused the schedule' });
+      fetchDetail();
+      if (activeTab === 'schedule') {
+        const res = await api.get(`/admin/users/${userId}/schedule`);
+        setFullSchedule(res.data.data);
+      }
+    } catch (err) {
+      console.error('Failed to toggle user pause status', err);
+      alert('Error updating pause status: ' + (err.response?.data?.message || err.message));
+    } finally {
+      setPauseLoading(false);
+    }
+  };
+
   const handleAddCustomQuestion = async (e) => {
     e.preventDefault();
     if (!customQuestion.dayNumber || !customQuestion.name.trim()) {
@@ -183,6 +210,7 @@ const UserDetailView = () => {
             <h2 style={{ fontSize: '1.5rem', fontWeight: '900', letterSpacing: '-0.02em' }}>{user.name}</h2>
             {user.isAdmin && <span className="admin-badge admin-badge-info">Admin</span>}
             {user.isBanned && <span className="admin-badge admin-badge-danger">Banned</span>}
+            {user.isPaused && <span className="admin-badge admin-badge-warning">Paused</span>}
             {!user.onboardingComplete && <span className="admin-badge admin-badge-warning">Not Onboarded</span>}
           </div>
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>
@@ -191,9 +219,20 @@ const UserDetailView = () => {
             <span>📅 Joined {new Date(user.createdAt).toLocaleDateString()}</span>
           </div>
         </div>
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          <button 
+            className={user.isPaused ? 'admin-btn-success' : 'admin-btn-warning'} 
+            onClick={handleTogglePause} 
+            disabled={pauseLoading}
+          >
+            {pauseLoading ? '...' : user.isPaused ? '▶️ Resume User' : '⏸️ Pause User'}
+          </button>
           {!user.isAdmin && (
-            <button className={user.isBanned ? 'admin-btn-success' : 'admin-btn-danger'} onClick={handleBan} disabled={banLoading}>
+            <button 
+              className={user.isBanned ? 'admin-btn-success' : 'admin-btn-danger'} 
+              onClick={handleBan} 
+              disabled={banLoading}
+            >
               {banLoading ? '...' : user.isBanned ? '✅ Unban User' : '🚫 Ban User'}
             </button>
           )}

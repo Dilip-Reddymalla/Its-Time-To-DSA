@@ -25,6 +25,12 @@ const FeaturesGrid = () => {
       color: 'var(--amber-500)'
     },
     {
+      title: 'Rest Days & Pacing',
+      desc: 'Avoid burnout. Opt-in for Sunday rest days, or request a schedule pause if life gets busy. Your timeline shifts mathematically—no lost progress.',
+      icon: '🛋️',
+      color: 'var(--emerald-500)'
+    },
+    {
       title: 'Pattern-First Learning',
       desc: 'Stop memorizing code. We group problems by standard patterns (Two Pointers, Fast & Slow, Top K) so you build intuition.',
       icon: '🧠',
@@ -34,7 +40,7 @@ const FeaturesGrid = () => {
       title: 'Curated Solution Lab',
       desc: 'Stuck? Every problem comes tied to the best GeeksForGeeks articles and NeetCode/Striver videos. No more searching.',
       icon: '📹',
-      color: 'var(--emerald-500)',
+      color: 'var(--indigo-400)',
       large: true
     }
   ];

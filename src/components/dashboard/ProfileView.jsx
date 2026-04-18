@@ -18,6 +18,10 @@ const ProfileView = () => {
   const [dailyGoal, setDailyGoal] = useState('medium');
   const [totalDays, setTotalDays] = useState(90);
   const [reschedule, setReschedule] = useState(false);
+  const [sundayRestEnabled, setSundayRestEnabled] = useState(true);
+
+  const [pauseReason, setPauseReason] = useState('');
+  const [requestingPause, setRequestingPause] = useState(false);
 
   useEffect(() => {
     fetchProfile();
@@ -33,6 +37,7 @@ const ProfileView = () => {
         setLeetcodeUsername(data.leetcodeUsername || '');
         setDailyGoal(data.dailyGoal || 'medium');
         setTotalDays(data.totalDays || 90);
+        setSundayRestEnabled(data.sundayRestEnabled !== false);
         if (data.startDate) {
           setStartDate(new Date(data.startDate).toISOString().split('T')[0]);
         }
@@ -56,7 +61,8 @@ const ProfileView = () => {
         dailyGoal,
         startDate,
         totalDays,
-        reschedule
+        reschedule,
+        sundayRestEnabled
       });
 
       if (res.data.success) {
@@ -75,6 +81,25 @@ const ProfileView = () => {
       setError(err.response?.data?.message || 'Failed to update profile.');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handlePauseRequest = async () => {
+    if (!pauseReason) {
+      alert("Please provide a reason for the pause request.");
+      return;
+    }
+    setRequestingPause(true);
+    try {
+      const res = await api.post('/user/request-pause', { reason: pauseReason });
+      if (res.data.success) {
+        alert(res.data.message);
+        setPauseReason('');
+      }
+    } catch (err) {
+      alert(err.response?.data?.message || 'Failed to request pause.');
+    } finally {
+      setRequestingPause(false);
     }
   };
 
@@ -117,6 +142,28 @@ const ProfileView = () => {
             <p style={{ fontSize: '0.875rem', color: 'var(--slate-400)', lineHeight: '1.6' }}>
               Rescheduling will recalculate your daily missions starting from your chosen date, but it will <strong>automatically skip</strong> all problems you've already solved.
             </p>
+          </div>
+
+          <div className="glass-card" style={{ padding: '24px' }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '8px', color: 'var(--text-primary)' }}>Need a break?</h3>
+            <p style={{ fontSize: '0.875rem', color: 'var(--slate-400)', lineHeight: '1.6', marginBottom: '16px' }}>
+              You can request an administrator to pause your schedule. Your streak and progress will be frozen.
+            </p>
+            <input 
+              type="text" 
+              value={pauseReason}
+              onChange={(e) => setPauseReason(e.target.value)}
+              placeholder="Reason for pausing..."
+              style={{ width: '100%', background: 'var(--bg-base)', border: '1px solid var(--border-color)', borderRadius: '8px', padding: '10px 12px', color: 'var(--text-primary)', fontSize: '0.875rem', marginBottom: '12px' }}
+            />
+            <button 
+              onClick={handlePauseRequest}
+              disabled={requestingPause}
+              className="btn btn-sm btn-ghost"
+              style={{ width: '100%', border: '1px solid var(--border-color-strong)' }}
+            >
+              {requestingPause ? 'Submitting...' : 'Request Schedule Pause'}
+            </button>
           </div>
         </div>
 
@@ -185,8 +232,21 @@ const ProfileView = () => {
               </div>
             </div>
 
-            <div style={{ marginTop: '16px', padding: '16px', borderRadius: '12px', background: 'var(--bg-surface)', border: '1px solid var(--border-color)' }}>
+            <div style={{ marginTop: '16px', padding: '16px', borderRadius: '12px', background: 'var(--bg-surface)', border: '1px solid var(--border-color)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
+                <input 
+                  type="checkbox" 
+                  checked={sundayRestEnabled}
+                  onChange={(e) => setSundayRestEnabled(e.target.checked)}
+                  style={{ width: '20px', height: '20px', borderRadius: '6px', cursor: 'pointer', flexShrink: 0 }}
+                />
+                <div>
+                  <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', fontSize: '0.925rem' }}>Enable Sunday Rest Days</span>
+                  <p style={{ fontSize: '0.8125rem', color: 'var(--slate-500)', marginTop: '2px', lineHeight: '1.4' }}>Take Sundays off to recharge. This will automatically shift your schedule up or down immediately when saved!</p>
+                </div>
+              </label>
+
+              <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', paddingTop: '16px', borderTop: '1px solid var(--border-color)' }}>
                 <input 
                   type="checkbox" 
                   checked={reschedule}
