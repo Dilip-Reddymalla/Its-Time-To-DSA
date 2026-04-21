@@ -283,7 +283,7 @@ All date comparisons use **UTC-stable string building** (`YYYY-MM-DD` via `getUT
 After onboarding, schedule generation is async on the backend. `TodayView` polls `/schedule/today` with up to 3 automatic retries (4-second intervals) while the roadmap builds — showing a "Building your roadmap..." state.
 
 ### LeetCode Username Limit
-Each account is limited to **2 username changes** to prevent abuse.
+Each account is limited to ** 2 username changes** to prevent abuse.
 
 ### Reschedule Requirement
 Changing `dailyGoal` or `totalDays` does **not** auto-update existing schedules. You must tick **"Reschedule Plan"** in Profile Settings to regenerate.
