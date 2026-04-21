@@ -14,7 +14,7 @@ const TodayView = () => {
   const [scheduleData, setScheduleData] = useState(null);
   const [syncing, setSyncing] = useState(false);
   const [error, setError] = useState(null);
-  const [tomorrowPreview, setTomorrowPreview] = useState(null);
+
   const [retryCount, setRetryCount] = useState(0);
   // notes: { [problemId]: string }
   const [notes, setNotes] = useState({});
@@ -55,10 +55,7 @@ const TodayView = () => {
         // Fetch tomorrow preview if today is fully completed
         if (res.data.data.progress.completed === res.data.data.progress.total && res.data.data.progress.total > 0) {
           triggerConfetti();
-          try {
-            const tmrwRes = await api.get('/schedule/tomorrow-preview');
-            if (tmrwRes.data.success) setTomorrowPreview(tmrwRes.data.data);
-          } catch(e){}
+
         }
       }
     } catch (err) {
@@ -279,7 +276,7 @@ const TodayView = () => {
   }
 
   const progressPercent = Math.round((progress.completed / progress.total) * 100) || 0;
-  const accentColor = isRevision ? 'var(--emerald-500)' : 'var(--indigo-500)';
+  const accentColor = isRevision ? '#a855f7' : 'var(--indigo-500)';
 
   return (
     <div className="reveal visible container" style={{ paddingBottom: '80px', paddingTop: 'clamp(20px, 5vw, 40px)' }}>

@@ -80,9 +80,8 @@ const CalendarView = () => {
     const startPadding = new Date(Date.UTC(firstYear, parseInt(firstMonth) - 1, 1)).getUTCDay(); // 0=Sun
     const daysInCalMonth = new Date(Date.UTC(firstYear, parseInt(firstMonth), 0)).getUTCDate();
 
-    // Determine 'today' relative to the user's local hardware clock in YYYY-MM-DD
-    const now = new Date();
-    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    // Determine 'today' in IST (consistent with backend effective date logic)
+    const todayStr = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
 
     return (
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '6px' }}>
@@ -127,19 +126,19 @@ const CalendarView = () => {
             border = '1px solid rgba(239,68,68,0.3)';
             dayNumColor = '#f87171';
           } else if (isDone) {
-            // Completed day — bright green
-            bg = 'rgba(16,185,129,0.09)';
-            border = '1px solid rgba(16,185,129,0.3)';
-            dayNumColor = 'var(--emerald-400)';
+            // Completed day — Sky Blue
+            bg = 'rgba(56,189,248,0.09)';
+            border = '1px solid rgba(56,189,248,0.3)';
+            dayNumColor = '#38bdf8';
           } else if (hasCarryoverAlert && !isRevision) {
             // The day right after an incomplete day — amber accent
             bg = 'rgba(245,158,11,0.07)';
             border = '1px solid rgba(245,158,11,0.3)';
             dayNumColor = 'var(--amber-500)';
           } else if (isRevision) {
-            bg = 'rgba(16,185,129,0.05)';
-            border = '1px solid rgba(16,185,129,0.15)';
-            dayNumColor = 'var(--emerald-400)';
+            bg = 'rgba(192,132,252,0.05)';
+            border = '1px solid rgba(192,132,252,0.15)';
+            dayNumColor = '#c084fc';
           } else if (isLearn) {
             bg = 'rgba(99,102,241,0.05)';
             border = '1px solid rgba(99,102,241,0.12)';
@@ -175,9 +174,9 @@ const CalendarView = () => {
                 e.currentTarget.style.zIndex = '1';
                 if (!isToday) {
                   if (isIncomplete) e.currentTarget.style.borderColor = 'rgba(239,68,68,0.3)';
-                  else if (isDone) e.currentTarget.style.borderColor = 'rgba(16,185,129,0.3)';
+                  else if (isDone) e.currentTarget.style.borderColor = 'rgba(56,189,248,0.3)';
                   else if (hasCarryoverAlert) e.currentTarget.style.borderColor = 'rgba(245,158,11,0.3)';
-                  else if (isRevision) e.currentTarget.style.borderColor = 'rgba(16,185,129,0.15)';
+                  else if (isRevision) e.currentTarget.style.borderColor = 'rgba(192,132,252,0.15)';
                   else if (isLearn) e.currentTarget.style.borderColor = 'rgba(99,102,241,0.12)';
                   else e.currentTarget.style.borderColor = 'var(--border-color)';
                 }
@@ -205,18 +204,18 @@ const CalendarView = () => {
                   background: isIncomplete
                     ? 'rgba(239,68,68,0.2)'
                     : isDone
-                    ? 'rgba(16,185,129,0.25)'
+                    ? 'rgba(56,189,248,0.25)'
                     : isToday
                     ? 'rgba(99,102,241,0.4)'
                     : isRevision
-                    ? 'rgba(16,185,129,0.2)'
+                    ? 'rgba(192,132,252,0.2)'
                     : 'rgba(99,102,241,0.15)',
                   color: isIncomplete
                     ? '#f87171'
                     : isDone
-                    ? 'var(--emerald-400)'
+                    ? '#38bdf8'
                     : isRevision
-                    ? 'var(--emerald-400)'
+                    ? '#c084fc'
                     : 'var(--indigo-300)',
                   textTransform: 'uppercase',
                 }}>
@@ -236,18 +235,20 @@ const CalendarView = () => {
                   background: isIncomplete
                     ? '#ef4444'
                     : isDone
-                    ? 'var(--emerald-500)'
+                    ? '#0ea5e9'
                     : hasCarryoverAlert
                     ? 'var(--amber-500)'
                     : isRevision
-                    ? 'var(--emerald-500)'
+                    ? '#a855f7'
                     : 'transparent',
                   boxShadow: isIncomplete
                     ? '0 0 5px rgba(239,68,68,0.7)'
                     : isDone
-                    ? '0 0 5px rgba(16,185,129,0.7)'
+                    ? '0 0 5px rgba(14,165,233,0.7)'
                     : hasCarryoverAlert
                     ? '0 0 5px rgba(245,158,11,0.7)'
+                    : isRevision
+                    ? '0 0 5px rgba(168,85,247,0.7)'
                     : 'none',
                 }} />
               )}
@@ -271,9 +272,10 @@ const CalendarView = () => {
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
             {[
               { dot: 'var(--indigo-500)', label: 'Today' },
-              { dot: 'var(--emerald-500)', label: 'Completed' },
+              { dot: '#0ea5e9', label: 'Completed' },
               { dot: '#ef4444',            label: 'Incomplete (past)' },
               { dot: 'var(--amber-500)',   label: 'Has carry-overs' },
+              { dot: '#a855f7', label: 'Revision' },
               { dot: 'var(--indigo-300)',  label: 'Upcoming' },
             ].map(({ dot, label }) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -360,7 +362,7 @@ const CalendarView = () => {
                 <div style={{ fontSize: '0.7rem', color: 'var(--slate-500)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>Tasks</div>
               </div>
               <div className="glass-card" style={{ flex: 1, padding: '16px', textAlign: 'center', background: 'var(--bg-surface)' }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: '900', color: selectedDay.allDone ? 'var(--emerald-400)' : 'var(--text-primary)' }}>
+                <div style={{ fontSize: '1.5rem', fontWeight: '900', color: selectedDay.allDone ? '#0ea5e9' : 'var(--text-primary)' }}>
                   {selectedDay.allDone ? '✓' : (selectedDay.completedCount || 0)}
                 </div>
                 <div style={{ fontSize: '0.7rem', color: 'var(--slate-500)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>Solved</div>
@@ -388,7 +390,7 @@ const CalendarView = () => {
                     <div style={{ fontWeight: '700', color: 'var(--text-primary)', marginBottom: '8px', fontSize: '0.9375rem' }}>{p.name}</div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
                       <span className={`badge badge-${(sp.difficulty || p.difficulty || 'easy').toLowerCase()}`}>{sp.difficulty || p.difficulty || 'Easy'}</span>
-                      {sp.isRevision && <span className="badge" style={{ background: 'rgba(16,185,129,0.1)', color: 'var(--emerald-400)', border: '1px solid rgba(16,185,129,0.2)' }}>🔄 Revision</span>}
+                      {sp.isRevision && <span className="badge" style={{ background: 'rgba(168,85,247,0.1)', color: '#a855f7', border: '1px solid rgba(168,85,247,0.2)' }}>🔄 Revision</span>}
                       {sp.isCarryover && <span className="badge" style={{ background: 'rgba(245,158,11,0.1)', color: 'var(--amber-500)', border: '1px solid rgba(245,158,11,0.2)' }}>📌 Carry-over</span>}
                       <ProblemLink
                         leetcodeSlug={p.leetcodeSlug}
