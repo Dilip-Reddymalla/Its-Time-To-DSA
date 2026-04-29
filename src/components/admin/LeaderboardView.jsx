@@ -101,7 +101,7 @@ const LeaderboardView = () => {
                       style={{ width: '44px', height: '44px', borderRadius: '12px', border: '2px solid var(--border-color)', marginBottom: '8px' }}
                     />
                     <div style={{ fontWeight: '800', fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '100%' }}>{u.name}</div>
-                    <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: '900', fontSize: '1.3rem', color: 'var(--indigo-400)', marginTop: '4px' }}>
+                    <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: '900', fontSize: '1.3rem', color: 'var(--cobalt-400)', marginTop: '4px' }}>
                       {sortBy === 'totalSolved' ? (u.realTotalSolved ?? u.totalSolved) : sortBy === 'currentStreak' ? u.currentStreak : u.longestStreak}
                     </div>
                     <div style={{ fontSize: '0.65rem', color: 'var(--text-secondary)', fontWeight: '600', textTransform: 'uppercase' }}>
@@ -148,7 +148,7 @@ const LeaderboardView = () => {
                         </div>
                       </div>
                     </td>
-                    <td><span style={{ fontWeight: '800', fontFamily: 'Space Grotesk, sans-serif', color: 'var(--indigo-400)' }}>{u.realTotalSolved ?? u.totalSolved}</span></td>
+                    <td><span style={{ fontWeight: '800', fontFamily: 'Space Grotesk, sans-serif', color: 'var(--cobalt-400)' }}>{u.realTotalSolved ?? u.totalSolved}</span></td>
                     <td>
                       <span style={{ fontWeight: '800', fontFamily: 'Space Grotesk, sans-serif', color: u.currentStreak > 0 ? 'var(--amber-500)' : 'var(--text-secondary)' }}>
                         {u.currentStreak > 0 ? `🔥 ${u.currentStreak}` : '0'}

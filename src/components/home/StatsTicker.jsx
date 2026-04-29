@@ -14,7 +14,7 @@ const LOGOS = [
 const StatsTicker = () => {
   return (
     <div className="ticker-wrapper">
-      <p style={{ color: 'var(--slate-500)', fontSize: '0.875rem', fontWeight: '500', marginBottom: '24px' }}>
+      <p style={{ color: 'var(--zinc-)', fontSize: '0.875rem', fontWeight: '500', marginBottom: '24px' }}>
         Patterns practiced by engineers at top companies
       </p>
       

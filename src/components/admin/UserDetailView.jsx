@@ -248,7 +248,7 @@ const UserDetailView = () => {
         </div>
         <div className="admin-kpi-card">
           <div className="admin-kpi-label">Total Solved</div>
-          <div className="admin-kpi-value" style={{ color: 'var(--indigo-500)', fontSize: '1.5rem' }}>{user.realTotalSolved ?? user.totalSolved}</div>
+          <div className="admin-kpi-value" style={{ color: 'var(--accent-primary)', fontSize: '1.5rem' }}>{user.realTotalSolved ?? user.totalSolved}</div>
           <div className="admin-kpi-sub">{stats.daysActive} active days</div>
         </div>
         <div className="admin-kpi-card">
@@ -258,7 +258,7 @@ const UserDetailView = () => {
         </div>
         <div className="admin-kpi-card">
           <div className="admin-kpi-label">Rest Tokens</div>
-          <div className="admin-kpi-value" style={{ color: 'var(--slate-400)', fontSize: '1.5rem' }}>{user.restTokens}</div>
+          <div className="admin-kpi-value" style={{ color: 'var(--zinc-)', fontSize: '1.5rem' }}>{user.restTokens}</div>
           <div className="admin-kpi-sub">remaining</div>
         </div>
       </div>
@@ -304,7 +304,7 @@ const UserDetailView = () => {
                       <span style={{ fontSize: '1rem' }}>{p.solved ? '✅' : '⬜'}</span>
                       <span style={{ fontWeight: '600', fontSize: '0.85rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{p.name}</span>
                       {p.solved && p.submissionUrl && (
-                        <a href={p.submissionUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: 'var(--indigo-400)', textDecoration: 'none', fontWeight: '700' }}>
+                        <a href={p.submissionUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.75rem', color: 'var(--cobalt-400)', textDecoration: 'none', fontWeight: '700' }}>
                           Submission ↗
                         </a>
                       )}
@@ -591,7 +591,7 @@ const UserDetailView = () => {
                             </td>
                             <td>
                               {p.solved && p.submissionUrl ? (
-                                <a href={p.submissionUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--indigo-400)', fontSize: '0.8rem', textDecoration: 'none', fontWeight: '700' }}>
+                                <a href={p.submissionUrl} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--cobalt-400)', fontSize: '0.8rem', textDecoration: 'none', fontWeight: '700' }}>
                                   Open ↗
                                 </a>
                               ) : (

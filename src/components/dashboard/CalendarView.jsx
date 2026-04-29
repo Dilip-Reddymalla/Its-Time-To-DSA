@@ -41,7 +41,7 @@ const CalendarView = () => {
 
   if (schedule.length === 0) {
     return (
-      <div className="reveal visible" style={{ color: 'var(--slate-400)', padding: '100px 40px', textAlign: 'center' }}>
+      <div className="reveal visible" style={{ color: 'var(--zinc-)', padding: '100px 40px', textAlign: 'center' }}>
         <div style={{ fontSize: '4rem', marginBottom: '24px' }}>🗓️</div>
         <h2 style={{ color: 'var(--text-primary)', fontWeight: '800', marginBottom: '16px' }}>Your Roadmap Awaits</h2>
         <p style={{ maxWidth: '500px', margin: '0 auto 32px', fontSize: '1.1rem' }}>Complete the onboarding process to generate your personalized 90-day DSA journey.</p>
@@ -87,7 +87,7 @@ const CalendarView = () => {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '6px' }}>
         {/* Day headers */}
         {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((d) => (
-          <div key={d} style={{ textAlign: 'center', fontSize: '0.65rem', fontWeight: '700', color: 'var(--slate-600)', padding: '6px 0', letterSpacing: '0.05em', textTransform: 'uppercase' }}>{d}</div>
+          <div key={d} style={{ textAlign: 'center', fontSize: '0.65rem', fontWeight: '700', color: 'var(--zinc-)', padding: '6px 0', letterSpacing: '0.05em', textTransform: 'uppercase' }}>{d}</div>
         ))}
 
         {/* Leading empty cells */}
@@ -114,11 +114,11 @@ const CalendarView = () => {
           // ── Colour coding (priority: today > done > incomplete > carry-over-alert > revision > learn) ──
           let bg = 'var(--bg-base)';
           let border = '1px solid var(--border-color)';
-          let dayNumColor = 'var(--slate-600)';
+          let dayNumColor = 'var(--zinc-)';
 
           if (isToday) {
-            bg = 'rgba(99,102,241,0.15)';
-            border = '2px solid var(--indigo-500)';
+            bg = 'rgba(59,130,246,0.15)';
+            border = '2px solid var(--accent-primary)';
             dayNumColor = 'var(--text-primary)';
           } else if (isIncomplete) {
             // Past day — problems were not all done
@@ -140,9 +140,9 @@ const CalendarView = () => {
             border = '1px solid rgba(192,132,252,0.15)';
             dayNumColor = '#c084fc';
           } else if (isLearn) {
-            bg = 'rgba(99,102,241,0.05)';
-            border = '1px solid rgba(99,102,241,0.12)';
-            dayNumColor = 'var(--slate-300)';
+            bg = 'rgba(59,130,246,0.05)';
+            border = '1px solid rgba(59,130,246,0.12)';
+            dayNumColor = 'var(--zinc-)';
           }
 
           return (
@@ -167,7 +167,7 @@ const CalendarView = () => {
                 if (!isScheduled) return;
                 e.currentTarget.style.transform = 'scale(1.06)';
                 e.currentTarget.style.zIndex = '2';
-                if (!isToday) e.currentTarget.style.borderColor = 'var(--indigo-400)';
+                if (!isToday) e.currentTarget.style.borderColor = 'var(--cobalt-400)';
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.transform = 'scale(1)';
@@ -177,7 +177,7 @@ const CalendarView = () => {
                   else if (isDone) e.currentTarget.style.borderColor = 'rgba(56,189,248,0.3)';
                   else if (hasCarryoverAlert) e.currentTarget.style.borderColor = 'rgba(245,158,11,0.3)';
                   else if (isRevision) e.currentTarget.style.borderColor = 'rgba(192,132,252,0.15)';
-                  else if (isLearn) e.currentTarget.style.borderColor = 'rgba(99,102,241,0.12)';
+                  else if (isLearn) e.currentTarget.style.borderColor = 'rgba(59,130,246,0.12)';
                   else e.currentTarget.style.borderColor = 'var(--border-color)';
                 }
               }}
@@ -206,10 +206,10 @@ const CalendarView = () => {
                     : isDone
                     ? 'rgba(56,189,248,0.25)'
                     : isToday
-                    ? 'rgba(99,102,241,0.4)'
+                    ? 'rgba(59,130,246,0.4)'
                     : isRevision
                     ? 'rgba(192,132,252,0.2)'
-                    : 'rgba(99,102,241,0.15)',
+                    : 'rgba(59,130,246,0.15)',
                   color: isIncomplete
                     ? '#f87171'
                     : isDone
@@ -266,12 +266,12 @@ const CalendarView = () => {
           <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', fontWeight: '900', color: 'var(--text-primary)', marginBottom: '8px', letterSpacing: '-0.03em', lineHeight: '1.1' }}>
             {user?.name?.split(' ')[0]}'s Master Roadmap
           </h1>
-          <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(0.9rem, 1.5vw, 1.125rem)', marginBottom: '20px' }}>Visualize your 90-day evolution from patterns to mastery.</p>
+          <p style={{ color: 'var(--zinc-)', fontSize: 'clamp(0.9rem, 1.5vw, 1.125rem)', marginBottom: '20px' }}>Visualize your 90-day evolution from patterns to mastery.</p>
 
           {/* Color Legend */}
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }}>
             {[
-              { dot: 'var(--indigo-500)', label: 'Today' },
+              { dot: 'var(--accent-primary)', label: 'Today' },
               { dot: '#0ea5e9', label: 'Completed' },
               { dot: '#ef4444',            label: 'Incomplete (past)' },
               { dot: 'var(--amber-500)',   label: 'Has carry-overs' },
@@ -280,7 +280,7 @@ const CalendarView = () => {
             ].map(({ dot, label }) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: dot, boxShadow: `0 0 5px ${dot}80`, flexShrink: 0 }} />
-                <span style={{ fontSize: '0.75rem', color: 'var(--slate-500)', fontWeight: '600' }}>{label}</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--zinc-)', fontWeight: '600' }}>{label}</span>
               </div>
             ))}
           </div>
@@ -290,7 +290,7 @@ const CalendarView = () => {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(clamp(280px, 45vw, 360px), 1fr))', gap: '64px 48px' }}>
         {Object.entries(months).map(([key, month]) => (
           <div key={key} className="glass-card" style={{ padding: 'clamp(20px, 4vw, 32px)', marginBottom: '20px' }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '28px', color: 'var(--text-primary)', borderLeft: '5px solid var(--indigo-500)', paddingLeft: '20px', letterSpacing: '-0.01em' }}>{month.name}</h3>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '28px', color: 'var(--text-primary)', borderLeft: '5px solid var(--accent-primary)', paddingLeft: '20px', letterSpacing: '-0.01em' }}>{month.name}</h3>
 
             <div style={{ width: '100%', overflowX: 'auto' }} className="custom-scrollbar">
               <div style={{ minWidth: '280px' }}>
@@ -333,24 +333,24 @@ const CalendarView = () => {
                 width: '36px', height: '36px', borderRadius: '50%',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 background: 'var(--bg-surface)', border: '1px solid var(--border-color)',
-                color: 'var(--slate-400)', fontSize: '1.25rem', cursor: 'pointer',
+                color: 'var(--zinc-)', fontSize: '1.25rem', cursor: 'pointer',
                 transition: 'all 0.2s', zIndex: 10,
               }}
               onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.1)'; e.currentTarget.style.color = '#f87171'; e.currentTarget.style.borderColor = 'rgba(239,68,68,0.3)'; }}
-              onMouseOut={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.color = 'var(--slate-400)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+              onMouseOut={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.color = 'var(--zinc-)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
             >
               ×
             </button>
 
             {/* Header */}
             <div style={{ marginBottom: '32px', paddingRight: '40px' }}>
-              <div style={{ color: 'var(--indigo-400)', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '0.8125rem', marginBottom: '8px', letterSpacing: '0.1em' }}>
+              <div style={{ color: 'var(--cobalt-400)', fontWeight: 'bold', textTransform: 'uppercase', fontSize: '0.8125rem', marginBottom: '8px', letterSpacing: '0.1em' }}>
                 {selectedDay.type === 'revision' ? '🔄 Revision Day' : `📅 Day ${selectedDay.dayNumber}`}
               </div>
               <h2 style={{ fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', fontWeight: '900', color: 'var(--text-primary)', letterSpacing: '-0.02em', lineHeight: '1.1' }}>
                 {selectedDay.concepts?.[0] || selectedDay.readings?.[0]?.title || 'Learning Session'}
               </h2>
-              <p style={{ color: 'var(--slate-400)', marginTop: '12px', fontSize: '0.9375rem' }}>
+              <p style={{ color: 'var(--zinc-)', marginTop: '12px', fontSize: '0.9375rem' }}>
                 {new Date(selectedDay.date).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
               </p>
             </div>
@@ -358,23 +358,23 @@ const CalendarView = () => {
             {/* Stats row */}
             <div style={{ display: 'flex', gap: '12px', marginBottom: '36px' }}>
               <div className="glass-card" style={{ flex: 1, padding: '16px', textAlign: 'center', background: 'var(--bg-surface)' }}>
-                <div style={{ fontSize: '1.5rem', fontWeight: '900', color: 'var(--indigo-400)' }}>{selectedDay.problems?.length || (selectedDay.problemIds?.length || 0)}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--slate-500)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>Tasks</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: '900', color: 'var(--cobalt-400)' }}>{selectedDay.problems?.length || (selectedDay.problemIds?.length || 0)}</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--zinc-)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>Tasks</div>
               </div>
               <div className="glass-card" style={{ flex: 1, padding: '16px', textAlign: 'center', background: 'var(--bg-surface)' }}>
                 <div style={{ fontSize: '1.5rem', fontWeight: '900', color: selectedDay.allDone ? '#0ea5e9' : 'var(--text-primary)' }}>
                   {selectedDay.allDone ? '✓' : (selectedDay.completedCount || 0)}
                 </div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--slate-500)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>Solved</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--zinc-)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>Solved</div>
               </div>
               <div className="glass-card" style={{ flex: 1, padding: '16px', textAlign: 'center', background: 'var(--bg-surface)' }}>
                 <div style={{ fontSize: '1.5rem', fontWeight: '900', color: 'var(--text-primary)' }}>{selectedDay.estimatedTime || '—'}</div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--slate-500)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>Commitment</div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--zinc-)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '4px' }}>Commitment</div>
               </div>
             </div>
 
             {/* Problem list */}
-            <h3 style={{ fontSize: '0.8125rem', fontWeight: '800', color: 'var(--slate-500)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '16px' }}>Target Problems</h3>
+            <h3 style={{ fontSize: '0.8125rem', fontWeight: '800', color: 'var(--zinc-)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '16px' }}>Target Problems</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               {selectedDay.problems && selectedDay.problems.map((sp, i) => {
                 const p = sp.problemId;
@@ -384,7 +384,7 @@ const CalendarView = () => {
                     key={i}
                     className="glass-card"
                     style={{ padding: '16px 20px', borderRadius: '14px', border: '1px solid var(--border-color)', transition: 'all 0.2s ease' }}
-                    onMouseOver={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.borderColor = 'rgba(99,102,241,0.3)'; e.currentTarget.style.transform = 'translateX(4px)'; }}
+                    onMouseOver={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.borderColor = 'rgba(59,130,246,0.3)'; e.currentTarget.style.transform = 'translateX(4px)'; }}
                     onMouseOut={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'var(--border-color)'; e.currentTarget.style.transform = 'translateX(0)'; }}
                   >
                     <div style={{ fontWeight: '700', color: 'var(--text-primary)', marginBottom: '8px', fontSize: '0.9375rem' }}>{p.name}</div>
@@ -402,7 +402,7 @@ const CalendarView = () => {
                 );
               })}
               {(!selectedDay.problems || selectedDay.problems.length === 0) && (
-                <div style={{ textAlign: 'center', color: 'var(--slate-500)', padding: '32px', fontSize: '0.9rem' }}>No problems assigned for this day.</div>
+                <div style={{ textAlign: 'center', color: 'var(--zinc-)', padding: '32px', fontSize: '0.9rem' }}>No problems assigned for this day.</div>
               )}
             </div>
           </div>

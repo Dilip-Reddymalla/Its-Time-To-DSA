@@ -79,7 +79,7 @@ const ReportsView = () => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
         <div>
           <h2 style={{ fontSize: '1.5rem', fontWeight: '800', color: 'var(--text-primary)', marginBottom: '8px' }}>Reports & Issues</h2>
-          <p style={{ color: 'var(--slate-400)', fontSize: '0.875rem' }}>Triaging user-reported problems.</p>
+          <p style={{ color: 'var(--zinc-)', fontSize: '0.875rem' }}>Triaging user-reported problems.</p>
         </div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <button onClick={() => { setStatusFilter('pending'); setPage(1); }} className={`btn ${statusFilter === 'pending' ? 'btn-primary' : 'btn-ghost'}`} style={{ padding: '8px 16px' }}>Pending</button>
@@ -91,37 +91,37 @@ const ReportsView = () => {
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.875rem' }}>
           <thead>
             <tr style={{ background: 'var(--bg-surface)', borderBottom: '1px solid var(--border-color)' }}>
-              <th style={{ padding: '16px', color: 'var(--slate-400)', fontWeight: '600' }}>Reported At</th>
-              <th style={{ padding: '16px', color: 'var(--slate-400)', fontWeight: '600' }}>Reason</th>
-              <th style={{ padding: '16px', color: 'var(--slate-400)', fontWeight: '600' }}>Problem</th>
-              <th style={{ padding: '16px', color: 'var(--slate-400)', fontWeight: '600' }}>User</th>
-              <th style={{ padding: '16px', color: 'var(--slate-400)', fontWeight: '600' }}>Replacement</th>
-              <th style={{ padding: '16px', color: 'var(--slate-400)', fontWeight: '600' }}>Action</th>
+              <th style={{ padding: '16px', color: 'var(--zinc-)', fontWeight: '600' }}>Reported At</th>
+              <th style={{ padding: '16px', color: 'var(--zinc-)', fontWeight: '600' }}>Reason</th>
+              <th style={{ padding: '16px', color: 'var(--zinc-)', fontWeight: '600' }}>Problem</th>
+              <th style={{ padding: '16px', color: 'var(--zinc-)', fontWeight: '600' }}>User</th>
+              <th style={{ padding: '16px', color: 'var(--zinc-)', fontWeight: '600' }}>Replacement</th>
+              <th style={{ padding: '16px', color: 'var(--zinc-)', fontWeight: '600' }}>Action</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
               <tr><td colSpan="6" style={{ padding: '24px', textAlign: 'center' }}>Loading reports...</td></tr>
             ) : reports.length === 0 ? (
-              <tr><td colSpan="6" style={{ padding: '24px', textAlign: 'center', color: 'var(--slate-500)' }}>No {statusFilter} reports.</td></tr>
+              <tr><td colSpan="6" style={{ padding: '24px', textAlign: 'center', color: 'var(--zinc-)' }}>No {statusFilter} reports.</td></tr>
             ) : (
               reports.map((r) => (
                 <tr key={r._id} style={{ borderBottom: '1px solid var(--border-color)' }}>
                   <td style={{ padding: '16px', color: 'var(--text-secondary)' }}>{new Date(r.createdAt).toLocaleDateString()}</td>
                   <td style={{ padding: '16px', fontWeight: '500', color: 'var(--text-primary)' }}>
                     {r.reason}
-                    {r.description && <div style={{ fontSize: '0.75rem', color: 'var(--slate-400)', marginTop: '4px' }}>"{r.description}"</div>}
+                    {r.description && <div style={{ fontSize: '0.75rem', color: 'var(--zinc-)', marginTop: '4px' }}>"{r.description}"</div>}
                   </td>
                   <td style={{ padding: '16px' }}>
                     <div style={{ fontWeight: '600', color: 'var(--text-primary)' }}>{r.problemId?.name || 'Deleted Problem'}</div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--zinc-)' }}>
                       {r.problemId?.isOptional && <span style={{ color: 'var(--amber-500)', marginRight: '8px' }}>(Optional)</span>}
                       Slug: {r.problemId?.leetcodeSlug || 'N/A'}
                     </div>
                   </td>
                   <td style={{ padding: '16px', color: 'var(--text-secondary)' }}>
                     <div style={{ fontWeight: '600', color: 'var(--text-primary)' }}>{r.userId?.name || 'Unknown'}</div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>{r.userId?.email || 'No email'}</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--zinc-)' }}>{r.userId?.email || 'No email'}</div>
                   </td>
                   <td style={{ padding: '16px', color: 'var(--text-secondary)' }}>
                     {r.adminApprovedReplacement ? (
@@ -166,16 +166,16 @@ const ReportsView = () => {
             <h3 style={{ fontSize: '1.25rem', fontWeight: '800', marginBottom: '16px' }}>Edit Problem: {editingProblem.name}</h3>
             <form onSubmit={submitProblemEdit}>
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '4px', color: 'var(--slate-400)' }}>Name</label>
+                <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '4px', color: 'var(--zinc-)' }}>Name</label>
                 <input value={editingProblem.name || ''} onChange={e => setEditingProblem({...editingProblem, name: e.target.value})} style={{ width: '100%', padding: '8px 12px', background: 'var(--bg-base)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', borderRadius: '8px' }} />
               </div>
               <div style={{ marginBottom: '16px' }}>
-                <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '4px', color: 'var(--slate-400)' }}>LeetCode Slug</label>
+                <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '4px', color: 'var(--zinc-)' }}>LeetCode Slug</label>
                 <input value={editingProblem.leetcodeSlug || ''} onChange={e => setEditingProblem({...editingProblem, leetcodeSlug: e.target.value})} style={{ width: '100%', padding: '8px 12px', background: 'var(--bg-base)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', borderRadius: '8px' }} />
               </div>
               <div style={{ marginBottom: '16px', display: 'flex', gap: '16px' }}>
                 <div style={{ flex: 1 }}>
-                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '4px', color: 'var(--slate-400)' }}>Difficulty</label>
+                  <label style={{ display: 'block', fontSize: '0.875rem', marginBottom: '4px', color: 'var(--zinc-)' }}>Difficulty</label>
                   <select value={editingProblem.difficulty} onChange={e => setEditingProblem({...editingProblem, difficulty: e.target.value})} style={{ width: '100%', padding: '8px 12px', background: 'var(--bg-base)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', borderRadius: '8px' }}>
                     <option value="Easy">Easy</option><option value="Medium">Medium</option><option value="Hard">Hard</option>
                   </select>
@@ -200,7 +200,7 @@ const ReportsView = () => {
       {totalPages > 1 && (
         <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', marginTop: '24px' }}>
           <button disabled={page === 1} onClick={() => setPage(page - 1)} className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: '0.875rem' }}>Previous</button>
-          <span style={{ fontSize: '0.875rem', color: 'var(--slate-400)', display: 'flex', alignItems: 'center' }}>Page {page} of {totalPages}</span>
+          <span style={{ fontSize: '0.875rem', color: 'var(--zinc-)', display: 'flex', alignItems: 'center' }}>Page {page} of {totalPages}</span>
           <button disabled={page === totalPages} onClick={() => setPage(page + 1)} className="btn btn-ghost" style={{ padding: '6px 12px', fontSize: '0.875rem' }}>Next</button>
         </div>
       )}

@@ -141,7 +141,7 @@ const UserListView = () => {
                         <div className="admin-user-info">
                           <span className="admin-user-name">
                             {u.name}
-                            {u.isAdmin && <span style={{ marginLeft: '6px', fontSize: '0.6rem', color: 'var(--indigo-400)' }}>ADMIN</span>}
+                            {u.isAdmin && <span style={{ marginLeft: '6px', fontSize: '0.6rem', color: 'var(--cobalt-400)' }}>ADMIN</span>}
                             {u.isBanned && <span style={{ marginLeft: '6px', fontSize: '0.6rem', color: '#f87171' }}>BANNED</span>}
                           </span>
                           <span className="admin-user-email">{u.email}</span>
@@ -149,7 +149,7 @@ const UserListView = () => {
                       </div>
                     </td>
                     <td>
-                      <span style={{ fontWeight: '800', fontFamily: 'Space Grotesk, sans-serif', color: 'var(--indigo-400)' }}>{u.realTotalSolved ?? u.totalSolved}</span>
+                      <span style={{ fontWeight: '800', fontFamily: 'Space Grotesk, sans-serif', color: 'var(--cobalt-400)' }}>{u.realTotalSolved ?? u.totalSolved}</span>
                     </td>
                     <td>
                       <span style={{ fontWeight: '800', fontFamily: 'Space Grotesk, sans-serif', color: u.currentStreak > 0 ? 'var(--amber-500)' : 'var(--text-secondary)' }}>

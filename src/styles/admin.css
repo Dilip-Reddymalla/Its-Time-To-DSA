@@ -31,7 +31,7 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--indigo-500), var(--emerald-400));
+  background: linear-gradient(90deg, var(--accent-primary), var(--emerald-400));
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -184,7 +184,7 @@
 }
 
 .status-dot-gray {
-  background: var(--slate-500);
+  background: var(--zinc-);
 }
 
 /* Admin Badges */
@@ -219,9 +219,9 @@
 }
 
 .admin-badge-info {
-  background: rgba(99, 102, 241, 0.1);
-  color: var(--indigo-400);
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(59,130,246, 0.1);
+  color: var(--cobalt-400);
+  border: 1px solid rgba(59,130,246, 0.2);
 }
 
 .admin-badge-neutral {
@@ -244,7 +244,7 @@
   height: 100%;
   border-radius: 99px;
   transition: width 0.5s ease-out;
-  background: linear-gradient(90deg, var(--indigo-500), var(--emerald-500));
+  background: linear-gradient(90deg, var(--accent-primary), var(--emerald-500));
 }
 
 .admin-progress-fill.complete {
@@ -295,7 +295,7 @@
 }
 
 .admin-search-input:focus {
-  border-color: var(--indigo-500);
+  border-color: var(--accent-primary);
 }
 
 .admin-search-input::placeholder {
@@ -315,7 +315,7 @@
 }
 
 .admin-filter-select:focus {
-  border-color: var(--indigo-500);
+  border-color: var(--accent-primary);
 }
 
 /* Pagination */
@@ -530,7 +530,7 @@
   min-width: 6px;
   max-width: 20px;
   border-radius: 3px 3px 0 0;
-  background: var(--indigo-500);
+  background: var(--accent-primary);
   opacity: 0.7;
   transition: opacity 0.2s, height 0.3s ease-out;
 }

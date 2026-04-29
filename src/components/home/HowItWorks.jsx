@@ -62,9 +62,9 @@ const HowItWorks = () => {
                 }}>
                   {item.icon}
                 </div>
-                <div style={{ fontSize: '0.75rem', fontWeight: '900', color: 'var(--indigo-400)', letterSpacing: '0.15em', marginBottom: '12px' }}>STEP {item.step}</div>
+                <div style={{ fontSize: '0.75rem', fontWeight: '900', color: 'var(--cobalt-400)', letterSpacing: '0.15em', marginBottom: '12px' }}>STEP {item.step}</div>
                 <h3 style={{ fontSize: 'clamp(1.1rem, 3vw, 1.25rem)', fontWeight: '800', marginBottom: '16px', color: 'var(--text-primary)' }}>{item.title}</h3>
-                <p style={{ color: 'var(--slate-400)', fontSize: '0.9375rem', lineHeight: '1.6' }}>{item.desc}</p>
+                <p style={{ color: 'var(--zinc-)', fontSize: '0.9375rem', lineHeight: '1.6' }}>{item.desc}</p>
               </div>
             </div>
           ))}

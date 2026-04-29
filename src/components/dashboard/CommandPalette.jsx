@@ -68,7 +68,7 @@ const CommandPalette = () => {
         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
       }}>
         <div style={{ padding: '16px', borderBottom: '1px solid var(--border-color)', display: 'flex', alignItems: 'center' }}>
-          <span style={{ fontSize: '1.2rem', marginRight: '12px', color: 'var(--slate-400)' }}>🔍</span>
+          <span style={{ fontSize: '1.2rem', marginRight: '12px', color: 'var(--zinc-)' }}>🔍</span>
           <input
             ref={inputRef}
             type="text"
@@ -88,7 +88,7 @@ const CommandPalette = () => {
 
         <div style={{ padding: '8px', maxHeight: '300px', overflowY: 'auto' }}>
           {filteredRoutes.length === 0 ? (
-            <div style={{ padding: '24px', textAlign: 'center', color: 'var(--slate-500)' }}>
+            <div style={{ padding: '24px', textAlign: 'center', color: 'var(--zinc-)' }}>
               No commands found.
             </div>
           ) : (
@@ -105,18 +105,18 @@ const CommandPalette = () => {
                   display: 'flex', alignItems: 'center', gap: '12px',
                   background: activeIndex === i ? 'var(--bg-surface)' : 'transparent',
                   border: activeIndex === i ? '1px solid var(--border-color)' : '1px solid transparent',
-                  color: activeIndex === i ? 'var(--text-primary)' : 'var(--slate-400)',
+                  color: activeIndex === i ? 'var(--text-primary)' : 'var(--zinc-)',
                 }}
               >
                 <span style={{ fontSize: '1.2rem' }}>{route.icon}</span>
                 <span style={{ fontSize: '0.9rem', fontWeight: activeIndex === i ? '600' : '400' }}>{route.name}</span>
-                {activeIndex === i && <span style={{ marginLeft: 'auto', fontSize: '0.8rem', color: 'var(--slate-500)', background: 'var(--bg-base)', padding: '2px 6px', borderRadius: '4px', border: '1px solid var(--border-color)' }}>Enter ↵</span>}
+                {activeIndex === i && <span style={{ marginLeft: 'auto', fontSize: '0.8rem', color: 'var(--zinc-)', background: 'var(--bg-base)', padding: '2px 6px', borderRadius: '4px', border: '1px solid var(--border-color)' }}>Enter ↵</span>}
               </div>
             ))
           )}
         </div>
         
-        <div style={{ padding: '8px 16px', display: 'flex', gap: '16px', fontSize: '0.75rem', color: 'var(--slate-500)', borderTop: '1px solid var(--border-color)', background: 'var(--bg-base)' }}>
+        <div style={{ padding: '8px 16px', display: 'flex', gap: '16px', fontSize: '0.75rem', color: 'var(--zinc-)', borderTop: '1px solid var(--border-color)', background: 'var(--bg-base)' }}>
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><kbd style={{ background: 'var(--bg-card)', padding: '2px 4px', borderRadius: '4px', border: '1px solid var(--border-color)' }}>↑↓</kbd> to navigate</span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}><kbd style={{ background: 'var(--bg-card)', padding: '2px 4px', borderRadius: '4px', border: '1px solid var(--border-color)' }}>esc</kbd> to close</span>
         </div>

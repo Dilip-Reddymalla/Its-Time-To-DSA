@@ -81,9 +81,9 @@ const ProblemSetView = () => {
     <div className="reveal visible container" style={{ paddingBottom: '100px', paddingTop: 'clamp(20px, 5vw, 40px)' }}>
       {/* Header Section */}
       <div style={{ marginBottom: '48px', position: 'relative' }}>
-        <div style={{ position: 'absolute', top: '-20px', left: '-20px', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%)', zIndex: -1 }}></div>
+        <div style={{ position: 'absolute', top: '-20px', left: '-20px', width: '200px', height: '200px', background: 'radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%)', zIndex: -1 }}></div>
         <h1 style={{ fontSize: 'clamp(2rem, 6vw, 3.5rem)', fontWeight: '900', color: 'var(--text-primary)', marginBottom: '12px', letterSpacing: '-0.04em', lineHeight: '1' }}>Problem <span className="gradient-text">Library</span></h1>
-        <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(1rem, 1.5vw, 1.25rem)', maxWidth: '600px' }}>
+        <p style={{ color: 'var(--zinc-)', fontSize: 'clamp(1rem, 1.5vw, 1.25rem)', maxWidth: '600px' }}>
           Explore the ultimate collection of DSA challenges. Filter, search, and master patterns one problem at a time.
         </p>
       </div>
@@ -92,7 +92,7 @@ const ProblemSetView = () => {
       <div className="glass-card" style={{ padding: '24px', marginBottom: '32px', display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems: 'center', justifyContent: 'space-between', border: '1px solid var(--border-color)' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', flex: 1 }}>
           <div style={{ minWidth: '200px', flex: 1 }}>
-            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '700', color: 'var(--slate-500)', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.05em' }}>Search Problems</label>
+            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '700', color: 'var(--zinc-)', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.05em' }}>Search Problems</label>
             <div style={{ position: 'relative' }}>
               <input 
                 type="text" 
@@ -101,14 +101,14 @@ const ProblemSetView = () => {
                 onChange={handleFilterChange}
                 placeholder="Search by name..." 
                 style={{ width: '100%', background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '12px 16px', color: 'var(--text-primary)', fontSize: '0.9375rem', outline: 'none', transition: 'all 0.2s' }}
-                onFocus={e => e.target.style.borderColor = 'var(--indigo-500)'}
+                onFocus={e => e.target.style.borderColor = 'var(--accent-primary)'}
                 onBlur={e => e.target.style.borderColor = 'var(--border-color)'}
               />
             </div>
           </div>
 
           <div style={{ minWidth: '160px' }}>
-            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '700', color: 'var(--slate-500)', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.05em' }}>Concept</label>
+            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '700', color: 'var(--zinc-)', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.05em' }}>Concept</label>
             <select 
               name="topic"
               value={filters.topic}
@@ -121,7 +121,7 @@ const ProblemSetView = () => {
           </div>
 
           <div style={{ minWidth: '140px' }}>
-            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '700', color: 'var(--slate-500)', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.05em' }}>Difficulty</label>
+            <label style={{ display: 'block', fontSize: '0.75rem', fontWeight: '700', color: 'var(--zinc-)', textTransform: 'uppercase', marginBottom: '8px', letterSpacing: '0.05em' }}>Difficulty</label>
             <select 
               name="difficulty"
               value={filters.difficulty}
@@ -136,9 +136,9 @@ const ProblemSetView = () => {
 
         <button 
           onClick={clearFilters}
-          style={{ padding: '12px 20px', borderRadius: '12px', background: 'var(--bg-surface)', color: 'var(--slate-300)', border: '1px solid var(--border-color)', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s', alignSelf: 'flex-end', marginBottom: '2px' }}
+          style={{ padding: '12px 20px', borderRadius: '12px', background: 'var(--bg-surface)', color: 'var(--zinc-)', border: '1px solid var(--border-color)', fontWeight: '600', cursor: 'pointer', transition: 'all 0.2s', alignSelf: 'flex-end', marginBottom: '2px' }}
           onMouseOver={e => { e.currentTarget.style.background = 'var(--bg-base)'; e.currentTarget.style.color = 'var(--text-primary)'; }}
-          onMouseOut={e => { e.currentTarget.style.background = 'var(--border-color)'; e.currentTarget.style.color = 'var(--slate-300)'; }}
+          onMouseOut={e => { e.currentTarget.style.background = 'var(--border-color)'; e.currentTarget.style.color = 'var(--zinc-)'; }}
         >
           Reset
         </button>
@@ -150,11 +150,11 @@ const ProblemSetView = () => {
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ background: 'var(--bg-surface)', borderBottom: '1px solid var(--border-color)' }}>
-                <th style={{ padding: '20px 24px', fontSize: '0.75rem', fontWeight: '700', color: 'var(--slate-500)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Status</th>
-                <th style={{ padding: '20px 24px', fontSize: '0.75rem', fontWeight: '700', color: 'var(--slate-500)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Title</th>
-                <th style={{ padding: '20px 24px', fontSize: '0.75rem', fontWeight: '700', color: 'var(--slate-500)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Concept</th>
-                <th style={{ padding: '20px 24px', fontSize: '0.75rem', fontWeight: '700', color: 'var(--slate-500)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Difficulty</th>
-                <th style={{ padding: '20px 24px', fontSize: '0.75rem', fontWeight: '700', color: 'var(--slate-500)', textTransform: 'uppercase', letterSpacing: '0.05em', textAlign: 'right' }}>Action</th>
+                <th style={{ padding: '20px 24px', fontSize: '0.75rem', fontWeight: '700', color: 'var(--zinc-)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Status</th>
+                <th style={{ padding: '20px 24px', fontSize: '0.75rem', fontWeight: '700', color: 'var(--zinc-)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Title</th>
+                <th style={{ padding: '20px 24px', fontSize: '0.75rem', fontWeight: '700', color: 'var(--zinc-)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Concept</th>
+                <th style={{ padding: '20px 24px', fontSize: '0.75rem', fontWeight: '700', color: 'var(--zinc-)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Difficulty</th>
+                <th style={{ padding: '20px 24px', fontSize: '0.75rem', fontWeight: '700', color: 'var(--zinc-)', textTransform: 'uppercase', letterSpacing: '0.05em', textAlign: 'right' }}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -169,7 +169,7 @@ const ProblemSetView = () => {
                   <td colSpan="5" style={{ padding: '80px 24px', textAlign: 'center' }}>
                     <div style={{ fontSize: '2rem', marginBottom: '16px' }}>🔍</div>
                     <h3 style={{ color: 'var(--text-primary)', marginBottom: '8px' }}>No problems found</h3>
-                    <p style={{ color: 'var(--slate-500)' }}>Try adjusting your filters or search query.</p>
+                    <p style={{ color: 'var(--zinc-)' }}>Try adjusting your filters or search query.</p>
                   </td>
                 </tr>
               ) : (
@@ -177,17 +177,17 @@ const ProblemSetView = () => {
                   <tr key={problem._id} className="problem-row" style={{ borderBottom: '1px solid var(--border-color)', transition: 'background 0.2s' }}>
                     <td style={{ padding: '20px 24px' }}>
                       {problem.isSolved ? (
-                        <span style={{ color: 'var(--emerald-500)', fontSize: '1.25rem' }}>check_circle</span>
+                        <span className="material-symbols-outlined" style={{ color: 'var(--status-easy)', fontSize: '1.25rem' }}>check_circle</span>
                       ) : (
                         <div style={{ width: '20px', height: '20px', borderRadius: '50%', border: '2px solid var(--border-color)', margin: '2px' }}></div>
                       )}
                     </td>
                     <td style={{ padding: '20px 24px' }}>
                       <div style={{ fontWeight: '700', color: 'var(--text-primary)', fontSize: '1rem' }}>{problem.name}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)', marginTop: '4px' }}>{problem.source || 'Standard'}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--zinc-)', marginTop: '4px' }}>{problem.source || 'Standard'}</div>
                     </td>
                     <td style={{ padding: '20px 24px' }}>
-                      <span style={{ padding: '4px 12px', borderRadius: '8px', background: 'rgba(99,102,241,0.08)', color: 'var(--indigo-300)', fontSize: '0.8125rem', fontWeight: '600', border: '1px solid rgba(99,102,241,0.15)' }}>
+                      <span style={{ padding: '4px 12px', borderRadius: '8px', background: 'rgba(59,130,246,0.08)', color: 'var(--indigo-300)', fontSize: '0.8125rem', fontWeight: '600', border: '1px solid rgba(59,130,246,0.15)' }}>
                         {problem.topic}
                       </span>
                     </td>
@@ -204,7 +204,7 @@ const ProblemSetView = () => {
                             target="_blank" 
                             rel="noreferrer"
                             className="btn btn-sm btn-ghost"
-                            style={{ padding: '6px 12px', color: 'var(--indigo-400)' }}
+                            style={{ padding: '6px 12px', color: 'var(--cobalt-400)' }}
                           >
                             🔎 Search Web
                           </a>
@@ -258,21 +258,21 @@ const ProblemSetView = () => {
         {/* Pagination Info */}
         {!loading && problems.length > 0 && (
           <div style={{ padding: '20px 24px', background: 'var(--bg-surface)', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div style={{ fontSize: '0.875rem', color: 'var(--slate-500)' }}>
+            <div style={{ fontSize: '0.875rem', color: 'var(--zinc-)' }}>
               Showing {problems.length} of {pagination.total} problems
             </div>
             <div style={{ display: 'flex', gap: '8px' }}>
               <button 
                 disabled={pagination.page === 1}
                 onClick={() => setPagination(prev => ({ ...prev, page: prev.page - 1 }))}
-                style={{ padding: '8px 16px', borderRadius: '8px', background: 'var(--bg-surface)', color: pagination.page === 1 ? 'var(--slate-700)' : 'var(--text-primary)', border: '1px solid var(--border-color)', cursor: pagination.page === 1 ? 'not-allowed' : 'pointer' }}
+                style={{ padding: '8px 16px', borderRadius: '8px', background: 'var(--bg-surface)', color: pagination.page === 1 ? 'var(--zinc-)' : 'var(--text-primary)', border: '1px solid var(--border-color)', cursor: pagination.page === 1 ? 'not-allowed' : 'pointer' }}
               >
                 Previous
               </button>
               <button 
                 disabled={pagination.page >= pagination.pages}
                 onClick={() => setPagination(prev => ({ ...prev, page: prev.page + 1 }))}
-                style={{ padding: '8px 16px', borderRadius: '8px', background: 'var(--bg-surface)', color: pagination.page >= pagination.pages ? 'var(--slate-700)' : 'var(--text-primary)', border: '1px solid var(--border-color)', cursor: pagination.page >= pagination.pages ? 'not-allowed' : 'pointer' }}
+                style={{ padding: '8px 16px', borderRadius: '8px', background: 'var(--bg-surface)', color: pagination.page >= pagination.pages ? 'var(--zinc-)' : 'var(--text-primary)', border: '1px solid var(--border-color)', cursor: pagination.page >= pagination.pages ? 'not-allowed' : 'pointer' }}
               >
                 Next
               </button>

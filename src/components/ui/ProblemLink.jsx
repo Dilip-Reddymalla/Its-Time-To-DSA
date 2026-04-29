@@ -72,7 +72,7 @@ const ProblemLink = ({ leetcodeSlug, gfgUrl: gfgProp, gfgLink, url, style = {} }
   // ── Loading ──────────────────────────────────────────────────────────────────
   if (linkState === 'loading') {
     return (
-      <span style={{ ...base, color: 'var(--slate-600)', cursor: 'default', opacity: 0.5 }}>
+      <span style={{ ...base, color: 'var(--zinc-)', cursor: 'default', opacity: 0.5 }}>
         Checking link…
       </span>
     );
@@ -81,7 +81,7 @@ const ProblemLink = ({ leetcodeSlug, gfgUrl: gfgProp, gfgLink, url, style = {} }
   // ── LeetCode valid ───────────────────────────────────────────────────────────
   if (linkState === 'lc-valid' && lcUrl) {
     return (
-      <a href={lcUrl} target="_blank" rel="noreferrer" style={{ ...base, color: 'var(--indigo-400)' }}>
+      <a href={lcUrl} target="_blank" rel="noreferrer" style={{ ...base, color: 'var(--cobalt-400)' }}>
         Solve on LeetCode ↗
       </a>
     );
@@ -107,7 +107,7 @@ const ProblemLink = ({ leetcodeSlug, gfgUrl: gfgProp, gfgLink, url, style = {} }
     }
     // No GFG either — best-effort LC link
     return (
-      <a href={lcUrl} target="_blank" rel="noreferrer" style={{ ...base, color: 'var(--slate-500)' }}>
+      <a href={lcUrl} target="_blank" rel="noreferrer" style={{ ...base, color: 'var(--zinc-)' }}>
         LeetCode ↗
         <span style={{
           fontSize: '0.62rem', padding: '1px 6px', borderRadius: '99px',
@@ -124,7 +124,7 @@ const ProblemLink = ({ leetcodeSlug, gfgUrl: gfgProp, gfgLink, url, style = {} }
   const fallbackUrl = url || resolvedGfg || '#';
   return (
     <a href={fallbackUrl} target="_blank" rel="noreferrer"
-      style={{ ...base, color: resolvedGfg ? 'var(--emerald-400)' : 'var(--indigo-400)' }}>
+      style={{ ...base, color: resolvedGfg ? 'var(--emerald-400)' : 'var(--cobalt-400)' }}>
       {resolvedGfg ? 'Solve on GFG ↗' : 'Solve on Platform ↗'}
     </a>
   );

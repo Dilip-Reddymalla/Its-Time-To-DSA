@@ -6,15 +6,15 @@ const FeaturesGrid = () => {
       title: '90-Day Adaptive Roadmap',
       desc: 'Get a day-by-day roadmap personalized to your pace. Phase 1 for core topics, Phase 2 for advanced patterns, and built-in revision days.',
       icon: '🗓️',
-      color: 'var(--indigo-500)',
+      color: 'var(--accent-primary)',
       large: true,
       extra: (
         <div className="mock-code" style={{ marginTop: '24px', opacity: 0.8 }}>
-          <div style={{ color: 'var(--slate-500)' }}>// Today's Focus: Sliding Window</div>
+          <div style={{ color: 'var(--zinc-)' }}>// Today's Focus: Sliding Window</div>
           <div style={{ color: 'var(--emerald-400)' }}>let windowStart = 0;</div>
-          <div style={{ color: 'var(--indigo-400)' }}>for (let windowEnd = 0; windowEnd &lt; arr.length; windowEnd++) &#123;</div>
-          <div style={{ marginLeft: '16px', color: 'var(--slate-400)' }}>/* Expand window */</div>
-          <div style={{ color: 'var(--indigo-400)' }}>&#125;</div>
+          <div style={{ color: 'var(--cobalt-400)' }}>for (let windowEnd = 0; windowEnd &lt; arr.length; windowEnd++) &#123;</div>
+          <div style={{ marginLeft: '16px', color: 'var(--zinc-)' }}>/* Expand window */</div>
+          <div style={{ color: 'var(--cobalt-400)' }}>&#125;</div>
         </div>
       )
     },
@@ -34,13 +34,13 @@ const FeaturesGrid = () => {
       title: 'Pattern-First Learning',
       desc: 'Stop memorizing code. We group problems by standard patterns (Two Pointers, Fast & Slow, Top K) so you build intuition.',
       icon: '🧠',
-      color: 'var(--indigo-500)'
+      color: 'var(--accent-primary)'
     },
     {
       title: 'Curated Solution Lab',
       desc: 'Stuck? Every problem comes tied to the best GeeksForGeeks articles and NeetCode/Striver videos. No more searching.',
       icon: '📹',
-      color: 'var(--indigo-400)',
+      color: 'var(--cobalt-400)',
       large: true
     }
   ];
@@ -95,7 +95,7 @@ const FeaturesGrid = () => {
               {f.extra}
               
               {/* Hardware Label */}
-              <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px dashed var(--border-color)', fontSize: '0.75rem', color: 'var(--slate-400)', fontFamily: 'var(--mono)', fontWeight: 'bold' }}>
+              <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px dashed var(--border-color)', fontSize: '0.75rem', color: 'var(--zinc-)', fontFamily: 'var(--mono)', fontWeight: 'bold' }}>
                 MODULE_PRTK_00{i+1} // STAT_OK
               </div>
             </div>

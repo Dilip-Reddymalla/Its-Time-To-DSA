@@ -87,10 +87,10 @@ const TestimonialsCarousel = () => {
               </div>
               <div>
                 <div style={{ fontWeight: 'bold' }}>{t.name}</div>
-                <div style={{ fontSize: '0.875rem', color: 'var(--indigo-400)' }}>{t.role}</div>
+                <div style={{ fontSize: '0.875rem', color: 'var(--cobalt-400)' }}>{t.role}</div>
               </div>
             </div>
-            <p style={{ color: 'var(--slate-400)', fontStyle: 'italic', lineHeight: '1.6' }}>"{t.text}"</p>
+            <p style={{ color: 'var(--zinc-)', fontStyle: 'italic', lineHeight: '1.6' }}>"{t.text}"</p>
           </div>
         ))}
       </div>

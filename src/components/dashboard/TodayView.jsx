@@ -193,7 +193,7 @@ const TodayView = () => {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
         <div className="loader"></div>
-        <p style={{ marginTop: '24px', color: 'var(--slate-400)' }}>Syncing your mission...</p>
+        <p style={{ marginTop: '24px', color: 'var(--zinc-)' }}>Syncing your mission...</p>
       </div>
     );
   }
@@ -203,7 +203,7 @@ const TodayView = () => {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
         <div className="loader"></div>
         <h3 style={{ marginTop: '24px', color: 'var(--text-primary)', fontWeight: '800' }}>Building your roadmap...</h3>
-        <p style={{ color: 'var(--slate-400)', fontSize: '0.875rem', marginTop: '8px' }}>Optimizing patterns for Day {user?.startDate ? '1' : '...'}</p>
+        <p style={{ color: 'var(--zinc-)', fontSize: '0.875rem', marginTop: '8px' }}>Optimizing patterns for Day {user?.startDate ? '1' : '...'}</p>
       </div>
     );
   }
@@ -213,7 +213,7 @@ const TodayView = () => {
       <div className="reveal visible" style={{ maxWidth: '600px', margin: '80px auto', textAlign: 'center' }}>
         <div style={{ fontSize: '4rem', marginBottom: '24px' }}>🛋️</div>
         <h2 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '12px' }}>Rest & Reflect</h2>
-        <p style={{ color: 'var(--slate-400)', marginBottom: '32px', fontSize: '1.2rem', lineHeight: '1.6' }}>
+        <p style={{ color: 'var(--zinc-)', marginBottom: '32px', fontSize: '1.2rem', lineHeight: '1.6' }}>
           No active missions today. This is the perfect time to review your older bookmarks or take a complete break to avoid burnout.
         </p>
         <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
@@ -229,7 +229,7 @@ const TodayView = () => {
       <div className="reveal visible" style={{ maxWidth: '600px', margin: '80px auto', textAlign: 'center' }}>
         <div style={{ fontSize: '4rem', marginBottom: '24px' }}> ⚠️ </div>
         <h2 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '12px' }}>System Offline</h2>
-        <p style={{ color: 'var(--slate-400)', marginBottom: '32px', fontSize: '1.2rem', lineHeight: '1.6' }}>
+        <p style={{ color: 'var(--zinc-)', marginBottom: '32px', fontSize: '1.2rem', lineHeight: '1.6' }}>
           We couldn't initialize your schedule. This usually happens if you haven't finished the onboarding flow.
         </p>
         <Link to="/onboarding" className="btn btn-primary" style={{ padding: '16px 32px' }}>Resume Onboarding</Link>
@@ -244,11 +244,11 @@ const TodayView = () => {
       <div className="reveal visible" style={{ maxWidth: '600px', margin: '80px auto', textAlign: 'center' }}>
         <div style={{ fontSize: '4rem', marginBottom: '24px' }}>⏸️</div>
         <h2 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '12px' }}>Schedule Paused</h2>
-        <p style={{ color: 'var(--slate-400)', marginBottom: '32px', fontSize: '1.2rem', lineHeight: '1.6' }}>
+        <p style={{ color: 'var(--zinc-)', marginBottom: '32px', fontSize: '1.2rem', lineHeight: '1.6' }}>
           Your schedule has been paused by the administrator. Don't worry, your streak and progress are frozen safely until the schedule resumes.
         </p>
         {pauseReason && (
-          <div style={{ padding: '16px', borderRadius: '12px', background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', display: 'inline-block', marginBottom: '32px' }}>
+          <div style={{ padding: '16px', borderRadius: '12px', background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)', display: 'inline-block', marginBottom: '32px' }}>
             <strong>Reason:</strong> {pauseReason}
           </div>
         )}
@@ -261,7 +261,7 @@ const TodayView = () => {
       <div className="reveal visible" style={{ maxWidth: '600px', margin: '80px auto', textAlign: 'center' }}>
         <div style={{ fontSize: '4rem', marginBottom: '24px' }}>🛋️</div>
         <h2 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '12px' }}>Sunday Rest Day</h2>
-        <p style={{ color: 'var(--slate-400)', marginBottom: '20px', fontSize: '1.2rem', lineHeight: '1.6' }}>
+        <p style={{ color: 'var(--zinc-)', marginBottom: '20px', fontSize: '1.2rem', lineHeight: '1.6' }}>
           Take a deep breath and relax. No new patterns today.
         </p>
         <p style={{ color: 'var(--amber-500)', marginBottom: '32px', fontSize: '1rem', fontWeight: 'bold' }}>
@@ -276,7 +276,7 @@ const TodayView = () => {
   }
 
   const progressPercent = Math.round((progress.completed / progress.total) * 100) || 0;
-  const accentColor = isRevision ? '#a855f7' : 'var(--indigo-500)';
+  const accentColor = isRevision ? '#a855f7' : 'var(--accent-primary)';
 
   return (
     <div className="reveal visible container" style={{ paddingBottom: '80px', paddingTop: 'clamp(20px, 5vw, 40px)' }}>
@@ -286,12 +286,12 @@ const TodayView = () => {
           <span className="badge badge-primary" style={{ background: `${accentColor}20`, color: accentColor, border: `1px solid ${accentColor}40` }}>
             {isRestDay ? 'REST DAY CATCH-UP' : (isRevision ? 'REVISION DAY' : `MISSION DAY ${dayNumber}`)}
           </span>
-          <span style={{ fontSize: '0.875rem', color: 'var(--slate-500)', fontWeight: '600' }}>{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</span>
+          <span style={{ fontSize: '0.875rem', color: 'var(--zinc-)', fontWeight: '600' }}>{new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}</span>
         </div>
         <h1 style={{ fontSize: 'clamp(2rem, 6vw, 3.5rem)', fontWeight: '900', color: 'var(--text-primary)', marginBottom: '12px', letterSpacing: '-0.04em', lineHeight: '1' }}>
           {isRestDay ? <><span className="gradient-text">Catch-up</span> Time</> : <>Today's <span className="gradient-text">Patterns</span></>}
         </h1>
-        <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(1rem, 2vw, 1.25rem)', maxWidth: '500px', lineHeight: '1.5' }}>
+        <p style={{ color: 'var(--zinc-)', fontSize: 'clamp(1rem, 2vw, 1.25rem)', maxWidth: '500px', lineHeight: '1.5' }}>
           {isRestDay ? "It's a rest day, but let's clear out your remaining carry-over problems to stay on track." : (isRevision ? "Reviewing previously solved patterns to build long-term muscle memory." : "Mastering the sliding window and two-pointer patterns through deliberate practice.")}
         </p>
 
@@ -301,7 +301,7 @@ const TodayView = () => {
             <span style={{ fontSize: '1.25rem' }}>📌</span>
             <div>
               <span style={{ fontWeight: '700', color: 'var(--amber-500)', fontSize: '0.9rem' }}>{carryoverCount} problem{carryoverCount > 1 ? 's' : ''} rolled over from previous days</span>
-              <p style={{ fontSize: '0.8rem', color: 'var(--slate-500)', marginTop: '2px' }}>These were not completed earlier and have been added to today's session.</p>
+              <p style={{ fontSize: '0.8rem', color: 'var(--zinc-)', marginTop: '2px' }}>These were not completed earlier and have been added to today's session.</p>
             </div>
           </div>
         )}
@@ -333,7 +333,7 @@ const TodayView = () => {
                   style={{ 
                     width: '40px', height: '40px', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center',
                     background: p.solved ? (p.isCarryover ? 'var(--amber-500)' : accentColor) : 'var(--bg-surface)',
-                    color: p.solved ? 'var(--bg-base)' : 'var(--slate-600)',
+                    color: p.solved ? 'var(--bg-base)' : 'var(--zinc-)',
                     fontSize: '1.25rem', flexShrink: 0,
                     border: '1px solid var(--border-color)',
                     transition: 'all 0.2s',
@@ -352,7 +352,7 @@ const TodayView = () => {
                       <span style={{ 
                         fontSize: '0.65rem', fontWeight: '700', padding: '2px 8px', borderRadius: '99px', 
                         background: p.leetcodeSlug ? 'rgba(239,68,68,0.1)' : 'rgba(100,116,139,0.1)', 
-                        color: p.leetcodeSlug ? '#ef4444' : 'var(--slate-500)', 
+                        color: p.leetcodeSlug ? '#ef4444' : 'var(--zinc-)', 
                         border: p.leetcodeSlug ? '1px solid rgba(239,68,68,0.3)' : '1px solid rgba(100,116,139,0.3)', 
                         letterSpacing: '0.04em' 
                       }}>
@@ -368,9 +368,9 @@ const TodayView = () => {
                   </div>
                   <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
                     {(!p.leetcodeSlug && !p.gfgUrl) ? (
-                      <span style={{ fontSize: '0.8125rem', color: 'var(--slate-500)', fontWeight: '500' }}>
+                      <span style={{ fontSize: '0.8125rem', color: 'var(--zinc-)', fontWeight: '500' }}>
                         No proper links available. 
-                        <a href={`https://www.google.com/search?q=${encodeURIComponent(p.title || p.name)}`} target="_blank" rel="noreferrer" style={{ marginLeft: '4px', color: 'var(--indigo-400)', textDecoration: 'none', fontWeight: '600' }}>
+                        <a href={`https://www.google.com/search?q=${encodeURIComponent(p.title || p.name)}`} target="_blank" rel="noreferrer" style={{ marginLeft: '4px', color: 'var(--cobalt-400)', textDecoration: 'none', fontWeight: '600' }}>
                           Search Web ↗
                         </a>
                       </span>
@@ -396,7 +396,7 @@ const TodayView = () => {
                       </a>
                     )}
                     {(p.videoSolution || p.gfgLink) && (
-                      <a href={p.videoSolution || p.gfgLink} target="_blank" rel="noreferrer" style={{ fontSize: '0.8125rem', color: 'var(--slate-500)', fontWeight: '600', textDecoration: 'none' }}>Solution ↗</a>
+                      <a href={p.videoSolution || p.gfgLink} target="_blank" rel="noreferrer" style={{ fontSize: '0.8125rem', color: 'var(--zinc-)', fontWeight: '600', textDecoration: 'none' }}>Solution ↗</a>
                     )}
                   </div>
                 </div>
@@ -408,13 +408,13 @@ const TodayView = () => {
                   style={{
                     flexShrink: 0, width: '36px', height: '36px', borderRadius: '10px',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: noteText ? 'rgba(99,102,241,0.1)' : 'var(--bg-surface)',
-                    border: noteText ? '1px solid rgba(99,102,241,0.3)' : '1px solid var(--border-color)',
-                    color: noteText ? 'var(--indigo-400)' : 'var(--slate-500)',
+                    background: noteText ? 'rgba(59,130,246,0.1)' : 'var(--bg-surface)',
+                    border: noteText ? '1px solid rgba(59,130,246,0.3)' : '1px solid var(--border-color)',
+                    color: noteText ? 'var(--cobalt-400)' : 'var(--zinc-)',
                     fontSize: '1rem', cursor: 'pointer', transition: 'all 0.2s',
                   }}
-                  onMouseOver={e => { e.currentTarget.style.background = 'rgba(99,102,241,0.12)'; e.currentTarget.style.borderColor = 'rgba(99,102,241,0.4)'; e.currentTarget.style.color = 'var(--indigo-400)'; }}
-                  onMouseOut={e => { e.currentTarget.style.background = noteText ? 'rgba(99,102,241,0.1)' : 'var(--bg-surface)'; e.currentTarget.style.borderColor = noteText ? 'rgba(99,102,241,0.3)' : 'var(--border-color)'; e.currentTarget.style.color = noteText ? 'var(--indigo-400)' : 'var(--slate-500)'; }}
+                  onMouseOver={e => { e.currentTarget.style.background = 'rgba(59,130,246,0.12)'; e.currentTarget.style.borderColor = 'rgba(59,130,246,0.4)'; e.currentTarget.style.color = 'var(--cobalt-400)'; }}
+                  onMouseOut={e => { e.currentTarget.style.background = noteText ? 'rgba(59,130,246,0.1)' : 'var(--bg-surface)'; e.currentTarget.style.borderColor = noteText ? 'rgba(59,130,246,0.3)' : 'var(--border-color)'; e.currentTarget.style.color = noteText ? 'var(--cobalt-400)' : 'var(--zinc-)'; }}
                 >
                   📝
                 </button>
@@ -444,7 +444,7 @@ const TodayView = () => {
                       flexShrink: 0, width: '36px', height: '36px', borderRadius: '10px',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       background: 'var(--bg-surface)', border: '1px solid var(--border-color)',
-                      color: 'var(--slate-500)', fontSize: '1rem', cursor: 'pointer', transition: 'all 0.2s',
+                      color: 'var(--zinc-)', fontSize: '1rem', cursor: 'pointer', transition: 'all 0.2s',
                     }}
                     onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.1)'; e.currentTarget.style.borderColor = 'rgba(239,68,68,0.4)'; }}
                     onMouseOut={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
@@ -460,7 +460,7 @@ const TodayView = () => {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
                     <span style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>My Notes</span>
                     {savingNote === pid && (
-                      <span style={{ fontSize: '0.7rem', color: 'var(--slate-500)' }}>Saving...</span>
+                      <span style={{ fontSize: '0.7rem', color: 'var(--zinc-)' }}>Saving...</span>
                     )}
                     {savingNote !== pid && noteText && (
                       <span style={{ fontSize: '0.7rem', color: 'var(--emerald-500)' }}>✓ Saved</span>
@@ -480,7 +480,7 @@ const TodayView = () => {
                       outline: 'none', boxSizing: 'border-box',
                       transition: 'border-color 0.2s',
                     }}
-                    onFocus={e => { e.currentTarget.style.borderColor = 'var(--indigo-500)'; }}
+                    onFocus={e => { e.currentTarget.style.borderColor = 'var(--accent-primary)'; }}
                     onBlurCapture={e => { e.currentTarget.style.borderColor = 'var(--border-color)'; }}
                   />
                   <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginTop: '8px' }}>
@@ -492,7 +492,7 @@ const TodayView = () => {
                     </button>
                     <button
                       onClick={() => setExpandedNote(null)}
-                      style={{ padding: '6px 14px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '600', background: 'var(--bg-surface)', color: 'var(--slate-400)', border: '1px solid var(--border-color)', cursor: 'pointer' }}
+                      style={{ padding: '6px 14px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '600', background: 'var(--bg-surface)', color: 'var(--zinc-)', border: '1px solid var(--border-color)', cursor: 'pointer' }}
                     >
                       Close
                     </button>
@@ -508,9 +508,9 @@ const TodayView = () => {
             <div style={{ marginTop: '24px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
                 <span style={{ fontSize: '1.2rem' }}>🔍</span>
-                <h3 style={{ fontSize: '1rem', fontWeight: 'bold', color: 'var(--slate-300)' }}>Search & Practice</h3>
+                <h3 style={{ fontSize: '1rem', fontWeight: 'bold', color: 'var(--zinc-)' }}>Search & Practice</h3>
               </div>
-              <p style={{ fontSize: '0.875rem', color: 'var(--slate-500)', marginBottom: '16px', lineHeight: '1.5' }}>
+              <p style={{ fontSize: '0.875rem', color: 'var(--zinc-)', marginBottom: '16px', lineHeight: '1.5' }}>
                 These conceptual questions have no direct links to LeetCode or GeeksForGeeks. Search for them online to practice the theory — they don't count towards your daily goal streak.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -526,7 +526,7 @@ const TodayView = () => {
                   }}>
                     <div>
                       <div style={{ fontWeight: '600', color: 'var(--text-primary)', fontSize: '0.95rem', marginBottom: '4px' }}>{p.name}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>{p.topic} • {p.difficulty}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--zinc-)' }}>{p.topic} • {p.difficulty}</div>
                     </div>
                     <a 
                       href={`https://www.google.com/search?q=${encodeURIComponent(p.name + ' ' + p.topic + ' ' + (p.source || 'dsa problem'))}`}
@@ -575,11 +575,11 @@ const TodayView = () => {
             <h4 style={{ fontSize: '0.8125rem', fontWeight: 'bold', color: 'var(--text-secondary)', marginBottom: '16px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Mission Intel</h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem' }}>
-                <span style={{ color: 'var(--slate-500)' }}>Total Completed</span>
+                <span style={{ color: 'var(--zinc-)' }}>Total Completed</span>
                 <span style={{ color: 'var(--text-primary)', fontWeight: 'bold' }}>{user?.totalSolved || 0}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem' }}>
-                <span style={{ color: 'var(--slate-500)' }}>Current Streak</span>
+                <span style={{ color: 'var(--zinc-)' }}>Current Streak</span>
                 <span style={{ color: 'var(--text-primary)', fontWeight: 'bold' }}>{user?.currentStreak || 0} Days</span>
               </div>
             </div>
@@ -588,7 +588,7 @@ const TodayView = () => {
           <div className="glass-card" style={{ padding: '24px', border: '2px solid var(--border-color-strong)' }}>
             <h4 style={{ fontSize: '0.8125rem', fontWeight: 'bold', color: 'var(--text-secondary)', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Next Up</h4>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-               <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--indigo-500)' }}></div>
+               <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'var(--accent-primary)' }}></div>
                <span style={{ fontSize: '0.875rem', fontWeight: '500', color: 'var(--text-primary)' }}>Day {dayNumber + 1}: {isRevision ? 'Back to Patterns' : 'More Problems'}</span>
             </div>
             
@@ -624,7 +624,7 @@ const TodayView = () => {
               🚩 Report Problem
             </h3>
             <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 'bold', color: 'var(--slate-400)', marginBottom: '8px' }}>Reason</label>
+              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 'bold', color: 'var(--zinc-)', marginBottom: '8px' }}>Reason</label>
               <select 
                 value={reportReason} onChange={e => setReportReason(e.target.value)}
                 style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', background: 'var(--bg-base)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', outline: 'none' }}
@@ -637,7 +637,7 @@ const TodayView = () => {
               </select>
             </div>
             <div style={{ marginBottom: '24px' }}>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 'bold', color: 'var(--slate-400)', marginBottom: '8px' }}>Description (optional)</label>
+              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 'bold', color: 'var(--zinc-)', marginBottom: '8px' }}>Description (optional)</label>
               <textarea 
                 value={reportDescription} onChange={e => setReportDescription(e.target.value)}
                 rows={3}

@@ -115,7 +115,7 @@ const ProfileView = () => {
     <div className="reveal visible container" style={{ paddingBottom: '80px', paddingTop: 'clamp(20px, 5vw, 40px)' }}>
       <div style={{ marginBottom: '32px' }}>
         <h1 style={{ fontSize: 'clamp(1.8rem, 5vw, 2.5rem)', fontWeight: '900', marginBottom: '8px', letterSpacing: '-0.03em', lineHeight: '1.1' }}>User Settings</h1>
-        <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(0.9375rem, 2vw, 1.1rem)' }}>Manage your profile and 90-day roadmap configuration.</p>
+        <p style={{ color: 'var(--zinc-)', fontSize: 'clamp(0.9375rem, 2vw, 1.1rem)' }}>Manage your profile and 90-day roadmap configuration.</p>
       </div>
 
       <div className="profile-grid dashboard-grid stack-on-mobile">
@@ -126,27 +126,27 @@ const ProfileView = () => {
               src={(profile?.avatar && profile.avatar !== 'null') ? profile.avatar : `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile?.name}`} 
               onError={(e) => { e.currentTarget.src = `https://api.dicebear.com/7.x/avataaars/svg?seed=${profile?.name}`; }}
               alt="Avatar" 
-              style={{ width: '100px', height: '100px', borderRadius: '50%', marginBottom: '16px', border: '3px solid var(--indigo-500)', margin: '0 auto 16px', objectFit: 'cover' }} 
+              style={{ width: '100px', height: '100px', borderRadius: '50%', marginBottom: '16px', border: '3px solid var(--accent-primary)', margin: '0 auto 16px', objectFit: 'cover' }} 
             />
             <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '4px' }}>{profile?.name}</h2>
-            <p style={{ color: 'var(--slate-500)', fontSize: '0.875rem', marginBottom: '24px' }}>{profile?.email}</p>
+            <p style={{ color: 'var(--zinc-)', fontSize: '0.875rem', marginBottom: '24px' }}>{profile?.email}</p>
             
             <div style={{ textAlign: 'left', padding: '16px', borderRadius: '12px', background: 'var(--bg-surface)', border: '1px solid var(--border-color)' }}>
-              <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>LeetCode Handle</div>
-              <div style={{ color: 'var(--indigo-400)', fontWeight: 'bold' }}>@{profile?.leetcodeUsername || 'not set'}</div>
+              <div style={{ fontSize: '0.75rem', color: 'var(--zinc-)', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>LeetCode Handle</div>
+              <div style={{ color: 'var(--cobalt-400)', fontWeight: 'bold' }}>@{profile?.leetcodeUsername || 'not set'}</div>
             </div>
           </div>
 
-          <div className="glass-card" style={{ padding: '24px', background: 'rgba(99,102,241,0.05)', border: '1px solid rgba(99,102,241,0.2)' }}>
+          <div className="glass-card" style={{ padding: '24px', background: 'rgba(59,130,246,0.05)', border: '1px solid rgba(59,130,246,0.2)' }}>
             <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '8px', color: 'var(--indigo-300)' }}>Pro Tip 💡</h3>
-            <p style={{ fontSize: '0.875rem', color: 'var(--slate-400)', lineHeight: '1.6' }}>
+            <p style={{ fontSize: '0.875rem', color: 'var(--zinc-)', lineHeight: '1.6' }}>
               Rescheduling will recalculate your daily missions starting from your chosen date, but it will <strong>automatically skip</strong> all problems you've already solved.
             </p>
           </div>
 
           <div className="glass-card" style={{ padding: '24px' }}>
             <h3 style={{ fontSize: '1rem', fontWeight: 'bold', marginBottom: '8px', color: 'var(--text-primary)' }}>Need a break?</h3>
-            <p style={{ fontSize: '0.875rem', color: 'var(--slate-400)', lineHeight: '1.6', marginBottom: '16px' }}>
+            <p style={{ fontSize: '0.875rem', color: 'var(--zinc-)', lineHeight: '1.6', marginBottom: '16px' }}>
               You can request an administrator to pause your schedule. Your streak and progress will be frozen.
             </p>
             <input 
@@ -172,7 +172,7 @@ const ProfileView = () => {
           <form onSubmit={handleUpdate} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             
             <div>
-              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--slate-300)', marginBottom: '8px' }}>
+              <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--zinc-)', marginBottom: '8px' }}>
                 LeetCode Username
               </label>
               <input 
@@ -183,14 +183,14 @@ const ProfileView = () => {
                 placeholder="e.g. janesmith_99"
                 style={{ width: '100%', background: 'rgba(0,0,0,0.2)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '12px 16px', color: 'var(--text-primary)', fontSize: '1rem', marginBottom: '4px' }}
               />
-              <p style={{ fontSize: '0.75rem', color: changesLeft > 0 ? 'var(--slate-500)' : '#ef4444' }}>
+              <p style={{ fontSize: '0.75rem', color: changesLeft > 0 ? 'var(--zinc-)' : '#ef4444' }}>
                 {changesLeft > 0 ? `${changesLeft} changes remaining` : 'You have reached the maximum number of username changes.'}
               </p>
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '24px' }}>
               <div>
-                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--slate-300)', marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--zinc-)', marginBottom: '8px' }}>
                   Roadmap Start Date
                 </label>
                 <input 
@@ -202,7 +202,7 @@ const ProfileView = () => {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--slate-300)', marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--zinc-)', marginBottom: '8px' }}>
                   Daily Intensity
                 </label>
                 <select 
@@ -217,7 +217,7 @@ const ProfileView = () => {
               </div>
 
               <div>
-                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--slate-300)', marginBottom: '8px' }}>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--zinc-)', marginBottom: '8px' }}>
                   Roadmap Duration
                 </label>
                 <select 
@@ -242,7 +242,7 @@ const ProfileView = () => {
                 />
                 <div>
                   <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', fontSize: '0.925rem' }}>Enable Sunday Rest Days</span>
-                  <p style={{ fontSize: '0.8125rem', color: 'var(--slate-500)', marginTop: '2px', lineHeight: '1.4' }}>Take Sundays off to recharge. This will automatically shift your schedule up or down immediately when saved!</p>
+                  <p style={{ fontSize: '0.8125rem', color: 'var(--zinc-)', marginTop: '2px', lineHeight: '1.4' }}>Take Sundays off to recharge. This will automatically shift your schedule up or down immediately when saved!</p>
                 </div>
               </label>
 
@@ -255,7 +255,7 @@ const ProfileView = () => {
                 />
                 <div>
                   <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', fontSize: '0.925rem' }}>Reschedule Plan</span>
-                  <p style={{ fontSize: '0.8125rem', color: 'var(--slate-500)', marginTop: '2px', lineHeight: '1.4' }}>Recalculate roadmap from chosen start date (skipping solved problems).</p>
+                  <p style={{ fontSize: '0.8125rem', color: 'var(--zinc-)', marginTop: '2px', lineHeight: '1.4' }}>Recalculate roadmap from chosen start date (skipping solved problems).</p>
                 </div>
               </label>
             </div>

@@ -84,7 +84,7 @@ const AdminLayout = () => {
           
           {/* Desktop Logo */}
           <div style={{ padding: '28px 20px', display: 'flex', alignItems: 'center', gap: '14px', borderBottom: '1px solid var(--border-color)' }} className="hide-mobile">
-            <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'linear-gradient(135deg, var(--indigo-500), var(--emerald-400))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', flexShrink: 0 }}>🛡️</div>
+            <div style={{ width: '44px', height: '44px', borderRadius: '12px', background: 'linear-gradient(135deg, var(--accent-primary), var(--emerald-400))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.3rem', flexShrink: 0 }}>🛡️</div>
             <div>
               <div style={{ fontWeight: '900', fontSize: '1.1rem', letterSpacing: '-0.02em' }}>Admin <span className="gradient-text">Panel</span></div>
               <div style={{ fontSize: '0.7rem', color: 'var(--text-secondary)', fontWeight: '600', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Control Center</div>
@@ -100,9 +100,9 @@ const AdminLayout = () => {
                 className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
                 style={({ isActive }) => ({
                   display: 'flex', alignItems: 'center', gap: '12px', padding: '12px 16px', borderRadius: '12px', fontWeight: '600', transition: 'all 0.2s', textDecoration: 'none',
-                  background: isActive ? 'rgba(99,102,241,0.08)' : 'transparent',
-                  color: isActive ? 'var(--indigo-400)' : 'var(--text-secondary)',
-                  border: isActive ? '1px solid rgba(99,102,241,0.15)' : '1px solid transparent',
+                  background: isActive ? 'rgba(59,130,246,0.08)' : 'transparent',
+                  color: isActive ? 'var(--cobalt-400)' : 'var(--text-secondary)',
+                  border: isActive ? '1px solid rgba(59,130,246,0.15)' : '1px solid transparent',
                   fontSize: '0.9rem'
                 })}
               >
@@ -150,9 +150,9 @@ const AdminLayout = () => {
             </div>
             <button 
               onClick={logout}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '10px', borderRadius: '10px', background: 'var(--bg-surface)', color: 'var(--slate-400)', border: '1px solid var(--border-color)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', transition: 'all 0.2s' }}
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '10px', borderRadius: '10px', background: 'var(--bg-surface)', color: 'var(--zinc-)', border: '1px solid var(--border-color)', cursor: 'pointer', fontSize: '0.8rem', fontWeight: '600', transition: 'all 0.2s' }}
               onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.05)'; e.currentTarget.style.color = '#f87171'; }}
-              onMouseOut={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.color = 'var(--slate-400)'; }}
+              onMouseOut={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.color = 'var(--zinc-)'; }}
             >
               🚪 Sign Out
             </button>
@@ -175,7 +175,7 @@ const AdminLayout = () => {
           .sidebar.open { transform: translateX(0); }
         }
         .sidebar-link:hover { color: var(--text-primary) !important; background: var(--border-color) !important; border-color: transparent !important; }
-        .sidebar-link.active:hover { background: rgba(99,102,241,0.1) !important; border-color: rgba(99,102,241,0.2) !important; color: var(--indigo-400) !important; }
+        .sidebar-link.active:hover { background: rgba(59,130,246,0.1) !important; border-color: rgba(59,130,246,0.2) !important; color: var(--cobalt-400) !important; }
       `}</style>
     </div>
   );

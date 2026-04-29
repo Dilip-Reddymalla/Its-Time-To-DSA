@@ -56,8 +56,8 @@ const DashboardLayout = () => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <img src="/logo.png" alt="Logo" style={{ 
             width: '48px', height: '48px', borderRadius: '10px',
-            border: '1.5px solid rgba(99,102,241,0.5)',
-            boxShadow: '0 0 12px rgba(99,102,241,0.4)'
+            border: '1.5px solid rgba(59,130,246,0.5)',
+            boxShadow: '0 0 12px rgba(59,130,246,0.4)'
           }} />
           <span style={{ fontWeight: '800', letterSpacing: '-0.02em', fontSize: '1.1rem' }}>Its Time to <span className="gradient-text">DSA</span></span>
         </div>
@@ -102,8 +102,8 @@ const DashboardLayout = () => {
           <div style={{ padding: '32px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }} className="hide-mobile">
             <img src="/logo.png" alt="Logo" style={{ 
               width: '50%', height: 'auto', borderRadius: '14px',
-              border: '2px solid rgba(99,102,241,0.5)',
-              boxShadow: '0 0 20px rgba(99,102,241,0.35)',
+              border: '2px solid rgba(59,130,246,0.5)',
+              boxShadow: '0 0 20px rgba(59,130,246,0.35)',
               display: 'block',
               margin: '0 auto'
             }} />
@@ -122,9 +122,9 @@ const DashboardLayout = () => {
                 className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
                 style={({ isActive }) => ({
                   display: 'flex', alignItems: 'center', gap: '14px', padding: '14px 16px', borderRadius: '14px', fontWeight: '600', transition: 'all 0.2s', textDecoration: 'none',
-                  background: isActive ? 'rgba(99,102,241,0.08)' : 'transparent',
-                  color: isActive ? 'var(--indigo-400)' : 'var(--text-secondary)',
-                  border: isActive ? '1px solid rgba(99,102,241,0.15)' : '1px solid transparent',
+                  background: isActive ? 'rgba(59,130,246,0.08)' : 'transparent',
+                  color: isActive ? 'var(--cobalt-400)' : 'var(--text-secondary)',
+                  border: isActive ? '1px solid rgba(59,130,246,0.15)' : '1px solid transparent',
                   fontSize: '1rem'
                 })}
               >
@@ -154,9 +154,9 @@ const DashboardLayout = () => {
                 <div style={{ overflow: 'hidden', flex: 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <div style={{ fontWeight: '700', fontSize: '0.875rem', color: 'var(--text-primary)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user?.name}</div>
-                    <kbd style={{ fontSize: '0.6rem', padding: '2px 4px', borderRadius: '4px', background: 'var(--bg-surface)', border: '1px solid var(--border-color)', color: 'var(--slate-500)', flexShrink: 0, fontFamily: 'sans-serif' }} title="Press Cmd/Ctrl + K to open Command Palette">⌘K</kbd>
+                    <kbd style={{ fontSize: '0.6rem', padding: '2px 4px', borderRadius: '4px', background: 'var(--bg-surface)', border: '1px solid var(--border-color)', color: 'var(--zinc-)', flexShrink: 0, fontFamily: 'sans-serif' }} title="Press Cmd/Ctrl + K to open Command Palette">⌘K</kbd>
                   </div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontWeight: '500' }}>@{user?.leetcodeUsername || 'warrior'}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--zinc-)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', fontWeight: '500' }}>@{user?.leetcodeUsername || 'warrior'}</div>
                 </div>
               </div>
               <div className="hide-mobile">
@@ -165,9 +165,9 @@ const DashboardLayout = () => {
             </div>
             <button 
               onClick={logout}
-              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '12px', borderRadius: '12px', background: 'var(--bg-surface)', color: 'var(--slate-400)', border: '1px solid var(--border-color)', cursor: 'pointer', fontSize: '0.875rem', fontWeight: '600', transition: 'all 0.2s' }}
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', padding: '12px', borderRadius: '12px', background: 'var(--bg-surface)', color: 'var(--zinc-)', border: '1px solid var(--border-color)', cursor: 'pointer', fontSize: '0.875rem', fontWeight: '600', transition: 'all 0.2s' }}
               onMouseOver={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.05)'; e.currentTarget.style.color = '#f87171'; e.currentTarget.style.borderColor = 'rgba(239,68,68,0.2)'; }}
-              onMouseOut={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.color = 'var(--slate-400)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
+              onMouseOut={e => { e.currentTarget.style.background = 'var(--bg-surface)'; e.currentTarget.style.color = 'var(--zinc-)'; e.currentTarget.style.borderColor = 'var(--border-color)'; }}
             >
               <span style={{ fontSize: '1.125rem' }}>🚪</span>
               Sign Out
@@ -177,7 +177,7 @@ const DashboardLayout = () => {
 
         {/* Main Content Viewer */}
         <main style={{ flex: 1, minHeight: '100%', overflowY: 'auto', overflowX: 'hidden', position: 'relative', background: 'var(--bg-base)', padding: 'clamp(20px, 4vw, 40px)' }} className="dashboard-content">
-          <div className="bg-glow-orb" style={{ top: '-100px', right: '-100px', opacity: 0.3, pointerEvents: 'none', background: 'radial-gradient(circle, rgba(99,102,241,0.2) 0%, transparent 70%)' }}></div>
+          <div className="bg-glow-orb" style={{ top: '-100px', right: '-100px', opacity: 0.3, pointerEvents: 'none', background: 'radial-gradient(circle, rgba(59,130,246,0.2) 0%, transparent 70%)' }}></div>
           <div className="bg-grid" style={{ opacity: 0.05 }}></div>
           
           <div style={{ position: 'relative', zIndex: 10 }}>
@@ -194,7 +194,7 @@ const DashboardLayout = () => {
           .sidebar.open { transform: translateX(0); }
         }
         .sidebar-link:hover { color: var(--text-primary) !important; background: var(--border-color) !important; border-color: transparent !important; }
-        .sidebar-link.active:hover { background: rgba(99,102,241,0.1) !important; border-color: rgba(99,102,241,0.2) !important; color: var(--indigo-400) !important; }
+        .sidebar-link.active:hover { background: rgba(59,130,246,0.1) !important; border-color: rgba(59,130,246,0.2) !important; color: var(--cobalt-400) !important; }
       `}</style>
     </div>
   );

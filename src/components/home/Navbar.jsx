@@ -64,7 +64,7 @@ const Navbar = () => {
         <div className="container hide-desktop" style={{ display: 'flex', flexDirection: 'column', gap: '28px', padding: '32px 20px', background: 'var(--bg-surface)', borderRadius: '24px', border: '1px solid var(--border-color)', margin: '12px 1rem' }}>
           <a href="#features" onClick={() => setMobileMenuOpen(false)} style={{ fontSize: '1rem', fontWeight: '500' }}>Features</a>
           <a href="#how-it-works" onClick={() => setMobileMenuOpen(false)} style={{ fontSize: '1rem', fontWeight: '500' }}>How it works</a>
-          <Link to="/login" onClick={() => setMobileMenuOpen(false)} style={{ fontSize: '1rem', fontWeight: '500', color: 'var(--indigo-400)' }}>Sign in</Link>
+          <Link to="/login" onClick={() => setMobileMenuOpen(false)} style={{ fontSize: '1rem', fontWeight: '500', color: 'var(--cobalt-400)' }}>Sign in</Link>
         </div>
       )}
     </header>

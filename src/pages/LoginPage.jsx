@@ -31,7 +31,7 @@ const LoginPage = () => {
         <h1 style={{ fontSize: '1.875rem', fontWeight: 'bold', marginBottom: '8px' }}>
           Welcome to It's Time To DSA
         </h1>
-        <p style={{ color: 'var(--slate-400)', fontSize: '0.9375rem', marginBottom: '32px' }}>
+        <p style={{ color: 'var(--zinc-)', fontSize: '0.9375rem', marginBottom: '32px' }}>
           Sign in to start your personalized 90-day DSA journey.
         </p>
 
@@ -46,7 +46,7 @@ const LoginPage = () => {
           Continue with Google
         </a>
 
-        <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)', marginTop: '32px' }}>
+        <div style={{ fontSize: '0.75rem', color: 'var(--zinc-)', marginTop: '32px' }}>
           By signing in, you agree to our Terms of Service and Privacy Policy.
         </div>
       </div>

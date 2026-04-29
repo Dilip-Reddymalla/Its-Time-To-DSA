@@ -103,7 +103,7 @@ const TodaySnapshotView = () => {
             <div style={{ fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Working</div>
           </div>
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: '1.8rem', fontWeight: '900', fontFamily: 'Space Grotesk, sans-serif', color: 'var(--slate-400)' }}>{summary.inactive}</div>
+            <div style={{ fontSize: '1.8rem', fontWeight: '900', fontFamily: 'Space Grotesk, sans-serif', color: 'var(--zinc-)' }}>{summary.inactive}</div>
             <div style={{ fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Inactive</div>
           </div>
         </div>

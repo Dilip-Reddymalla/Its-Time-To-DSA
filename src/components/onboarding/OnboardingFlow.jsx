@@ -134,7 +134,7 @@ const OnboardingFlow = () => {
           {[1, 2, 3, 4].map(i => (
             <div key={i} style={{
               height: '6px', flex: 1, borderRadius: '99px', transition: 'all 0.5s ease',
-              background: step >= i ? 'var(--indigo-500)' : 'var(--bg-surface)',
+              background: step >= i ? 'var(--accent-primary)' : 'var(--bg-surface)',
               boxShadow: step >= i ? 'var(--shadow-glow)' : 'none'
             }}></div>
           ))}
@@ -151,9 +151,9 @@ const OnboardingFlow = () => {
           {/* STEP 1: Welcome */}
           {step === 1 && (
             <div style={{ textAlign: 'center', margin: 'auto 0' }}>
-              <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: 'rgba(99,102,241,0.2)', color: 'var(--indigo-400)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', margin: '0 auto 24px' }}>👋</div>
+              <div style={{ width: '64px', height: '64px', borderRadius: '16px', background: 'rgba(59,130,246,0.2)', color: 'var(--cobalt-400)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2rem', margin: '0 auto 24px' }}>👋</div>
               <h1 style={{ fontSize: '1.875rem', fontWeight: 'bold', marginBottom: '16px' }}>Ready to crush DSA, {user?.name.split(' ')[0]}?</h1>
-              <p style={{ color: 'var(--slate-400)', fontSize: '1.125rem', marginBottom: '32px' }}>We'll build you a 90-day roadmap tailored to your speed and target companies.</p>
+              <p style={{ color: 'var(--zinc-)', fontSize: '1.125rem', marginBottom: '32px' }}>We'll build you a 90-day roadmap tailored to your speed and target companies.</p>
               <button onClick={() => setStep(2)} className="btn btn-primary btn-lg" style={{ width: '100%', justifyContent: 'center' }}>Get Started</button>
             </div>
           )}
@@ -162,9 +162,9 @@ const OnboardingFlow = () => {
           {step === 2 && (
             <div style={{ margin: 'auto 0' }}>
               <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px' }}>Sync LeetCode</h2>
-              <p style={{ color: 'var(--slate-400)', marginBottom: '32px' }}>Enter your username so we can track your daily progress.</p>
+              <p style={{ color: 'var(--zinc-)', marginBottom: '32px' }}>Enter your username so we can track your daily progress.</p>
               <div style={{ marginBottom: '32px' }}>
-                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--slate-300)', marginBottom: '12px' }}>Username</label>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--zinc-)', marginBottom: '12px' }}>Username</label>
                 <input
                   type="text"
                   placeholder="e.g. neetcode"
@@ -186,19 +186,19 @@ const OnboardingFlow = () => {
           {step === 3 && (
             <div>
               <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px' }}>Your Training Plan</h2>
-              <p style={{ color: 'var(--slate-400)', marginBottom: '32px' }}>Choose your grind level and starting date.</p>
+              <p style={{ color: 'var(--zinc-)', marginBottom: '32px' }}>Choose your grind level and starting date.</p>
               
               <div style={{ marginBottom: '32px' }}>
-                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--slate-300)', marginBottom: '12px' }}>Daily Goal</label>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--zinc-)', marginBottom: '12px' }}>Daily Goal</label>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
                   {GOALS.map(g => (
                     <button
                       key={g.id}
                       onClick={() => setDailyGoal(g.id)}
                       style={{
-                        padding: '16px 8px', borderRadius: '12px', border: dailyGoal === g.id ? '2px solid var(--indigo-500)' : '1px solid var(--border-color)',
-                        background: dailyGoal === g.id ? 'rgba(99,102,241,0.1)' : 'transparent',
-                        color: dailyGoal === g.id ? 'var(--text-primary)' : 'var(--slate-400)', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'center'
+                        padding: '16px 8px', borderRadius: '12px', border: dailyGoal === g.id ? '2px solid var(--accent-primary)' : '1px solid var(--border-color)',
+                        background: dailyGoal === g.id ? 'rgba(59,130,246,0.1)' : 'transparent',
+                        color: dailyGoal === g.id ? 'var(--text-primary)' : 'var(--zinc-)', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'center'
                       }}
                     >
                       <div style={{ fontSize: '1.25rem', marginBottom: '4px' }}>{g.icon}</div>
@@ -210,7 +210,7 @@ const OnboardingFlow = () => {
               </div>
 
               <div style={{ marginBottom: '32px' }}>
-                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--slate-300)', marginBottom: '12px' }}>Roadmap Duration</label>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--zinc-)', marginBottom: '12px' }}>Roadmap Duration</label>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
                   {DURATIONS.map(d => (
                     <button
@@ -219,7 +219,7 @@ const OnboardingFlow = () => {
                       style={{
                         padding: '16px 8px', borderRadius: '12px', border: totalDays === d.value ? '2px solid var(--emerald-500)' : '1px solid var(--border-color)',
                         background: totalDays === d.value ? 'rgba(16,185,129,0.1)' : 'transparent',
-                        color: totalDays === d.value ? 'var(--text-primary)' : 'var(--slate-400)', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'center'
+                        color: totalDays === d.value ? 'var(--text-primary)' : 'var(--zinc-)', cursor: 'pointer', transition: 'all 0.2s', textAlign: 'center'
                       }}
                     >
                       <div style={{ fontSize: '1.25rem', marginBottom: '4px' }}>{d.icon}</div>
@@ -231,7 +231,7 @@ const OnboardingFlow = () => {
               </div>
 
               <div style={{ marginBottom: '32px' }}>
-                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--slate-300)', marginBottom: '12px' }}>Journey Start Date</label>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', color: 'var(--zinc-)', marginBottom: '12px' }}>Journey Start Date</label>
                 <input
                   type="date"
                   value={startDate}
@@ -248,7 +248,7 @@ const OnboardingFlow = () => {
                   />
                   <div>
                     <span style={{ fontWeight: 'bold', color: 'var(--text-primary)', fontSize: '0.925rem' }}>Enable Sunday Rest Days</span>
-                    <p style={{ fontSize: '0.8125rem', color: 'var(--slate-500)', marginTop: '2px', lineHeight: '1.4' }}>Take Sundays off to recharge. No new patterns will be assigned.</p>
+                    <p style={{ fontSize: '0.8125rem', color: 'var(--zinc-)', marginTop: '2px', lineHeight: '1.4' }}>Take Sundays off to recharge. No new patterns will be assigned.</p>
                   </div>
                 </label>
               </div>
@@ -264,18 +264,18 @@ const OnboardingFlow = () => {
           {step === 4 && (
             <div style={{ textAlign: 'center', margin: 'auto 0' }}>
               <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '8px' }}>One last thing...</h2>
-              <p style={{ color: 'var(--slate-400)', marginBottom: '32px' }}>Optionally customize your target companies or areas of focus.</p>
+              <p style={{ color: 'var(--zinc-)', marginBottom: '32px' }}>Optionally customize your target companies or areas of focus.</p>
               
               <div style={{ textAlign: 'left', marginBottom: '32px' }}>
-                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: '600', color: 'var(--slate-500)', marginBottom: '12px', textTransform: 'uppercase' }}>Target Companies</label>
+                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: '600', color: 'var(--zinc-)', marginBottom: '12px', textTransform: 'uppercase' }}>Target Companies</label>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '24px' }}>
                   {COMPANIES.map(c => (
                     <button key={c} onClick={() => togglePreference('targetCompanies', c)}
-                      style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '0.8125rem', border: preferences.targetCompanies.includes(c) ? '1px solid var(--indigo-500)' : '1px solid var(--border-color)', background: preferences.targetCompanies.includes(c) ? 'var(--indigo-500)' : 'transparent', color: preferences.targetCompanies.includes(c) ? 'var(--bg-base)' : 'var(--text-primary)', cursor: 'pointer' }}>{c}</button>
+                      style={{ padding: '6px 12px', borderRadius: '8px', fontSize: '0.8125rem', border: preferences.targetCompanies.includes(c) ? '1px solid var(--accent-primary)' : '1px solid var(--border-color)', background: preferences.targetCompanies.includes(c) ? 'var(--accent-primary)' : 'transparent', color: preferences.targetCompanies.includes(c) ? 'var(--bg-base)' : 'var(--text-primary)', cursor: 'pointer' }}>{c}</button>
                   ))}
                 </div>
 
-                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: '600', color: 'var(--slate-500)', marginBottom: '12px', textTransform: 'uppercase' }}>Focus Areas</label>
+                <label style={{ display: 'block', fontSize: '0.8125rem', fontWeight: '600', color: 'var(--zinc-)', marginBottom: '12px', textTransform: 'uppercase' }}>Focus Areas</label>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                   {TOPICS.map(t => (
                     <button key={t} onClick={() => togglePreference('weakTopics', t)}

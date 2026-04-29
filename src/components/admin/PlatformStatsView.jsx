@@ -57,12 +57,12 @@ const PlatformStatsView = () => {
       {
         label: 'Problems Solved',
         data: data.solvedPerDay.map(d => d.solved),
-        borderColor: 'rgba(99, 102, 241, 1)',
-        backgroundColor: 'rgba(99, 102, 241, 0.1)',
+        borderColor: 'rgba(59,130,246, 1)',
+        backgroundColor: 'rgba(59,130,246, 0.1)',
         borderWidth: 2,
         pointRadius: 3,
         pointHoverRadius: 6,
-        pointBackgroundColor: 'rgba(99, 102, 241, 1)',
+        pointBackgroundColor: 'rgba(59,130,246, 1)',
         tension: 0.3,
         fill: true,
       },
@@ -155,7 +155,7 @@ const PlatformStatsView = () => {
       <div className="admin-kpi-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', marginBottom: '28px' }}>
         <div className="admin-kpi-card">
           <div className="admin-kpi-label">Problem Bank</div>
-          <div className="admin-kpi-value" style={{ color: 'var(--indigo-500)', fontSize: '1.5rem' }}>{data.totalProblems}</div>
+          <div className="admin-kpi-value" style={{ color: 'var(--accent-primary)', fontSize: '1.5rem' }}>{data.totalProblems}</div>
           <div className="admin-kpi-sub">total problems</div>
         </div>
         <div className="admin-kpi-card">
@@ -203,12 +203,12 @@ const PlatformStatsView = () => {
                         {i < 3 && <span style={{ marginRight: '6px' }}>{['🥇', '🥈', '🥉'][i]}</span>}
                         {t.topic}
                       </span>
-                      <span style={{ fontWeight: '700', color: 'var(--indigo-400)' }}>{t.count}</span>
+                      <span style={{ fontWeight: '700', color: 'var(--cobalt-400)' }}>{t.count}</span>
                     </div>
                     <div style={{ width: '100%', height: '6px', background: 'var(--bg-card)', borderRadius: '99px', overflow: 'hidden' }}>
                       <div style={{
                         height: '100%', width: `${(t.count / maxCount) * 100}%`,
-                        background: 'linear-gradient(90deg, var(--indigo-500), var(--indigo-400))',
+                        background: 'linear-gradient(90deg, var(--accent-primary), var(--cobalt-400))',
                         borderRadius: '99px', transition: 'width 0.8s ease-out',
                       }}></div>
                     </div>

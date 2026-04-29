@@ -6,7 +6,7 @@ import ProblemLink from '../ui/ProblemLink';
 const diffColor = (d) => {
   if (d === 'Easy')   return { bg: 'rgba(16,185,129,0.1)',  color: 'var(--emerald-400)' };
   if (d === 'Hard')   return { bg: 'rgba(239,68,68,0.1)',   color: '#f87171' };
-  return                     { bg: 'rgba(99,102,241,0.1)',  color: 'var(--indigo-400)' };
+  return                     { bg: 'rgba(59,130,246,0.1)',  color: 'var(--cobalt-400)' };
 };
 
 const fmt = (dateStr) =>
@@ -103,9 +103,9 @@ const NoteEditor = ({ problem, date, onSave }) => {
             <span style={{ fontSize: '0.7rem', fontWeight: '700', padding: '2px 8px', borderRadius: '99px', background: dc.bg, color: dc.color, border: `1px solid ${dc.color}40` }}>
               {problem.difficulty}
             </span>
-            <span style={{ fontSize: '0.7rem', color: 'var(--slate-500)', fontWeight: '500' }}>{problem.topic}</span>
+            <span style={{ fontSize: '0.7rem', color: 'var(--zinc-)', fontWeight: '500' }}>{problem.topic}</span>
             {(!problem.leetcodeSlug && !problem.gfgUrl) ? (
-              <a href={`https://www.google.com/search?q=${encodeURIComponent(problem.name)}`} target="_blank" rel="noreferrer" style={{ fontSize: '0.75rem', color: 'var(--indigo-400)', textDecoration: 'none', fontWeight: '600', marginLeft: '4px' }}>
+              <a href={`https://www.google.com/search?q=${encodeURIComponent(problem.name)}`} target="_blank" rel="noreferrer" style={{ fontSize: '0.75rem', color: 'var(--cobalt-400)', textDecoration: 'none', fontWeight: '600', marginLeft: '4px' }}>
                 🔎 Search Web
               </a>
             ) : (
@@ -168,12 +168,12 @@ const NoteEditor = ({ problem, date, onSave }) => {
         {/* Note indicator + chevron */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
           {text && (
-            <span style={{ fontSize: '0.65rem', padding: '2px 7px', borderRadius: '99px', background: 'rgba(99,102,241,0.1)', color: 'var(--indigo-400)', border: '1px solid rgba(99,102,241,0.25)', fontWeight: '600' }}>
+            <span style={{ fontSize: '0.65rem', padding: '2px 7px', borderRadius: '99px', background: 'rgba(59,130,246,0.1)', color: 'var(--cobalt-400)', border: '1px solid rgba(59,130,246,0.25)', fontWeight: '600' }}>
               📝 note
             </span>
           )}
           <span style={{
-            color: 'var(--slate-500)', fontSize: '0.9rem',
+            color: 'var(--zinc-)', fontSize: '0.9rem',
             transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
             transition: 'transform 0.2s',
             display: 'inline-block',
@@ -186,7 +186,7 @@ const NoteEditor = ({ problem, date, onSave }) => {
         <div style={{ padding: '0 18px 18px', borderTop: '1px solid var(--border-color)', paddingTop: '14px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
             <span style={{ fontSize: '0.72rem', fontWeight: '800', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>My Notes</span>
-            {status === 'saving' && <span style={{ fontSize: '0.7rem', color: 'var(--slate-500)' }}>Saving…</span>}
+            {status === 'saving' && <span style={{ fontSize: '0.7rem', color: 'var(--zinc-)' }}>Saving…</span>}
             {status === 'saved'  && <span style={{ fontSize: '0.7rem', color: 'var(--emerald-500)' }}>✓ Saved</span>}
             {status === 'error'  && <span style={{ fontSize: '0.7rem', color: '#f87171' }}>⚠ Save failed</span>}
           </div>
@@ -194,7 +194,7 @@ const NoteEditor = ({ problem, date, onSave }) => {
           <div style={{ marginBottom: '12px', padding: '10px', borderRadius: '10px', background: 'rgba(15,23,42,0.35)', border: '1px solid var(--border-color)' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px', marginBottom: '8px' }}>
               <span style={{ fontSize: '0.72rem', fontWeight: '800', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>LeetCode Submission</span>
-              {submissionStatus === 'saving' && <span style={{ fontSize: '0.7rem', color: 'var(--slate-500)' }}>Saving…</span>}
+              {submissionStatus === 'saving' && <span style={{ fontSize: '0.7rem', color: 'var(--zinc-)' }}>Saving…</span>}
               {submissionStatus === 'saved' && <span style={{ fontSize: '0.7rem', color: 'var(--emerald-500)' }}>✓ Saved</span>}
               {submissionStatus === 'error' && <span style={{ fontSize: '0.7rem', color: '#f87171' }}>⚠ Save failed</span>}
             </div>
@@ -255,7 +255,7 @@ const NoteEditor = ({ problem, date, onSave }) => {
               fontSize: '0.875rem', lineHeight: '1.6', fontFamily: 'inherit',
               outline: 'none', boxSizing: 'border-box', transition: 'border-color 0.2s',
             }}
-            onFocus={e => { e.currentTarget.style.borderColor = 'var(--indigo-500)'; }}
+            onFocus={e => { e.currentTarget.style.borderColor = 'var(--accent-primary)'; }}
             onBlurCapture={e => { e.currentTarget.style.borderColor = 'var(--border-color)'; }}
           />
           <div style={{ display: 'flex', gap: '8px', marginTop: '10px', justifyContent: 'flex-end' }}>
@@ -264,7 +264,7 @@ const NoteEditor = ({ problem, date, onSave }) => {
               disabled={status === 'saving'}
               style={{
                 padding: '7px 18px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '700',
-                background: 'var(--indigo-500)', color: 'white', border: 'none',
+                background: 'var(--accent-primary)', color: 'white', border: 'none',
                 cursor: status === 'saving' ? 'not-allowed' : 'pointer', opacity: status === 'saving' ? 0.6 : 1,
               }}
             >
@@ -274,7 +274,7 @@ const NoteEditor = ({ problem, date, onSave }) => {
               onClick={() => setOpen(false)}
               style={{
                 padding: '7px 14px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '600',
-                background: 'var(--bg-surface)', color: 'var(--slate-400)',
+                background: 'var(--bg-surface)', color: 'var(--zinc-)',
                 border: '1px solid var(--border-color)', cursor: 'pointer',
               }}
             >
@@ -301,7 +301,7 @@ const DayCard = ({ entry }) => {
   };
 
   const typeLabel = entry.type === 'revision' ? '🔄 Revision' : '📚 Learn';
-  const typeColor = entry.type === 'revision' ? 'var(--emerald-400)' : 'var(--indigo-400)';
+  const typeColor = entry.type === 'revision' ? 'var(--emerald-400)' : 'var(--cobalt-400)';
   const dayLabel  = entry.dayNumber ? `Day ${String(entry.dayNumber).padStart(2, '0')}` : '—';
 
   return (
@@ -324,9 +324,9 @@ const DayCard = ({ entry }) => {
         {/* Day number pill */}
         <div style={{
           minWidth: '64px', padding: '6px 12px', borderRadius: '10px', textAlign: 'center',
-          background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.25)',
+          background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.25)',
         }}>
-          <div style={{ fontSize: '0.65rem', fontWeight: '800', color: 'var(--indigo-400)', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
+          <div style={{ fontSize: '0.65rem', fontWeight: '800', color: 'var(--cobalt-400)', letterSpacing: '0.07em', textTransform: 'uppercase' }}>
             {dayLabel}
           </div>
         </div>
@@ -338,7 +338,7 @@ const DayCard = ({ entry }) => {
               {typeLabel}
             </span>
           </div>
-          <div style={{ fontSize: '0.8rem', color: 'var(--slate-500)', fontWeight: '500' }}>
+          <div style={{ fontSize: '0.8rem', color: 'var(--zinc-)', fontWeight: '500' }}>
             {entry.solvedCount} problem{entry.solvedCount !== 1 ? 's' : ''} solved
             {' · '}
             {entry.problems.filter(p => notes[p.problemId.toString()]).length} note{entry.problems.filter(p => notes[p.problemId.toString()]).length !== 1 ? 's' : ''} written
@@ -346,7 +346,7 @@ const DayCard = ({ entry }) => {
         </div>
 
         <span style={{
-          color: 'var(--slate-500)', fontSize: '1.1rem',
+          color: 'var(--zinc-)', fontSize: '1.1rem',
           transform: collapsed ? 'rotate(0deg)' : 'rotate(180deg)',
           transition: 'transform 0.25s',
           display: 'inline-block',
@@ -417,7 +417,7 @@ const JournalView = () => {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
         <div className="loader" />
-        <p style={{ marginTop: '24px', color: 'var(--slate-400)' }}>Loading your journal…</p>
+        <p style={{ marginTop: '24px', color: 'var(--zinc-)' }}>Loading your journal…</p>
       </div>
     );
   }
@@ -427,7 +427,7 @@ const JournalView = () => {
       <div style={{ textAlign: 'center', padding: '80px 40px' }}>
         <div style={{ fontSize: '3rem', marginBottom: '16px' }}>⚠️</div>
         <h2 style={{ color: 'var(--text-primary)', marginBottom: '8px' }}>Failed to load</h2>
-        <p style={{ color: 'var(--slate-400)' }}>{error}</p>
+        <p style={{ color: 'var(--zinc-)' }}>{error}</p>
       </div>
     );
   }
@@ -437,7 +437,7 @@ const JournalView = () => {
       <div className="reveal visible" style={{ textAlign: 'center', padding: '100px 40px' }}>
         <div style={{ fontSize: '4rem', marginBottom: '24px' }}>📓</div>
         <h2 style={{ fontSize: '2rem', fontWeight: '900', color: 'var(--text-primary)', marginBottom: '12px' }}>Journal Empty</h2>
-        <p style={{ color: 'var(--slate-400)', fontSize: '1.1rem', maxWidth: '480px', margin: '0 auto' }}>
+        <p style={{ color: 'var(--zinc-)', fontSize: '1.1rem', maxWidth: '480px', margin: '0 auto' }}>
           Start solving problems in your Today view and your journal will fill up day by day.
         </p>
       </div>
@@ -452,7 +452,7 @@ const JournalView = () => {
         <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: '900', color: 'var(--text-primary)', letterSpacing: '-0.04em', lineHeight: '1', marginBottom: '10px' }}>
           My <span className="gradient-text">Journal</span>
         </h1>
-        <p style={{ color: 'var(--slate-400)', fontSize: 'clamp(0.9rem, 1.5vw, 1.125rem)', marginBottom: '28px' }}>
+        <p style={{ color: 'var(--zinc-)', fontSize: 'clamp(0.9rem, 1.5vw, 1.125rem)', marginBottom: '28px' }}>
           All your solved problems, day by day — with your personal notes.
         </p>
 
@@ -467,7 +467,7 @@ const JournalView = () => {
               <span style={{ fontSize: '1.5rem' }}>{icon}</span>
               <div>
                 <div style={{ fontSize: '1.5rem', fontWeight: '900', color: 'var(--text-primary)', lineHeight: 1 }}>{value}</div>
-                <div style={{ fontSize: '0.72rem', color: 'var(--slate-500)', fontWeight: '600', marginTop: '3px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--zinc-)', fontWeight: '600', marginTop: '3px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
               </div>
             </div>
           ))}
@@ -476,7 +476,7 @@ const JournalView = () => {
         {/* Search + filter bar */}
         <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
           <div style={{ position: 'relative', flex: 1, minWidth: '220px', maxWidth: '400px' }}>
-            <span style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--slate-500)', fontSize: '0.9rem', pointerEvents: 'none' }}>🔍</span>
+            <span style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: 'var(--zinc-)', fontSize: '0.9rem', pointerEvents: 'none' }}>🔍</span>
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
@@ -500,7 +500,7 @@ const JournalView = () => {
                 cursor: 'pointer', border: '1px solid',
                 transition: 'all 0.2s',
                 ...(filterDiff === d
-                  ? { background: 'var(--indigo-500)', color: 'white', borderColor: 'var(--indigo-500)' }
+                  ? { background: 'var(--accent-primary)', color: 'white', borderColor: 'var(--accent-primary)' }
                   : { background: 'var(--bg-card)', color: 'var(--text-secondary)', borderColor: 'var(--border-color)' }
                 ),
               }}
@@ -513,7 +513,7 @@ const JournalView = () => {
 
       {/* ── Day cards ───────────────────────────────────────────────────── */}
       {filteredJournal.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--slate-500)' }}>
+        <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--zinc-)' }}>
           No problems match your filter. Try clearing the search or difficulty filter.
         </div>
       ) : (

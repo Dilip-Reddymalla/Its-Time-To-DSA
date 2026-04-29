@@ -93,7 +93,7 @@ const AdminOverview = () => {
             <div style={{ fontWeight: 'bold', color: pauseStatus.isPaused ? '#ef4444' : '#10b981' }}>
               {pauseStatus.isPaused ? '⏸️ PLATFORM PAUSED' : '▶️ PLATFORM ACTIVE'}
             </div>
-            {pauseStatus.isPaused && <div style={{ fontSize: '0.8rem', color: 'var(--slate-400)' }}>Reason: {pauseStatus.pauseReason}</div>}
+            {pauseStatus.isPaused && <div style={{ fontSize: '0.8rem', color: 'var(--zinc-)' }}>Reason: {pauseStatus.pauseReason}</div>}
           </div>
           <button 
              onClick={handleGlobalPauseToggle}
@@ -109,7 +109,7 @@ const AdminOverview = () => {
       <div className="admin-kpi-grid">
         <div className="admin-kpi-card">
           <div className="admin-kpi-label">Total Users</div>
-          <div className="admin-kpi-value" style={{ color: 'var(--indigo-500)' }}>{data.totalUsers}</div>
+          <div className="admin-kpi-value" style={{ color: 'var(--accent-primary)' }}>{data.totalUsers}</div>
           <div className="admin-kpi-sub">{data.onboardedUsers} onboarded</div>
         </div>
         <div className="admin-kpi-card">
@@ -129,7 +129,7 @@ const AdminOverview = () => {
         </div>
         <div className="admin-kpi-card">
           <div className="admin-kpi-label">Platform Solves</div>
-          <div className="admin-kpi-value" style={{ color: 'var(--indigo-400)' }}>{data.totalSolvedPlatform}</div>
+          <div className="admin-kpi-value" style={{ color: 'var(--cobalt-400)' }}>{data.totalSolvedPlatform}</div>
           <div className="admin-kpi-sub">Avg {data.avgSolved} per user</div>
         </div>
         <div className="admin-kpi-card">
@@ -148,7 +148,7 @@ const AdminOverview = () => {
               <div style={{
                 width: '100%', maxWidth: '32px', borderRadius: '4px 4px 0 0',
                 height: `${Math.max(4, (d.count / maxTrend) * 60)}px`,
-                background: d.count > 0 ? 'linear-gradient(180deg, var(--indigo-400), var(--indigo-500))' : 'var(--bg-card)',
+                background: d.count > 0 ? 'linear-gradient(180deg, var(--cobalt-400), var(--accent-primary))' : 'var(--bg-card)',
                 transition: 'height 0.5s ease-out',
                 opacity: d.count > 0 ? 0.85 : 0.3,
               }} title={`${d.date}: ${d.count} active`}></div>
@@ -167,7 +167,7 @@ const AdminOverview = () => {
           padding: '20px', borderRadius: 'var(--radius)', background: 'var(--bg-surface)', border: '2px solid var(--border-color-strong)',
           color: 'var(--text-primary)', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s', fontFamily: 'inherit'
         }}
-          onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--indigo-500)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+          onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--accent-primary)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
           onMouseOut={e => { e.currentTarget.style.borderColor = 'var(--border-color-strong)'; e.currentTarget.style.transform = 'none'; }}
         >
           <div style={{ fontSize: '1.5rem', marginBottom: '8px' }}>👥</div>
@@ -200,7 +200,7 @@ const AdminOverview = () => {
           padding: '20px', borderRadius: 'var(--radius)', background: 'var(--bg-surface)', border: '2px solid var(--border-color-strong)',
           color: 'var(--text-primary)', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s', fontFamily: 'inherit'
         }}
-          onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--indigo-400)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+          onMouseOver={e => { e.currentTarget.style.borderColor = 'var(--cobalt-400)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
           onMouseOut={e => { e.currentTarget.style.borderColor = 'var(--border-color-strong)'; e.currentTarget.style.transform = 'none'; }}
         >
           <div style={{ fontSize: '1.5rem', marginBottom: '8px' }}>📈</div>
@@ -215,15 +215,15 @@ const AdminOverview = () => {
             ⏸️ Pending Pause Requests ({pauseRequests.length})
          </div>
          {pauseRequests.length === 0 ? (
-           <p style={{ color: 'var(--slate-500)', fontSize: '0.875rem' }}>No pending pause requests.</p>
+           <p style={{ color: 'var(--zinc-)', fontSize: '0.875rem' }}>No pending pause requests.</p>
          ) : (
            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
              {pauseRequests.map(req => (
                <div key={req._id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', background: 'var(--bg-surface)', border: '1px solid var(--border-color)', borderRadius: '12px' }}>
                  <div>
-                   <div style={{ fontWeight: 'bold', color: 'var(--text-primary)' }}>{req.userId?.name} <span style={{ color: 'var(--slate-500)', fontWeight: 'normal', fontSize: '0.875rem' }}>({req.userId?.email})</span></div>
-                   <div style={{ fontSize: '0.875rem', color: 'var(--slate-400)', marginTop: '4px' }}>Reason: {req.reason}</div>
-                   <div style={{ fontSize: '0.75rem', color: 'var(--slate-500)', marginTop: '4px' }}>Requested at: {new Date(req.requestedAt).toLocaleString()}</div>
+                   <div style={{ fontWeight: 'bold', color: 'var(--text-primary)' }}>{req.userId?.name} <span style={{ color: 'var(--zinc-)', fontWeight: 'normal', fontSize: '0.875rem' }}>({req.userId?.email})</span></div>
+                   <div style={{ fontSize: '0.875rem', color: 'var(--zinc-)', marginTop: '4px' }}>Reason: {req.reason}</div>
+                   <div style={{ fontSize: '0.75rem', color: 'var(--zinc-)', marginTop: '4px' }}>Requested at: {new Date(req.requestedAt).toLocaleString()}</div>
                  </div>
                  <div style={{ display: 'flex', gap: '8px' }}>
                    <button className="btn btn-sm btn-ghost" onClick={() => handleResolvePauseRequest(req._id, 'rejected')} style={{ color: 'var(--status-hard)', border: '1px solid var(--status-hard)' }}>Deny</button>
